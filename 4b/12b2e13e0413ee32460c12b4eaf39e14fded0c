@@ -1,0 +1,29 @@
+supabase/config.toml
+  s_b39216e3f48bdc::t_328ed90a3e4c40 1-414
+supabase/migrations/20260816090550_fix_profile_trigger_security.sql
+  s_b39216e3f48bdc::t_57882788e177fe 1-10
+supabase/migrations/20260816090036_create_profiles_table.sql
+  s_b39216e3f48bdc::t_e426ed96a4cff2 1-57
+package.json
+  s_b39216e3f48bdc::t_2fc3c5be8a2b90 37
+supabase/.gitignore
+  s_b39216e3f48bdc::t_328ed90a3e4c40 1-8
+bun.lock
+  s_b39216e3f48bdc::t_76428d51d8a345 27,57-58,97-101,207-222,397-398,531-532,781-782,895-896
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "4b12b2e13e0413ee32460c12b4eaf39e14fded0c",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

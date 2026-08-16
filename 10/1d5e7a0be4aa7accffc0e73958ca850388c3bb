@@ -1,0 +1,28 @@
+supabase/migrations/20260816103948_add_employee_rates.sql
+  s_b39216e3f48bdc::t_c50c51db801d83 1-61
+src/router/routes.ts
+  s_b39216e3f48bdc::t_fc87ebd5c43674 39-43
+src/layouts/MainLayout.vue
+  s_b39216e3f48bdc::t_9c607e6306ae67 60-66
+src/pages/admin/EmployeeRatesPage.vue
+  s_b39216e3f48bdc::t_ab96cddfb44dc8 1-88,96-154
+  s_b39216e3f48bdc::t_a9b88f80d537ec 89-95
+supabase/migrations/20260816104214_consolidate_profiles_select_policy.sql
+  s_b39216e3f48bdc::t_abfd1aa1bc7bdd 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "101d5e7a0be4aa7accffc0e73958ca850388c3bb",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

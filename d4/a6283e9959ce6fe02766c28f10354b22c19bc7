@@ -1,0 +1,53 @@
+src/i18n/en-US.ts
+  s_db6a305f08e5df::t_d68f4f523f3075 132-142
+src/pages/SettingsPage.vue
+  s_db6a305f08e5df::t_c63eec7197f850 58-70
+  s_db6a305f08e5df::t_6f128989c5c754 108-119
+  s_db6a305f08e5df::t_9b9b8912fb9902 85
+  s_db6a305f08e5df::t_d218616c6b1dbe 80
+src/composables/use-pwa-install.ts
+  s_db6a305f08e5df::t_f1528ed8271423 1-15,18-113
+  s_db6a305f08e5df::t_3f80b98dca0106 16-17
+src/i18n/ru.ts
+  s_db6a305f08e5df::t_594f144b5649e2 132-142
+src/i18n/de.ts
+  s_db6a305f08e5df::t_416473f807e9c6 132-142
+quasar.config.ts
+  s_db6a305f08e5df::t_47019c47b29782 194-201,203-211
+  s_db6a305f08e5df::t_0300f3d0ed3262 88
+  s_db6a305f08e5df::t_7f4ae9d3db555b 119
+  s_db6a305f08e5df::t_150eb4e3040e4e 6
+  s_db6a305f08e5df::t_0dc6087dcf2fdf 202
+index.html
+  s_db6a305f08e5df::t_098827d96311c9 2,12
+package.json
+  s_db6a305f08e5df::t_e7106826759999 4-5
+  s_db6a305f08e5df::t_d2cf5741939a94 13,15
+src/components/PwaInstallBanner.vue
+  s_db6a305f08e5df::t_e1608cad210d68 48
+  s_db6a305f08e5df::t_e4767e41fa3a20 35
+  s_db6a305f08e5df::t_cbf1f8303ba627 1-2,4-34,36-47,49-93
+  s_db6a305f08e5df::t_3ca324b8e64922 3
+src-pwa/manifest.json
+  s_db6a305f08e5df::t_fdc7df4c0d5575 2-9,11-12,14-16,21-22,27-34,39-40,45-52,57-58
+src/App.vue
+  s_db6a305f08e5df::t_9cd78bea0285b3 3,5-8
+src/i18n/uk.ts
+  s_db6a305f08e5df::t_ab453bc036db62 130-140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "d4a6283e9959ce6fe02766c28f10354b22c19bc7",
+  "prompts": {},
+  "sessions": {
+    "s_db6a305f08e5df": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2b45de05-5d3c-405b-b901-a48c3b30bec5",
+        "model": "grok-4.6"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

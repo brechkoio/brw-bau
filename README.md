@@ -1,4 +1,4 @@
-# Quasar App (salary-calc)
+# BRW-BAU
 
 ## Install the dependencies
 

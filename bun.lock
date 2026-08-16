@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "salary-calc",
+      "name": "brw-bau",
       "dependencies": {
         "@quasar/extras": "^2.0.3",
         "@supabase/supabase-js": "^2.112.3",

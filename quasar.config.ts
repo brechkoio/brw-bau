@@ -49,9 +49,9 @@ export default defineConfig((/* ctx */) => {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
 
-      // GitHub Pages project site (https://github.com/brechkoio/salary-calc)
-      // is served from /salary-calc/, so all built asset URLs must be prefixed accordingly.
-      publicPath: '/salary-calc/',
+      // GitHub Pages project site (https://github.com/brechkoio/brw-bau)
+      // is served from /brw-bau/, so all built asset URLs must be prefixed accordingly.
+      publicPath: '/brw-bau/',
 
       // Use the standard Vite `VITE_` prefix (instead of Quasar's default `QCLI_`)
       // so env var names match what Supabase's own docs/dashboard give you.
@@ -226,7 +226,7 @@ export default defineConfig((/* ctx */) => {
       builder: {
         // https://www.electron.build/configuration
 
-        appId: 'salary-calc',
+        appId: 'brw-bau',
       },
     },
 

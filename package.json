@@ -34,6 +34,7 @@
     "globals": "^17.4.0",
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
+    "supabase": "^2.114.0",
     "typescript": "^6.0.0",
     "vite-plugin-checker": "^0.14.5",
     "vue-eslint-parser": "^10.4.0",

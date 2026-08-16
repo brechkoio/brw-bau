@@ -1,78 +1,100 @@
 <template>
-  <q-form class="column q-gutter-md" @submit.prevent="onSubmit">
-    <q-input
-      v-model="email"
-      type="email"
-      :label="t('auth.login.emailLabel')"
-      autocomplete="email"
-      outlined
-      :rules="[(val) => !!val || t('validation.requiredEmail')]"
-      lazy-rules
-    />
+  <section class="auth-form-section">
+    <h1>{{ t('auth.login.title') }}</h1>
+    <p class="auth-subtitle">{{ t('auth.login.subtitle') }}</p>
 
-    <q-input
-      v-model="password"
-      :type="showPassword ? 'text' : 'password'"
-      :label="t('auth.login.passwordLabel')"
-      autocomplete="current-password"
-      outlined
-      :rules="[(val) => !!val || t('validation.requiredPassword')]"
-      lazy-rules
-    >
-      <template #append>
-        <q-icon
-          :name="showPassword ? 'visibility_off' : 'visibility'"
-          class="cursor-pointer"
-          @click="showPassword = !showPassword"
+    <q-banner v-if="error" class="auth-error-banner">{{ error }}</q-banner>
+
+    <q-form class="auth-form" @submit.prevent="onSubmit">
+      <div class="auth-field">
+        <label for="login-email">{{ t('auth.login.emailLabel') }}</label>
+        <q-input
+          id="login-email"
+          v-model="email"
+          type="email"
+          autocomplete="email"
+          :placeholder="t('auth.placeholders.email')"
+          outlined
+          dense
+          :disable="loading"
+          :rules="[(val) => !!val || t('validation.requiredEmail')]"
+          class="auth-input"
         />
-      </template>
-    </q-input>
+      </div>
+      <div class="auth-field">
+        <label for="login-password">{{ t('auth.login.passwordLabel') }}</label>
+        <q-input
+          id="login-password"
+          v-model="password"
+          :type="showPassword ? 'text' : 'password'"
+          autocomplete="current-password"
+          :placeholder="t('auth.placeholders.password')"
+          outlined
+          dense
+          :disable="loading"
+          :rules="[(val) => !!val || t('validation.requiredPassword')]"
+          class="auth-input"
+        >
+          <template #append
+            ><q-btn
+              flat
+              round
+              dense
+              :icon="showPassword ? 'visibility_off' : 'visibility'"
+              :aria-label="t('auth.passwordToggleAria')"
+              :disable="loading"
+              @click="showPassword = !showPassword"
+          /></template>
+        </q-input>
+        <div class="auth-forgot">
+          <a href="#" @click.prevent="showForgotPassword">{{ t('auth.login.forgotPassword') }}</a>
+        </div>
+      </div>
+      <q-btn
+        type="submit"
+        :label="t('auth.login.submit')"
+        :loading="loading"
+        :disable="loading"
+        unelevated
+        no-caps
+        class="auth-submit"
+      />
+    </q-form>
 
-    <q-btn
-      type="submit"
-      color="accent"
-      text-color="black"
-      :label="t('auth.login.submit')"
-      :loading="loading"
-      unelevated
-      no-caps
-      class="text-weight-bold"
-    />
-
-    <div class="text-center text-caption">
+    <p class="auth-switch">
       {{ t('auth.login.noAccount') }}
       <router-link to="/register">{{ t('auth.login.registerLink') }}</router-link>
-    </div>
-  </q-form>
+    </p>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
 
 const router = useRouter();
-const $q = useQuasar();
 const auth = useAuthStore();
 const { t } = useI18n();
-
 const email = ref('');
 const password = ref('');
 const showPassword = ref(false);
 const loading = ref(false);
+const error = ref('');
 
+function showForgotPassword() {
+  error.value = t('auth.login.forgotPasswordNotice');
+}
 async function onSubmit() {
+  if (loading.value) return;
   loading.value = true;
+  error.value = '';
   try {
     await auth.signIn(email.value, password.value);
     await router.push('/');
   } catch (err) {
-    $q.notify({
-      type: 'negative',
-      message: err instanceof Error ? err.message : t('auth.login.errorFallback'),
-    });
+    error.value = err instanceof Error ? err.message : t('auth.login.errorFallback');
   } finally {
     loading.value = false;
   }

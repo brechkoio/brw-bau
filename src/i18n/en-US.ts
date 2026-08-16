@@ -27,15 +27,32 @@ export default {
   },
 
   auth: {
+    placeholders: {
+      firstName: 'John',
+      lastName: 'Smith',
+      email: "name{'@'}brw-bau.de",
+      password: '••••••••',
+    },
+    tabsAria: 'Authentication sections',
+    tabLogin: 'Sign in',
+    tabRegister: 'Sign up',
+    footerNote: 'Working time tracking · BRW Bau',
+    passwordToggleAria: 'Show or hide password',
     login: {
+      title: 'Sign in',
+      subtitle: 'Enter your details to continue time tracking',
       emailLabel: 'Email',
       passwordLabel: 'Password',
       submit: 'Sign in',
       noAccount: "Don't have an account?",
       registerLink: 'Sign up',
+      forgotPassword: 'Forgot password?',
+      forgotPasswordNotice: 'Password recovery will be available soon.',
       errorFallback: 'Sign-in failed',
     },
     register: {
+      title: 'Create an account',
+      subtitle: 'Complete your details — access opens after email confirmation',
       firstNameLabel: 'First name',
       lastNameLabel: 'Last name',
       emailLabel: 'Email',
@@ -48,6 +65,7 @@ export default {
       confirmationSent:
         'A confirmation email was sent to {email}. Follow the link in the email to activate your account.',
       backToLogin: 'Back to sign in',
+      successTitle: 'Check your email',
     },
   },
 

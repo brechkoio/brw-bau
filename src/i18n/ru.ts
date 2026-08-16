@@ -27,15 +27,32 @@ export default {
   },
 
   auth: {
+    placeholders: {
+      firstName: 'Юра',
+      lastName: 'Бречко',
+      email: "name{'@'}brw-bau.de",
+      password: '••••••••',
+    },
+    tabsAria: 'Разделы авторизации',
+    tabLogin: 'Вход',
+    tabRegister: 'Регистрация',
+    footerNote: 'Учёт рабочих часов · BRW Bau',
+    passwordToggleAria: 'Показать или скрыть пароль',
     login: {
+      title: 'Войти',
+      subtitle: 'Введите данные, чтобы продолжить учёт часов',
       emailLabel: 'Email',
       passwordLabel: 'Пароль',
       submit: 'Войти',
       noAccount: 'Нет аккаунта?',
       registerLink: 'Зарегистрироваться',
+      forgotPassword: 'Забыли пароль?',
+      forgotPasswordNotice: 'Восстановление пароля скоро будет доступно.',
       errorFallback: 'Не удалось войти',
     },
     register: {
+      title: 'Создать аккаунт',
+      subtitle: 'Заполните данные — доступ откроется после подтверждения email',
       firstNameLabel: 'Имя',
       lastNameLabel: 'Фамилия',
       emailLabel: 'Email',
@@ -48,6 +65,7 @@ export default {
       confirmationSent:
         'Письмо с подтверждением отправлено на {email}. Перейдите по ссылке в письме, чтобы активировать аккаунт.',
       backToLogin: 'Ко входу',
+      successTitle: 'Проверьте почту',
     },
   },
 

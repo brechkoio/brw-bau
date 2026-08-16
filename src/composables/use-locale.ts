@@ -2,10 +2,10 @@ import { useI18n } from 'vue-i18n';
 import { Quasar } from 'quasar';
 
 export const SUPPORTED_LOCALES = [
-  { value: 'uk', label: 'Українська' },
-  { value: 'ru', label: 'Русский' },
-  { value: 'en-US', label: 'English' },
-  { value: 'de', label: 'Deutsch' },
+  { value: 'uk', label: 'Українська', shortLabel: 'UA' },
+  { value: 'ru', label: 'Русский', shortLabel: 'RU' },
+  { value: 'en-US', label: 'English', shortLabel: 'EN' },
+  { value: 'de', label: 'Deutsch', shortLabel: 'DE' },
 ] as const;
 
 export type AppLocale = (typeof SUPPORTED_LOCALES)[number]['value'];

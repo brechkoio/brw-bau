@@ -25,15 +25,32 @@ const uk = {
   },
 
   auth: {
+    placeholders: {
+      firstName: 'Юра',
+      lastName: 'Бречко',
+      email: "name{'@'}brw-bau.de",
+      password: '••••••••',
+    },
+    tabsAria: 'Розділи авторизації',
+    tabLogin: 'Вхід',
+    tabRegister: 'Реєстрація',
+    footerNote: 'Облік робочих годин · BRW Bau',
+    passwordToggleAria: 'Показати або приховати пароль',
     login: {
+      title: 'Увійти',
+      subtitle: 'Вкажіть дані, щоб продовжити облік годин',
       emailLabel: 'Email',
       passwordLabel: 'Пароль',
       submit: 'Увійти',
       noAccount: 'Немає акаунту?',
       registerLink: 'Зареєструватися',
+      forgotPassword: 'Забули пароль?',
+      forgotPasswordNotice: 'Відновлення пароля буде доступне незабаром.',
       errorFallback: 'Не вдалося увійти',
     },
     register: {
+      title: 'Створити акаунт',
+      subtitle: 'Заповніть дані — після підтвердження email доступ відкриється',
       firstNameLabel: "Ім'я",
       lastNameLabel: 'Прізвище',
       emailLabel: 'Email',
@@ -46,6 +63,7 @@ const uk = {
       confirmationSent:
         'Лист із підтвердженням надіслано на {email}. Перейдіть за посиланням у листі, щоб активувати акаунт.',
       backToLogin: 'До входу',
+      successTitle: 'Перевірте пошту',
     },
   },
 

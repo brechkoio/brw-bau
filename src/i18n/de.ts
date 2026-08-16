@@ -27,15 +27,32 @@ export default {
   },
 
   auth: {
+    placeholders: {
+      firstName: 'Max',
+      lastName: 'Mustermann',
+      email: "name{'@'}brw-bau.de",
+      password: '••••••••',
+    },
+    tabsAria: 'Anmeldebereiche',
+    tabLogin: 'Anmelden',
+    tabRegister: 'Registrieren',
+    footerNote: 'Arbeitszeiterfassung · BRW Bau',
+    passwordToggleAria: 'Passwort anzeigen oder verbergen',
     login: {
+      title: 'Anmelden',
+      subtitle: 'Geben Sie Ihre Daten ein, um die Zeiterfassung fortzusetzen',
       emailLabel: 'E-Mail',
       passwordLabel: 'Passwort',
       submit: 'Anmelden',
       noAccount: 'Noch kein Konto?',
       registerLink: 'Registrieren',
+      forgotPassword: 'Passwort vergessen?',
+      forgotPasswordNotice: 'Die Passwortwiederherstellung wird bald verfügbar sein.',
       errorFallback: 'Anmeldung fehlgeschlagen',
     },
     register: {
+      title: 'Konto erstellen',
+      subtitle: 'Daten ausfüllen — Zugang wird nach der E-Mail-Bestätigung freigeschaltet',
       firstNameLabel: 'Vorname',
       lastNameLabel: 'Nachname',
       emailLabel: 'E-Mail',
@@ -48,6 +65,7 @@ export default {
       confirmationSent:
         'Eine Bestätigungs-E-Mail wurde an {email} gesendet. Folgen Sie dem Link in der E-Mail, um Ihr Konto zu aktivieren.',
       backToLogin: 'Zurück zur Anmeldung',
+      successTitle: 'E-Mail prüfen',
     },
   },
 

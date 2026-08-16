@@ -6,6 +6,132 @@ body {
   color: $dark;
 }
 
+.auth-form-section {
+  padding-top: 22px;
+}
+.auth-form-section h1,
+.auth-success h1 {
+  margin: 0;
+  color: #161a1d;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.auth-subtitle {
+  margin: 4px 0 20px;
+  color: #757575;
+  font-size: 13px;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.auth-field label {
+  display: block;
+  margin-bottom: 6px;
+  color: #5f6368;
+  font-size: 12px;
+}
+.auth-input .q-field__control {
+  height: 48px;
+  border-radius: 12px;
+}
+.auth-input.q-field--outlined .q-field__control:before {
+  border-color: #e0e0e0;
+}
+.auth-input.q-field--focused .q-field__control:before,
+.auth-input.q-field--focused .q-field__control:after {
+  border-color: #ffcf00;
+}
+.auth-input input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px white inset;
+  -webkit-text-fill-color: #161a1d;
+}
+.auth-input .q-field__native {
+  padding: 0 14px;
+  color: #161a1d;
+  font-size: 15px;
+}
+.auth-input .q-field__append {
+  padding-right: 4px;
+  color: #5f6368;
+}
+.auth-forgot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.auth-forgot a,
+.auth-switch a {
+  color: #8a7300;
+  font-weight: 500;
+  text-decoration: none;
+}
+.auth-submit {
+  width: 100%;
+  height: 52px;
+  margin-top: 4px;
+  border-radius: 12px;
+  background: #ffcf00;
+  color: #161a1d;
+  font-size: 16px;
+  font-weight: 600;
+}
+.auth-switch {
+  margin: 16px 0 0;
+  color: #757575;
+  font-size: 13px;
+  text-align: center;
+}
+.auth-error-banner {
+  margin: 16px 0;
+  border: 1px solid #f5c2c2;
+  border-radius: 12px;
+  background: #fdecec;
+  color: #c62828;
+  font-size: 13px;
+}
+.auth-name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.auth-success {
+  padding: 32px 0 8px;
+  text-align: center;
+}
+.auth-success__icon {
+  display: grid;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  place-items: center;
+  border-radius: 50%;
+  background: #fffbe6;
+  color: #cfa600;
+}
+.auth-success p {
+  margin: 12px 0 20px;
+  color: #757575;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.auth-secondary-btn {
+  min-height: 48px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  color: #161a1d;
+}
+@media (max-width: 399px) {
+  .auth-name-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
 h1,
 h2,
 h3,

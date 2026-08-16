@@ -4,6 +4,7 @@ import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/boot/supabase';
 
 interface Profile {
+  email: string;
   first_name: string;
   last_name: string;
   role: 'admin' | 'user';
@@ -22,7 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
   async function loadProfile(userId: string) {
     const { data } = await supabase
       .from('profiles')
-      .select('first_name, last_name, role, avatar_url')
+      .select('email, first_name, last_name, role, avatar_url')
       .eq('id', userId)
       .single();
     profile.value = data;

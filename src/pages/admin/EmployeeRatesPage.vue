@@ -101,14 +101,14 @@ const columns = computed<QTableColumn[]>(() => [
 async function loadEmployees() {
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, first_name, last_name')
+    .select('id, first_name, last_name, email')
     .order('first_name');
   if (error) {
     $q.notify({ type: 'negative', message: error.message });
     return;
   }
   employeeOptions.value = (data ?? []).map((p) => ({
-    label: `${p.first_name} ${p.last_name}`,
+    label: `${p.first_name} ${p.last_name} (${p.email})`,
     value: p.id,
   }));
 }

@@ -48,6 +48,7 @@
             </q-avatar>
             <div v-if="!isMobile" class="brw-profile-meta">
               <div class="brw-profile-name">{{ fullName }}</div>
+              <div class="brw-profile-role">{{ roleLabel }}</div>
             </div>
             <q-icon v-if="!isMobile" name="expand_more" size="20px" />
             <q-menu
@@ -427,9 +428,15 @@ watch(
 
 .brw-profile-trigger {
   min-height: 40px;
-  padding: 2px 4px 2px 2px;
+  padding: 0 4px 0 2px;
+  margin-left: 2px;
   border-radius: 10px;
-  gap: 8px;
+}
+
+.brw-profile-trigger :deep(.q-btn__content) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .brw-profile-trigger:hover {
@@ -437,14 +444,28 @@ watch(
 }
 
 .brw-profile-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
   text-align: left;
   line-height: 1.2;
 }
 
 .brw-profile-name {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: $dark;
+}
+
+.brw-profile-role {
+  font-size: 11px;
+  font-weight: 400;
+  color: #757575;
+}
+
+.brw-profile-trigger :deep(.q-icon) {
+  color: #9e9e9e;
 }
 
 .brw-avatar {

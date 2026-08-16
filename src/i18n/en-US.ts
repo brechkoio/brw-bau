@@ -129,6 +129,17 @@ export default {
     submit: 'Save',
     successMessage: 'Profile updated',
     errorFallback: 'Could not save changes',
+    installApp: 'Install app',
+    iosInstallTitle: 'How to add to Home Screen',
+  },
+
+  pwa: {
+    bannerAria: 'App installation',
+    title: 'BRW Bau on your phone',
+    androidHint: 'Install the app for faster access without the browser.',
+    iosHint: 'Share → Add to Home Screen.',
+    install: 'Install',
+    dismissAria: 'Dismiss',
   },
 
   reports: {

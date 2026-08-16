@@ -3,7 +3,7 @@
 
 import { defineConfig } from '#q-app';
 
-export default defineConfig((/* ctx */) => {
+export default defineConfig((ctx) => {
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
@@ -85,7 +85,7 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
     devServer: {
       // vueDevtools: true,
-      // https: true,
+      https: ctx.mode.pwa,
       open: true, // opens browser window automatically
     },
 
@@ -116,7 +116,7 @@ export default defineConfig((/* ctx */) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Notify'],
+      plugins: ['Notify', 'Dialog'],
     },
 
     // animations: 'all', // --- includes all animations
@@ -191,15 +191,24 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
     pwa: {
       workboxMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
-      // swFilename: 'sw.js',
-      // manifestFilename: 'manifest.json',
-      // extendPWAManifestJson (json) {},
-      // useCredentialsForManifestTag: true,
-      // injectPWAMetaTags: false,
-      // extendPWACustomSWConf (rolldownConf) {},
-      // extendPWAGenerateSWOptions (cfg) {},
-      // extendPWAInjectManifestOptions (cfg) {},
-      // extendPWASwTsConfig (tsConfig) {}
+      injectPWAMetaTags({ publicPath, pwaManifest }) {
+        const theme = pwaManifest.theme_color ?? '#161a1d';
+        const name = pwaManifest.name ?? 'BRW Bau';
+        return (
+          `<meta name="theme-color" content="${theme}">` +
+          `<link rel="mask-icon" href="${publicPath}icons/safari-pinned-tab.svg" color="${theme}">` +
+          '<meta name="mobile-web-app-capable" content="yes">' +
+          '<meta name="apple-mobile-web-app-capable" content="yes">' +
+          '<meta name="apple-mobile-web-app-status-bar-style" content="default">' +
+          `<meta name="apple-mobile-web-app-title" content="${name}">` +
+          `<meta name="msapplication-TileImage" content="${publicPath}icons/ms-icon-144x144.png">` +
+          `<meta name="msapplication-TileColor" content="${theme}">` +
+          `<link rel="apple-touch-icon" href="${publicPath}icons/apple-icon-120x120.png">` +
+          `<link rel="apple-touch-icon" sizes="152x152" href="${publicPath}icons/apple-icon-152x152.png">` +
+          `<link rel="apple-touch-icon" sizes="167x167" href="${publicPath}icons/apple-icon-167x167.png">` +
+          `<link rel="apple-touch-icon" sizes="180x180" href="${publicPath}icons/apple-icon-180x180.png">`
+        );
+      },
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova

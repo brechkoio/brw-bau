@@ -129,6 +129,17 @@ export default {
     submit: 'Сохранить',
     successMessage: 'Профиль обновлён',
     errorFallback: 'Не удалось сохранить изменения',
+    installApp: 'Установить приложение',
+    iosInstallTitle: 'Как добавить на экран «Домой»',
+  },
+
+  pwa: {
+    bannerAria: 'Установка приложения',
+    title: 'BRW Bau на телефоне',
+    androidHint: 'Установите приложение — быстрый доступ без браузера.',
+    iosHint: 'Поделиться → На экран «Домой».',
+    install: 'Установить',
+    dismissAria: 'Закрыть',
   },
 
   reports: {

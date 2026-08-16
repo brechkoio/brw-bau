@@ -55,6 +55,19 @@
           />
         </q-form>
       </q-card-section>
+
+      <q-card-section v-if="showSettingsAction">
+        <q-btn
+          unelevated
+          no-caps
+          color="accent"
+          text-color="black"
+          icon="install_mobile"
+          class="full-width text-weight-bold"
+          :label="t('settings.installApp')"
+          @click="onInstallApp"
+        />
+      </q-card-section>
     </q-card>
   </q-page>
 </template>
@@ -64,10 +77,12 @@ import { ref, onBeforeUnmount } from 'vue';
 import { useQuasar, type QFile } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
+import { usePwaInstall } from '@/composables/use-pwa-install';
 
 const $q = useQuasar();
 const auth = useAuthStore();
 const { t } = useI18n();
+const { showSettingsAction, canNativeInstall, install } = usePwaInstall();
 
 const firstName = ref(auth.profile?.first_name ?? '');
 const lastName = ref(auth.profile?.last_name ?? '');
@@ -89,6 +104,18 @@ function onAvatarSelected(file: File | null) {
 onBeforeUnmount(() => {
   if (objectUrl) URL.revokeObjectURL(objectUrl);
 });
+
+async function onInstallApp() {
+  if (canNativeInstall.value) {
+    await install();
+    return;
+  }
+  $q.dialog({
+    title: t('settings.iosInstallTitle'),
+    message: t('pwa.iosHint'),
+    ok: t('common.confirm'),
+  });
+}
 
 async function onSave() {
   saving.value = true;

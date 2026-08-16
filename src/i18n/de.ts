@@ -129,6 +129,17 @@ export default {
     submit: 'Speichern',
     successMessage: 'Profil aktualisiert',
     errorFallback: 'Änderungen konnten nicht gespeichert werden',
+    installApp: 'App installieren',
+    iosInstallTitle: 'Zum Home-Bildschirm hinzufügen',
+  },
+
+  pwa: {
+    bannerAria: 'App-Installation',
+    title: 'BRW Bau auf dem Handy',
+    androidHint: 'App installieren — schneller Zugriff ohne Browser.',
+    iosHint: 'Teilen → Zum Home-Bildschirm.',
+    install: 'Installieren',
+    dismissAria: 'Schließen',
   },
 
   reports: {

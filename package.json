@@ -1,8 +1,8 @@
 {
   "name": "brw-bau",
   "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "BRW-BAU",
+  "description": "Облік робочих годин · BRW Bau",
+  "productName": "BRW Bau",
   "author": "Yurii <brechkoio@gmail.com>",
   "type": "module",
   "private": true,
@@ -10,7 +10,9 @@
     "lint": "prettier --write \"**/*.{js,ts,vue,css,scss,html,md,json}\" --ignore-path .gitignore && eslint --fix -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
     "lint:check": "prettier --check \"**/*.{js,ts,vue,css,scss,html,md,json}\" --ignore-path .gitignore && eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
     "dev": "quasar dev",
+    "dev:pwa": "quasar dev -m pwa",
     "build": "quasar build",
+    "build:pwa": "quasar build -m pwa",
     "typecheck": "vue-tsc --noEmit",
     "postinstall": "quasar prepare --silent"
   },

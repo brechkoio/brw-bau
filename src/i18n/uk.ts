@@ -127,6 +127,17 @@ const uk = {
     submit: 'Зберегти',
     successMessage: 'Профіль оновлено',
     errorFallback: 'Не вдалося зберегти зміни',
+    installApp: 'Встановити додаток',
+    iosInstallTitle: 'Як додати на екран «Додому»',
+  },
+
+  pwa: {
+    bannerAria: 'Встановлення додатка',
+    title: 'BRW Bau на телефоні',
+    androidHint: 'Встановіть додаток — швидший доступ без браузера.',
+    iosHint: 'Поділитися → На екран «Додому».',
+    install: 'Встановити',
+    dismissAria: 'Закрити',
   },
 
   reports: {

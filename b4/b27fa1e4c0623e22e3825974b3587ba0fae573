@@ -1,0 +1,21 @@
+src/layouts/MainLayout.vue
+  s_db6a305f08e5df::t_da29dd6880e7f9 431-432,434-439,447-450,457,461-469
+  s_db6a305f08e5df::t_4368dafa269dd8 51
+  s_db6a305f08e5df::t_47ce3b18918026 470
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "b4b27fa1e4c0623e22e3825974b3587ba0fae573",
+  "prompts": {},
+  "sessions": {
+    "s_db6a305f08e5df": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2b45de05-5d3c-405b-b901-a48c3b30bec5",
+        "model": "grok-4.6"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

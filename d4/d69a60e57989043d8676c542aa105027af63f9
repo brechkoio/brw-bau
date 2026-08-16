@@ -1,0 +1,68 @@
+src/boot/i18n.ts
+  s_b39216e3f48bdc::t_bd466df0e4a5a4 1-7,9-25
+  s_b39216e3f48bdc::t_8893d0d9dc067e 8
+quasar.config.ts
+  s_b39216e3f48bdc::t_e3aa5badb24034 14
+src/i18n/ru.ts
+  s_b39216e3f48bdc::t_56765b8adadb8e 1-115
+src/components/LocaleSwitcher.vue
+  s_b39216e3f48bdc::t_13b1000694e5d0 1-19
+src/pages/ErrorNotFound.vue
+  s_b39216e3f48bdc::t_568fbf2b89e8f6 6,15,21-26
+src/pages/auth/RegisterPage.vue
+  s_b39216e3f48bdc::t_b15921893c9c50 5-6,12-13,20,22,29,31-32,48,57-58,64-69,76,81,104
+src/i18n/de.ts
+  s_b39216e3f48bdc::t_cf125700023b3b 1-115
+src/layouts/MainLayout.vue
+  s_b39216e3f48bdc::t_7624e8023e5c73 10,19-20,46,53,60,67,74,88,91,95
+  s_b39216e3f48bdc::t_7edf878c483bd0 29-36
+src/i18n/en-US.ts
+  s_b39216e3f48bdc::t_392ffa107e125a 1-115
+src/composables/use-locale.ts
+  s_b39216e3f48bdc::t_108672e1509986 1-48
+package.json
+  s_b39216e3f48bdc::t_30af507e4051e3 36
+  s_b39216e3f48bdc::t_51d6b31e741823 23
+src/pages/auth/LoginPage.vue
+  s_b39216e3f48bdc::t_19668551099d7a 6,8,15,17,33,42-43,52,58,73
+src/pages/HomePage.vue
+  s_b39216e3f48bdc::t_9ffbb37f6b1bb5 4-8,14,18
+src/layouts/AuthLayout.vue
+  s_b39216e3f48bdc::t_d0db82dda970cb 25
+  s_b39216e3f48bdc::t_eeebd45174fba9 6-10
+src/pages/reports/GeneralReportPage.vue
+  s_b39216e3f48bdc::t_0e82b790cd4295 3,6,10-15
+src/i18n/index.ts
+  s_b39216e3f48bdc::t_0c4bca8ac0ff88 1-13
+src/pages/SettingsPage.vue
+  s_b39216e3f48bdc::t_03f6a31a31450b 5,12-18,32-33,39-40,48,64,69,101,105
+src/pages/admin/EmployeeRatesPage.vue
+  s_b39216e3f48bdc::t_fc36a4e54e1538 3,8,23,25,32,34,42,51,54,64,80,93,98,142,148
+src/i18n/uk.ts
+  s_b39216e3f48bdc::t_cb31426f5ba09d 114-117
+  s_b39216e3f48bdc::t_516a53721af098 1
+  s_b39216e3f48bdc::t_95c5317e0da934 2,4-113
+  s_b39216e3f48bdc::t_7edf878c483bd0 3
+src/pages/reports/MonthlyReportPage.vue
+  s_b39216e3f48bdc::t_8c8bb28aeeb27b 23-24
+  s_b39216e3f48bdc::t_aea83d758fca38 3,8,14,20-21,27,29-33,35
+  s_b39216e3f48bdc::t_590a201910e8a1 28
+bun.lock
+  s_b39216e3f48bdc::t_b5c4f262a04de2 13,86-93,858-859,912-913
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "d4d69a60e57989043d8676c542aa105027af63f9",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

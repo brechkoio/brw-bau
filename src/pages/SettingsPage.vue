@@ -30,6 +30,7 @@
           <q-input
             v-model="firstName"
             :label="t('settings.firstNameLabel')"
+            outlined
             :rules="[(val) => !!val || t('validation.requiredFirstName')]"
             lazy-rules
           />
@@ -37,6 +38,7 @@
           <q-input
             v-model="lastName"
             :label="t('settings.lastNameLabel')"
+            outlined
             :rules="[(val) => !!val || t('validation.requiredLastName')]"
             lazy-rules
           />

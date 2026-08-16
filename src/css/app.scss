@@ -33,6 +33,45 @@ h4 {
   border-color: $accent;
 }
 
+// Table fills whatever height its flex parent gives it (see
+// .brw-page-body below) with a sticky header, per Quasar's own
+// "Sticky header" example — https://quasar.dev/vue-components/table
+.brw-sticky-table {
+  height: 100%;
+
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th {
+    background-color: white;
+  }
+
+  thead tr th {
+    position: sticky;
+    z-index: 1;
+  }
+
+  thead tr:first-child th {
+    top: 0;
+  }
+
+  &.q-table--loading thead tr:last-child th {
+    top: 48px;
+  }
+
+  tbody {
+    scroll-margin-top: 48px;
+  }
+}
+
+// Wraps a page's content below TableFiltersBar so the table can grow to
+// fill the rest of the viewport instead of leaving blank space under it.
+.brw-page-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
 @media (max-width: 599px) {
   .brw-section {
     padding: 48px 0;

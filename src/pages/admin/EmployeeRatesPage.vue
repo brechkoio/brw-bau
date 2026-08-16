@@ -1,62 +1,41 @@
 <template>
-  <q-page>
+  <q-page class="column no-wrap">
     <TableFiltersBar>
-      <q-select
-        v-model="selectedEmployeeId"
-        :options="employeeOptions"
-        :label="t('admin.rates.employeeLabel')"
-        color="accent"
-        bg-color="white"
-        emit-value
-        map-options
+      <q-input
+        v-model="search"
+        :label="t('common.search')"
         dense
+        clearable
         outlined
-        style="min-width: 280px"
-        @update:model-value="loadRates"
+        bg-color="white"
+        style="min-width: 220px"
+      >
+        <template #prepend>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+
+      <q-space />
+
+      <q-btn
+        color="accent"
+        text-color="black"
+        icon="add"
+        :label="t('admin.rates.submit')"
+        unelevated
+        no-caps
+        dense
+        class="text-weight-bold"
+        @click="addDialogOpen = true"
       />
     </TableFiltersBar>
 
-    <div class="q-pa-md">
+    <div class="brw-page-body q-pa-md">
       <div class="text-h6 q-mb-md">{{ t('admin.rates.title') }}</div>
 
-      <template v-if="selectedEmployeeId">
-        <q-form class="row items-start q-col-gutter-md q-mb-lg" @submit.prevent="onSave">
-          <q-input
-            v-model.number="hourlyRate"
-            type="number"
-            step="0.01"
-            min="0.01"
-            :label="t('admin.rates.rateLabel')"
-            style="max-width: 200px"
-            :rules="[(val) => (val && val > 0) || t('validation.requiredAmount')]"
-            lazy-rules
-          />
-
-          <q-input
-            v-model="effectiveFrom"
-            type="date"
-            :label="t('admin.rates.effectiveFromLabel')"
-            style="max-width: 200px"
-            :rules="[(val) => !!val || t('validation.requiredDate')]"
-            lazy-rules
-          />
-
-          <q-btn
-            type="submit"
-            color="accent"
-            text-color="black"
-            :label="t('admin.rates.submit')"
-            :loading="saving"
-            unelevated
-            no-caps
-            class="text-weight-bold q-mt-sm"
-          />
-        </q-form>
-      </template>
-
-      <div class="text-subtitle2 q-mb-sm">{{ t('admin.rates.historyTitle') }}</div>
       <q-table
-        :rows="rates"
+        class="col brw-sticky-table"
+        :rows="filteredRates"
         :columns="columns"
         row-key="id"
         flat
@@ -69,6 +48,59 @@
         </template>
       </q-table>
     </div>
+
+    <q-dialog v-model="addDialogOpen">
+      <q-card style="min-width: 320px">
+        <q-card-section class="text-h6">{{ t('admin.rates.submit') }}</q-card-section>
+        <q-form @submit.prevent="onSave">
+          <q-card-section class="column q-gutter-md">
+            <q-select
+              v-model="form.employeeId"
+              :options="employeeOptions"
+              :label="t('admin.rates.employeeLabel')"
+              color="accent"
+              outlined
+              emit-value
+              map-options
+              :rules="[(val) => !!val || t('validation.requiredEmployee')]"
+              lazy-rules
+            />
+
+            <q-input
+              v-model.number="form.hourlyRate"
+              type="number"
+              step="0.01"
+              min="0.01"
+              :label="t('admin.rates.rateLabel')"
+              outlined
+              :rules="[(val) => (val && val > 0) || t('validation.requiredAmount')]"
+              lazy-rules
+            />
+
+            <q-input
+              v-model="form.effectiveFrom"
+              type="date"
+              :label="t('admin.rates.effectiveFromLabel')"
+              outlined
+              :rules="[(val) => !!val || t('validation.requiredDate')]"
+              lazy-rules
+            />
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat :label="t('common.cancel')" v-close-popup />
+            <q-btn
+              type="submit"
+              color="accent"
+              text-color="black"
+              unelevated
+              no-caps
+              :label="t('common.save')"
+              :loading="saving"
+            />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -88,21 +120,39 @@ interface RateRow {
   id: string;
   hourly_rate: number;
   effective_from: string;
-  created_at: string;
+  employee_name: string;
 }
 
 const $q = useQuasar();
 const { t } = useI18n();
 
 const employeeOptions = ref<EmployeeOption[]>([]);
-const selectedEmployeeId = ref<string | null>(null);
 const rates = ref<RateRow[]>([]);
-const hourlyRate = ref<number | null>(null);
-const effectiveFrom = ref(new Date().toISOString().slice(0, 10));
+const search = ref('');
 const loading = ref(false);
 const saving = ref(false);
+const addDialogOpen = ref(false);
+
+const form = ref({
+  employeeId: null as string | null,
+  hourlyRate: null as number | null,
+  effectiveFrom: new Date().toISOString().slice(0, 10),
+});
+
+const filteredRates = computed(() => {
+  const query = search.value.trim().toLowerCase();
+  if (!query) return rates.value;
+  return rates.value.filter((r) => r.employee_name.toLowerCase().includes(query));
+});
 
 const columns = computed<QTableColumn[]>(() => [
+  {
+    name: 'employee_name',
+    label: t('admin.rates.columnEmployee'),
+    field: 'employee_name',
+    align: 'left',
+    sortable: true,
+  },
   {
     name: 'effective_from',
     label: t('admin.rates.columnEffectiveFrom'),
@@ -129,33 +179,44 @@ async function loadEmployees() {
 }
 
 async function loadRates() {
-  if (!selectedEmployeeId.value) return;
   loading.value = true;
   const { data, error } = await supabase
     .from('employee_rates')
-    .select('id, hourly_rate, effective_from, created_at')
-    .eq('user_id', selectedEmployeeId.value)
+    .select('id, hourly_rate, effective_from, profiles(first_name, last_name)')
     .order('effective_from', { ascending: false });
   loading.value = false;
   if (error) {
     $q.notify({ type: 'negative', message: error.message });
     return;
   }
-  rates.value = data ?? [];
+  rates.value = (data ?? []).map((r) => {
+    const profile = Array.isArray(r.profiles) ? r.profiles[0] : r.profiles;
+    return {
+      id: r.id,
+      hourly_rate: r.hourly_rate,
+      effective_from: r.effective_from,
+      employee_name: profile ? `${profile.first_name} ${profile.last_name}` : '',
+    };
+  });
 }
 
 async function onSave() {
-  if (!selectedEmployeeId.value || !hourlyRate.value) return;
+  if (!form.value.employeeId || !form.value.hourlyRate) return;
   saving.value = true;
   try {
     const { error } = await supabase.from('employee_rates').insert({
-      user_id: selectedEmployeeId.value,
-      hourly_rate: hourlyRate.value,
-      effective_from: effectiveFrom.value,
+      user_id: form.value.employeeId,
+      hourly_rate: form.value.hourlyRate,
+      effective_from: form.value.effectiveFrom,
     });
     if (error) throw error;
     $q.notify({ type: 'positive', message: t('admin.rates.successMessage') });
-    hourlyRate.value = null;
+    addDialogOpen.value = false;
+    form.value = {
+      employeeId: null,
+      hourlyRate: null,
+      effectiveFrom: new Date().toISOString().slice(0, 10),
+    };
     await loadRates();
   } catch (err) {
     $q.notify({
@@ -168,4 +229,5 @@ async function onSave() {
 }
 
 void loadEmployees();
+void loadRates();
 </script>

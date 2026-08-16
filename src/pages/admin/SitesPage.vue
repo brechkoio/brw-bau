@@ -1,45 +1,40 @@
 <template>
-  <q-page>
+  <q-page class="column no-wrap">
     <TableFiltersBar>
       <q-input
         v-model="search"
         :label="t('common.search')"
         dense
         clearable
-        standout="bg-white text-dark"
+        outlined
+        bg-color="white"
         style="min-width: 220px"
       >
         <template #prepend>
           <q-icon name="search" />
         </template>
       </q-input>
+
+      <q-space />
+
+      <q-btn
+        color="accent"
+        text-color="black"
+        icon="add"
+        :label="t('admin.sites.add')"
+        unelevated
+        no-caps
+        dense
+        class="text-weight-bold"
+        @click="addDialogOpen = true"
+      />
     </TableFiltersBar>
 
-    <div class="q-pa-md">
+    <div class="brw-page-body q-pa-md">
       <div class="text-h6 q-mb-md">{{ t('admin.sites.title') }}</div>
 
-      <q-form class="row items-start q-col-gutter-md q-mb-lg" @submit.prevent="onAdd">
-        <q-input
-          v-model="newSiteName"
-          :label="t('admin.sites.nameLabel')"
-          style="max-width: 300px"
-          :rules="[(val) => !!val || t('validation.requiredSiteName')]"
-          lazy-rules
-        />
-
-        <q-btn
-          type="submit"
-          color="accent"
-          text-color="black"
-          :label="t('admin.sites.add')"
-          :loading="adding"
-          unelevated
-          no-caps
-          class="text-weight-bold q-mt-sm"
-        />
-      </q-form>
-
       <q-table
+        class="col brw-sticky-table"
         :rows="filteredSites"
         :columns="columns"
         row-key="id"
@@ -55,6 +50,35 @@
         </template>
       </q-table>
     </div>
+
+    <q-dialog v-model="addDialogOpen">
+      <q-card style="min-width: 320px">
+        <q-card-section class="text-h6">{{ t('admin.sites.add') }}</q-card-section>
+        <q-form @submit.prevent="onAdd">
+          <q-card-section>
+            <q-input
+              v-model="newSiteName"
+              :label="t('admin.sites.nameLabel')"
+              outlined
+              :rules="[(val) => !!val || t('validation.requiredSiteName')]"
+              lazy-rules
+            />
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat :label="t('common.cancel')" v-close-popup />
+            <q-btn
+              type="submit"
+              color="accent"
+              text-color="black"
+              unelevated
+              no-caps
+              :label="t('common.save')"
+              :loading="adding"
+            />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -79,6 +103,7 @@ const search = ref('');
 const newSiteName = ref('');
 const loading = ref(false);
 const adding = ref(false);
+const addDialogOpen = ref(false);
 
 const filteredSites = computed(() => {
   const query = search.value.trim().toLowerCase();
@@ -115,6 +140,7 @@ async function onAdd() {
     const { error } = await supabase.from('sites').insert({ name: newSiteName.value });
     if (error) throw error;
     newSiteName.value = '';
+    addDialogOpen.value = false;
     await loadSites();
   } catch (err) {
     $q.notify({

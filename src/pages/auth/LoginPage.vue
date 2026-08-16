@@ -5,6 +5,7 @@
       type="email"
       :label="t('auth.login.emailLabel')"
       autocomplete="email"
+      outlined
       :rules="[(val) => !!val || t('validation.requiredEmail')]"
       lazy-rules
     />
@@ -14,6 +15,7 @@
       :type="showPassword ? 'text' : 'password'"
       :label="t('auth.login.passwordLabel')"
       autocomplete="current-password"
+      outlined
       :rules="[(val) => !!val || t('validation.requiredPassword')]"
       lazy-rules
     >

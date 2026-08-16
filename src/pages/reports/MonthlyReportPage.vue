@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page class="column no-wrap">
     <TableFiltersBar>
       <q-select
         v-model="month"
@@ -27,10 +27,11 @@
       />
     </TableFiltersBar>
 
-    <div class="q-pa-md">
+    <div class="brw-page-body q-pa-md">
       <div class="text-h6 q-mb-md">{{ t('reports.monthly.title') }}</div>
 
       <q-table
+        class="col brw-sticky-table"
         :rows="filteredRows"
         :columns="columns"
         row-key="id"
@@ -82,6 +83,7 @@
               :options="siteOptions"
               :label="t('reports.monthly.siteLabel')"
               color="accent"
+              outlined
               emit-value
               map-options
             />
@@ -89,16 +91,19 @@
               v-model="editForm.workDate"
               type="date"
               :label="t('reports.monthly.dateLabel')"
+              outlined
             />
             <q-input
               v-model="editForm.startTime"
               type="time"
               :label="t('reports.monthly.startTimeLabel')"
+              outlined
             />
             <q-input
               v-model="editForm.endTime"
               type="time"
               :label="t('reports.monthly.endTimeLabel')"
+              outlined
             />
           </q-card-section>
           <q-card-actions align="right">
@@ -116,61 +121,7 @@
         </q-card>
       </q-dialog>
 
-      <q-dialog v-model="addDialogOpen">
-        <q-card style="min-width: 320px">
-          <q-card-section class="text-h6">{{ t('reports.monthly.submit') }}</q-card-section>
-          <q-form @submit.prevent="onAdd">
-            <q-card-section class="column q-gutter-md">
-              <q-select
-                v-model="form.siteId"
-                :options="siteOptions"
-                :label="t('reports.monthly.siteLabel')"
-                color="accent"
-                emit-value
-                map-options
-                :rules="[(val) => !!val || t('validation.requiredSite')]"
-                lazy-rules
-              />
-
-              <q-input
-                v-model="form.workDate"
-                type="date"
-                :label="t('reports.monthly.dateLabel')"
-                :rules="[(val) => !!val || t('validation.requiredDate')]"
-                lazy-rules
-              />
-
-              <q-input
-                v-model="form.startTime"
-                type="time"
-                :label="t('reports.monthly.startTimeLabel')"
-                :rules="[(val) => !!val || t('validation.requiredTime')]"
-                lazy-rules
-              />
-
-              <q-input
-                v-model="form.endTime"
-                type="time"
-                :label="t('reports.monthly.endTimeLabel')"
-                :rules="[(val) => !!val || t('validation.requiredTime')]"
-                lazy-rules
-              />
-            </q-card-section>
-            <q-card-actions align="right">
-              <q-btn flat :label="t('common.cancel')" v-close-popup />
-              <q-btn
-                type="submit"
-                color="accent"
-                text-color="black"
-                unelevated
-                no-caps
-                :label="t('common.save')"
-                :loading="adding"
-              />
-            </q-card-actions>
-          </q-form>
-        </q-card>
-      </q-dialog>
+      <AddWorkReportDialog v-model="addDialogOpen" @saved="loadReports" />
     </div>
   </q-page>
 </template>
@@ -182,6 +133,7 @@ import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import { useAuthStore } from '@/stores/auth-store';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
+import AddWorkReportDialog from '@/components/AddWorkReportDialog.vue';
 
 interface ReportRow {
   id: string;
@@ -217,24 +169,11 @@ const month = ref(monthOptions.value[now.getMonth()]!);
 const rows = ref<ReportRow[]>([]);
 const siteOptions = ref<SiteOption[]>([]);
 const loading = ref(false);
-const adding = ref(false);
 const saving = ref(false);
 
 const addDialogOpen = ref(false);
-const form = ref({
-  siteId: null as string | null,
-  workDate: new Date().toISOString().slice(0, 10),
-  startTime: '',
-  endTime: '',
-});
 
 function openAdd() {
-  form.value = {
-    siteId: null,
-    workDate: new Date().toISOString().slice(0, 10),
-    startTime: '',
-    endTime: '',
-  };
   addDialogOpen.value = true;
 }
 
@@ -312,31 +251,6 @@ async function loadReports() {
     return;
   }
   rows.value = data ?? [];
-}
-
-async function onAdd() {
-  if (!auth.user || !form.value.siteId || !form.value.startTime || !form.value.endTime) return;
-  adding.value = true;
-  try {
-    const { error } = await supabase.from('work_reports').insert({
-      user_id: auth.user.id,
-      site_id: form.value.siteId,
-      work_date: form.value.workDate,
-      start_time: form.value.startTime,
-      end_time: form.value.endTime,
-    });
-    if (error) throw error;
-    $q.notify({ type: 'positive', message: t('reports.monthly.successAdded') });
-    addDialogOpen.value = false;
-    await loadReports();
-  } catch (err) {
-    $q.notify({
-      type: 'negative',
-      message: err instanceof Error ? err.message : t('reports.monthly.errorFallback'),
-    });
-  } finally {
-    adding.value = false;
-  }
 }
 
 const editDialogOpen = ref(false);

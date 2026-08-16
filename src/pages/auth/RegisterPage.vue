@@ -3,6 +3,7 @@
     <q-input
       v-model="firstName"
       :label="t('auth.register.firstNameLabel')"
+      outlined
       :rules="[(val) => !!val || t('validation.requiredFirstName')]"
       lazy-rules
     />
@@ -10,6 +11,7 @@
     <q-input
       v-model="lastName"
       :label="t('auth.register.lastNameLabel')"
+      outlined
       :rules="[(val) => !!val || t('validation.requiredLastName')]"
       lazy-rules
     />
@@ -19,6 +21,7 @@
       type="email"
       :label="t('auth.register.emailLabel')"
       autocomplete="email"
+      outlined
       :rules="[(val) => !!val || t('validation.requiredEmail')]"
       lazy-rules
     />
@@ -28,6 +31,7 @@
       :type="showPassword ? 'text' : 'password'"
       :label="t('auth.register.passwordLabel')"
       autocomplete="new-password"
+      outlined
       :hint="t('auth.register.passwordHint')"
       :rules="[(val) => (val && val.length >= 6) || t('validation.minPassword')]"
       lazy-rules

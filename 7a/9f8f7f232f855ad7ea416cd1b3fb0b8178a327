@@ -1,0 +1,155 @@
+src/pages/reports/MonthlyReportPage.vue
+  s_b39216e3f48bdc::t_e8c1528de4f387 14-17,19-27
+  s_b39216e3f48bdc::t_ed2fb77cf617ea 3,28
+  s_b39216e3f48bdc::t_915cc947e56876 223,230-239
+  s_b39216e3f48bdc::t_6835113c3cf312 185
+  s_b39216e3f48bdc::t_399d854c931fb8 215
+  s_b39216e3f48bdc::t_fe6883f6e93f3d 9,11
+  s_b39216e3f48bdc::t_a88493f1c81797 174
+  s_b39216e3f48bdc::t_53195f076e5e93 118-127,129-162,164-173
+  s_b39216e3f48bdc::t_830e0734d1d783 266
+  s_b39216e3f48bdc::t_fa758530f8e0f7 285
+  s_b39216e3f48bdc::t_0726c7afc4fcfe 8,18,84,107,128,163
+  s_b39216e3f48bdc::t_c588680dc2a05e 2,4-7,10,12-13,30-31
+  s_b39216e3f48bdc::t_480f44793c873e 184
+  s_b39216e3f48bdc::t_775df3ff11e639 330
+  s_b39216e3f48bdc::t_e2862da3ec22fa 33-47,49-53,55-57,59-65,67-73,76-83,85-106,108-117
+  s_b39216e3f48bdc::t_9d93bfbaa690dc 74,250-252,271
+  s_b39216e3f48bdc::t_662ceef6b8053f 32,48,54,58,66,75,180,182-183,186-200,202,205,210,212,216-222,224-229,240-249,253-265,267-270,272-284,286-329,331-406,408-409
+  s_b39216e3f48bdc::t_8720ebf3d80727 29
+src/i18n/uk.ts
+  s_b39216e3f48bdc::t_9bbe00d9420330 53
+  s_b39216e3f48bdc::t_991242b03eb84c 2,5-11,20-23,60,85-105,129-134,136-137,161-162
+  s_b39216e3f48bdc::t_5ca1d7704ae5b7 66,68
+  s_b39216e3f48bdc::t_c39dd368035da1 67
+  s_b39216e3f48bdc::t_311f090ac22fbc 135
+  s_b39216e3f48bdc::t_af5a4dfe07abcb 122
+  s_b39216e3f48bdc::t_7ad7f32e7aad4d 118,123
+  s_b39216e3f48bdc::t_1ea75c46dc31bf 3
+  s_b39216e3f48bdc::t_7bd9290f0a6fbb 4
+src/pages/auth/LoginPage.vue
+  s_b39216e3f48bdc::t_0726c7afc4fcfe 31
+src/layouts/MainLayout.vue
+  s_b39216e3f48bdc::t_27f01982b94526 19,21-23
+  s_b39216e3f48bdc::t_039d90814ad930 97
+  s_b39216e3f48bdc::t_b64b0b91adfa70 37-39,41-45,48-52,61-65,74-78,87-93,96,98-104
+  s_b39216e3f48bdc::t_be9c1c620af83b 40
+  s_b39216e3f48bdc::t_e89d6f699e03cf 47
+  s_b39216e3f48bdc::t_e29c58ea15ee8f 80-86
+  s_b39216e3f48bdc::t_41e24a4ef30f8e 130-135
+  s_b39216e3f48bdc::t_f8a2446ec4601f 67-73
+  h_0d835848e7aea2 15-16
+  s_b39216e3f48bdc::t_3e6b99455d3529 54-60
+  s_b39216e3f48bdc::t_88bfd588fe323b 94-95
+  s_b39216e3f48bdc::t_c3d8a78e153178 14,17
+supabase/migrations/20260816125723_add_site_name_to_earnings_view.sql
+  s_b39216e3f48bdc::t_a55f8335ffe408 1-3,7-31
+  s_b39216e3f48bdc::t_d8a3658c7a1d92 4-6
+src/pages/admin/EmployeeRatesPage.vue
+  s_b39216e3f48bdc::t_ebb73d47fcd9bd 58-66
+  s_b39216e3f48bdc::t_5e253cb8386218 80
+  s_b39216e3f48bdc::t_0726c7afc4fcfe 8,46
+  s_b39216e3f48bdc::t_7592a6f7523651 9,13
+  s_b39216e3f48bdc::t_bfce4670487bc4 3,17
+  s_b39216e3f48bdc::t_b3ba438aa53435 2,4-7,10-12,14-16,19-20,22-33,35-42,44-45,47-55,71
+src/i18n/ru.ts
+  s_b39216e3f48bdc::t_c0247972388f93 137
+  s_b39216e3f48bdc::t_5d0fb81d7b9932 6
+  s_b39216e3f48bdc::t_1d505f1ab6ea26 4,7-13,22-25,62,87-107,131-136,138-139,163-164
+  s_b39216e3f48bdc::t_f6982a6ddca301 69
+  s_b39216e3f48bdc::t_da0c3afb3f499a 5
+  s_b39216e3f48bdc::t_a09e9d9cb508bd 120,125
+  s_b39216e3f48bdc::t_c98351c98aa02d 124
+  s_b39216e3f48bdc::t_b60407d2b0f045 68,70
+  s_b39216e3f48bdc::t_c2f1957d51234a 55
+src/router/routes.ts
+  s_b39216e3f48bdc::t_ead32e0de63b24 44-48
+src/css/app.scss
+  s_b39216e3f48bdc::t_b121f6bd390e11 23,28
+  s_b39216e3f48bdc::t_e8d72f20e5f7f8 4
+  s_b39216e3f48bdc::t_52ca50cdb94727 3
+  s_b39216e3f48bdc::t_f58219f8533525 6,13,22,33
+src/components/LocaleSwitcher.vue
+  s_b39216e3f48bdc::t_5e1d0fd9b8b5fc 3-17,21,24
+  s_b39216e3f48bdc::t_83652a80615cdb 2
+src/pages/ErrorNotFound.vue
+  s_b39216e3f48bdc::t_0726c7afc4fcfe 10
+supabase/migrations/20260816125526_add_sites_and_work_reports.sql
+  s_b39216e3f48bdc::t_b6a23ec42746d0 1-108
+src/i18n/en-US.ts
+  s_b39216e3f48bdc::t_ccc125c1c3f4c2 4,7-13,22-25,62,87-107,131-136,138-139,163-164
+  s_b39216e3f48bdc::t_59ec108e9a9603 5
+  s_b39216e3f48bdc::t_46eb374f290f8d 69
+  s_b39216e3f48bdc::t_7d2075dc118ea5 6
+  s_b39216e3f48bdc::t_e38632960a01f4 124
+  s_b39216e3f48bdc::t_9031f9f025f55e 137
+  s_b39216e3f48bdc::t_33add1eeaf79b4 55
+  s_b39216e3f48bdc::t_5491187ecc6c32 120,125
+  s_b39216e3f48bdc::t_020fde9439ddf1 68,70
+src/pages/auth/RegisterPage.vue
+  s_b39216e3f48bdc::t_0726c7afc4fcfe 46,62,68
+src/i18n/de.ts
+  s_b39216e3f48bdc::t_1cc9d1c8b83c75 68,70
+  s_b39216e3f48bdc::t_f0a4ef0127e430 124
+  s_b39216e3f48bdc::t_6f3b48d21ac459 69
+  s_b39216e3f48bdc::t_225ccdfa9efb4e 120,125
+  s_b39216e3f48bdc::t_fb5aea17376ef6 6
+  s_b39216e3f48bdc::t_d2542e3cfd813c 5
+  s_b39216e3f48bdc::t_9418509d350c20 137
+  s_b39216e3f48bdc::t_f41819a424551b 55
+  s_b39216e3f48bdc::t_f7bd7cff0da885 4,7-13,22-25,62,87-107,131-136,138-139,163-164
+src/css/quasar.variables.scss
+  s_b39216e3f48bdc::t_693ed92386fcc2 15-17,19
+  s_b39216e3f48bdc::t_3ff3f33ce2ad66 28
+  s_b39216e3f48bdc::t_a383570a0e66b0 27
+  s_b39216e3f48bdc::t_1332cbda094890 26
+package.json
+  s_b39216e3f48bdc::t_78beb8a21f1ad9 18
+supabase/migrations/20260816125630_fix_sites_policy_overlap.sql
+  s_b39216e3f48bdc::t_22df7c46d0e11e 1-24
+src/components/TableFiltersBar.vue
+  s_b39216e3f48bdc::t_ce10f0049a69da 2
+  s_b39216e3f48bdc::t_69d830b7ad17c8 1,3-5
+src/pages/SettingsPage.vue
+  s_b39216e3f48bdc::t_0726c7afc4fcfe 16,46
+src/pages/HomePage.vue
+  s_b39216e3f48bdc::t_17f61508b118f2 52
+  s_b39216e3f48bdc::t_eaa08d53e0b83f 59-61,67-68
+  s_b39216e3f48bdc::t_cda86c94286779 3,10-17,22-34,39,42,46-49,54-58,62-66,69-75
+  s_b39216e3f48bdc::t_08f38c7e5fa976 50-51,53
+  s_b39216e3f48bdc::t_0e96023492a775 18
+  s_b39216e3f48bdc::t_04e90fcf8ab674 19-21
+src/pages/admin/SitesPage.vue
+  s_b39216e3f48bdc::t_e4edd84d915068 2,4-15,18-19,21-28,30-31,33-40,51-57
+  s_b39216e3f48bdc::t_9d93bfbaa690dc 90-96
+  s_b39216e3f48bdc::t_0726c7afc4fcfe 32
+  s_b39216e3f48bdc::t_da9b59ed9e2750 3,16
+  s_b39216e3f48bdc::t_5b97a53b077069 17,78,82-87
+  s_b39216e3f48bdc::t_11c31ff8ab8051 1,20,29,41,58-65,67-77,79-81,88-89,97-142
+  s_b39216e3f48bdc::t_e2862da3ec22fa 42-48,50
+  s_b39216e3f48bdc::t_ad2c9b47a97210 49
+  s_b39216e3f48bdc::t_f9c956042f2111 66
+bun.lock
+  s_b39216e3f48bdc::t_8e4309f08c2898 8,77-78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "7a9f8f7f232f855ad7ea416cd1b3fb0b8178a327",
+  "prompts": {},
+  "humans": {
+    "h_0d835848e7aea2": {
+      "author": "Yurii <brechkoio@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

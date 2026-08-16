@@ -4,6 +4,44 @@
 
 body {
   color: $dark;
+  background: $secondary;
+}
+
+.q-field--outlined .q-field__control:before {
+  border-color: $separator-color;
+}
+
+.q-field--outlined.q-field--focused .q-field__control:before,
+.q-field--outlined.q-field--focused .q-field__control:after {
+  border-color: $accent;
+}
+
+.q-field input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px #fff inset;
+  -webkit-text-fill-color: $dark;
+}
+
+.brw-header.q-header {
+  background: #fff;
+  color: $dark;
+  border-bottom: 1px solid #ebebe6;
+  box-shadow: none;
+}
+
+.brw-header .q-toolbar {
+  min-height: 64px;
+  padding: 0 20px;
+}
+
+.brw-drawer.q-drawer {
+  background: $primary;
+  color: #c8ccce;
+}
+
+.brw-drawer.q-drawer--mini .q-item__label,
+.brw-drawer.q-drawer--mini .q-item__section:not(.q-item__section--avatar) {
+  opacity: 0;
+  overflow: hidden;
 }
 
 .auth-form-section {
@@ -150,7 +188,7 @@ h4 {
 }
 
 .brw-card {
-  border-radius: 14px;
+  border-radius: $generic-border-radius;
   border: 1px solid $separator-color;
   box-shadow: none;
 }

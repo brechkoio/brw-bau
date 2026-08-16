@@ -73,12 +73,32 @@ export default {
     menuAria: 'Menü',
     languageAria: 'Sprache',
     logoutAria: 'Abmelden',
+    navAria: 'Hauptnavigation',
+    collapseAria: 'Menü einklappen',
+    expandAria: 'Menü ausklappen',
+    notificationsAria: 'Benachrichtigungen',
+    profileMenu: 'Profilmenü',
+    groupTracking: 'Erfassung',
+    groupAdmin: 'Verwaltung',
+    roleAdmin: 'Administrator',
+    roleWorker: 'Mitarbeiter',
     navHome: 'Start',
     navSettings: 'Einstellungen',
     navMonthlyReport: 'Monatsbericht',
     navGeneralReport: 'Gesamtbericht',
     navEmployeeRates: 'Mitarbeiterlöhne',
     navSites: 'Objekte',
+  },
+
+  meta: {
+    title: {
+      home: 'Start',
+      settings: 'Einstellungen',
+      monthlyReport: 'Monatsbericht',
+      generalReport: 'Gesamtbericht',
+      employeeRates: 'Mitarbeiterlöhne',
+      sites: 'Objekte',
+    },
   },
 
   home: {

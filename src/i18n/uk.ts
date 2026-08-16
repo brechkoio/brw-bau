@@ -71,12 +71,32 @@ const uk = {
     menuAria: 'Меню',
     languageAria: 'Мова',
     logoutAria: 'Вийти',
+    navAria: 'Головна навігація',
+    collapseAria: 'Згорнути меню',
+    expandAria: 'Розгорнути меню',
+    notificationsAria: 'Сповіщення',
+    profileMenu: 'Меню профілю',
+    groupTracking: 'Облік',
+    groupAdmin: 'Адміністрування',
+    roleAdmin: 'Адміністратор',
+    roleWorker: 'Робітник',
     navHome: 'Головна',
     navSettings: 'Налаштування',
     navMonthlyReport: 'Звіт за місяць',
     navGeneralReport: 'Загальний звіт',
     navEmployeeRates: 'Ставки співробітників',
     navSites: "Об'єкти",
+  },
+
+  meta: {
+    title: {
+      home: 'Головна',
+      settings: 'Налаштування',
+      monthlyReport: 'Звіт за місяць',
+      generalReport: 'Загальний звіт',
+      employeeRates: 'Ставки співробітників',
+      sites: "Об'єкти",
+    },
   },
 
   home: {

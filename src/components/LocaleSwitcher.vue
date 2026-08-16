@@ -1,5 +1,10 @@
 <template>
-  <div class="locale-switcher" :aria-label="t('layout.languageAria')" role="group">
+  <div
+    class="locale-switcher"
+    :class="`locale-switcher--${variant}`"
+    :aria-label="t('layout.languageAria')"
+    role="group"
+  >
     <q-btn
       v-for="language in locales"
       :key="language.value"
@@ -18,6 +23,13 @@
 import { useI18n } from 'vue-i18n';
 import { useLocale } from '@/composables/use-locale';
 
+withDefaults(
+  defineProps<{
+    variant?: 'light' | 'dark';
+  }>(),
+  { variant: 'dark' },
+);
+
 const { t } = useI18n();
 const { locale, setLocale, locales } = useLocale();
 </script>
@@ -28,14 +40,24 @@ const { locale, setLocale, locales } = useLocale();
   gap: 2px;
   padding: 4px;
   border-radius: 99px;
+}
+.locale-switcher--dark {
   background: #22272a;
+}
+.locale-switcher--dark .locale-switcher__button {
+  color: #b9bcbf;
+}
+.locale-switcher--light {
+  background: #f5f5f5;
+}
+.locale-switcher--light .locale-switcher__button {
+  color: #757575;
 }
 .locale-switcher__button {
   min-height: 32px;
   min-width: 0;
   padding: 0 9px;
   border-radius: 99px;
-  color: #b9bcbf;
   font-size: 12px;
   font-weight: 600;
 }

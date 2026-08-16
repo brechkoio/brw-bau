@@ -73,12 +73,32 @@ export default {
     menuAria: 'Menu',
     languageAria: 'Language',
     logoutAria: 'Sign out',
+    navAria: 'Main navigation',
+    collapseAria: 'Collapse menu',
+    expandAria: 'Expand menu',
+    notificationsAria: 'Notifications',
+    profileMenu: 'Profile menu',
+    groupTracking: 'Tracking',
+    groupAdmin: 'Administration',
+    roleAdmin: 'Admin',
+    roleWorker: 'Worker',
     navHome: 'Home',
     navSettings: 'Settings',
     navMonthlyReport: 'Monthly report',
     navGeneralReport: 'General report',
     navEmployeeRates: 'Employee rates',
     navSites: 'Sites',
+  },
+
+  meta: {
+    title: {
+      home: 'Home',
+      settings: 'Settings',
+      monthlyReport: 'Monthly report',
+      generalReport: 'General report',
+      employeeRates: 'Employee rates',
+      sites: 'Sites',
+    },
   },
 
   home: {

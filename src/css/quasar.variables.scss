@@ -1,28 +1,23 @@
 // Quasar Sass (& SCSS) Variables
 // --------------------------------------------------
-// To customize the look and feel of this app, you can override
-// the Sass/SCSS variables found in Quasar's source Sass/SCSS files.
+// Brand tokens. Quasar reads these at build time.
+// Runtime copies live in quasar.config.ts → framework.config.brand.
 
-// Check documentation for full list of Quasar variables
+$primary: #161a1d;
+$secondary: #f5f5f5;
+$accent: #ffcf00;
 
-// Your own variables (that are declared here) and Quasar's own
-// ones will be available out of the box in your .vue/.scss/.sass files
-
-// It's highly recommended to change the default colors
-// to match your app's branding.
-// Tip: Use the "Theme Builder" on Quasar's documentation website.
-
-$primary: #bdbdbd; // grey-5
-$secondary: #eeeeee; // grey-3
-$accent: #ffcf00; // жовтий BRW Bau
-
-$dark: #161a1d; // графіт (текст, темні секції)
+$dark: #161a1d;
 $dark-page: #121212;
 
 $positive: #2e7d32;
 $negative: #c62828;
 $info: #1976d2;
 $warning: #f57c00;
+
+$separator-color: #e0e0e0;
+$generic-border-radius: 12px;
+$button-border-radius: 12px;
 
 $typography-font-family:
   'Rubik Variable', 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif;

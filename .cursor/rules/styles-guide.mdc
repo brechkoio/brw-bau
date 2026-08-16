@@ -1,0 +1,79 @@
+---
+description: BRW Bau visual system — palette, cascade, Quasar defaults, layout chrome
+globs: src/**/*.{vue,scss,css},quasar.config.ts
+alwaysApply: true
+---
+
+# BRW Bau — styles guide
+
+Світлий хедер + темне меню. Жовтий `#ffcf00` лише як акцент (чіп, активний пункт, CTA, крапка нотифікацій) — без суцільної жовтої заливки хедера.
+
+## Каскад
+
+SCSS-змінні → класи Quasar → `app.scss` → scoped компонента.
+
+Не битися з Quasar через `!important`. Потрібен інший вигляд — змінна, клас `.brw-*` або обгортка (`BrwBtn`, `BrwInput`).
+
+## Палітра — `src/css/quasar.variables.scss`
+
+```scss
+$primary: #161a1d;
+$secondary: #f5f5f5;
+$accent: #ffcf00;
+$dark: #161a1d;
+$separator-color: #e0e0e0;
+$generic-border-radius: 12px;
+$button-border-radius: 12px;
+$typography-font-family: 'Rubik Variable', 'Roboto', sans-serif;
+```
+
+Хедер: фон `#fff`, бордер `#ebebe6`. Меню: фон `$primary`, текст `#c8ccce`, активний `$accent`. Сторінка: `$secondary`.
+
+## `quasar.config.ts`
+
+```ts
+framework: {
+  config: {
+    brand: {
+      primary: '#161a1d',
+      secondary: '#f5f5f5',
+      accent: '#ffcf00',
+      dark: '#161a1d',
+    },
+    dark: false,
+    notify: { position: 'top', timeout: 3000 },
+  },
+  plugins: ['Notify'],
+}
+```
+
+`css: ['app.scss']` уже підключений.
+
+## Обгортки, не глобальний `.q-btn`
+
+```vue
+<!-- BrwBtn.vue -->
+<q-btn unelevated no-caps color="accent" text-color="black" v-bind="$attrs">
+  <slot />
+</q-btn>
+```
+
+```vue
+<!-- BrwInput.vue: outlined, лейбл зверху (не floating) -->
+<label class="brw-field">
+  <span class="brw-field__label">{{ label }}</span>
+  <q-input outlined :model-value="modelValue" v-bind="$attrs" />
+</label>
+```
+
+## Макет (ТЗ + мокап)
+
+- `MainLayout`: `q-header` без `elevated` / без `bg-primary`. Burger згортає меню на ≥1024px; overlay на <1024px.
+- Drawer 260px / collapsed 76px, стан у `localStorage` `brw.drawer.collapsed`.
+- Логотип: `@/assets/logo.png`, 34×34, radius 8px; «BRW» 700 / `$accent`.
+- Title хедера з `route.meta.title`; дата під ним — локалізований формат на кшталт `Неділя, 16 серпня 2026`.
+- Language switcher у хедері — світлий трек `$secondary`; на <600px переїжджає в низ drawer.
+- Профіль у мокапі: аватар + «Прізвище Імʼя» + `expand_more` (роль — у картці меню).
+- Нотифікації: кнопка-заглушка, без unread-крапки до появи API.
+
+Повний ТЗ: хедер/меню — `Design-headerSideMenu.pdf`.

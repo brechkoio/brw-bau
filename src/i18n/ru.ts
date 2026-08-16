@@ -73,12 +73,32 @@ export default {
     menuAria: 'Меню',
     languageAria: 'Язык',
     logoutAria: 'Выйти',
+    navAria: 'Основная навигация',
+    collapseAria: 'Свернуть меню',
+    expandAria: 'Развернуть меню',
+    notificationsAria: 'Уведомления',
+    profileMenu: 'Меню профиля',
+    groupTracking: 'Учёт',
+    groupAdmin: 'Администрирование',
+    roleAdmin: 'Администратор',
+    roleWorker: 'Рабочий',
     navHome: 'Главная',
     navSettings: 'Настройки',
     navMonthlyReport: 'Отчёт за месяц',
     navGeneralReport: 'Общий отчёт',
     navEmployeeRates: 'Ставки сотрудников',
     navSites: 'Объекты',
+  },
+
+  meta: {
+    title: {
+      home: 'Главная',
+      settings: 'Настройки',
+      monthlyReport: 'Отчёт за месяц',
+      generalReport: 'Общий отчёт',
+      employeeRates: 'Ставки сотрудников',
+      sites: 'Объекты',
+    },
   },
 
   home: {

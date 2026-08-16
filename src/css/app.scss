@@ -33,13 +33,19 @@ body {
   padding: 0 20px;
 }
 
-.brw-drawer.q-drawer {
+.brw-shell .q-drawer,
+.brw-shell .q-drawer__content {
   background: $primary;
   color: #c8ccce;
+  box-shadow: none;
 }
 
-.brw-drawer.q-drawer--mini .q-item__label,
-.brw-drawer.q-drawer--mini .q-item__section:not(.q-item__section--avatar) {
+.brw-shell .q-drawer__content {
+  overflow: hidden;
+}
+
+.brw-shell .q-drawer--mini .q-item__label,
+.brw-shell .q-drawer--mini .q-item__section:not(.q-item__section--avatar) {
   opacity: 0;
   overflow: hidden;
 }

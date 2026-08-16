@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="LHh Lpr lFf">
+  <q-layout view="LHh Lpr lFf" class="brw-shell">
     <q-header class="brw-header">
       <q-toolbar class="brw-toolbar">
         <q-btn
@@ -171,6 +171,7 @@
               unelevated
               round
               icon="logout"
+              size="sm"
               class="brw-user-card__logout"
               :aria-label="t('layout.logoutAria')"
               @click="onLogout"
@@ -484,21 +485,17 @@ watch(
 }
 
 .brw-drawer {
+  height: 100%;
+  overflow: hidden;
   background: $primary;
   color: #c8ccce;
-  box-shadow: none;
-  transition: width 0.2s ease;
-}
-
-.brw-drawer :deep(.q-drawer__content) {
-  background: $primary;
-  overflow: hidden;
 }
 
 .brw-drawer__inner {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 0;
 }
 
 .brw-drawer__brand {
@@ -532,6 +529,7 @@ watch(
 
 .brw-drawer__nav {
   flex: 1;
+  min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 4px 10px 10px;
@@ -595,7 +593,8 @@ watch(
 }
 
 .brw-drawer__footer {
-  padding: 8px 10px 12px;
+  flex-shrink: 0;
+  padding: 8px 10px 14px;
   border-top: 1px solid #262b2f;
 }
 
@@ -603,20 +602,29 @@ watch(
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 8px;
-  padding: 8px 10px;
+  margin-top: 10px;
+  padding: 10px 12px;
   border-radius: 12px;
   background: #20262a;
 }
 
+.brw-user-card :deep(.q-avatar) {
+  flex-shrink: 0;
+}
+
 .brw-user-card__meta {
+  display: flex;
   min-width: 0;
   flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
 }
 
 .brw-user-card__name {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1.2;
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
@@ -624,15 +632,16 @@ watch(
 }
 
 .brw-user-card__role {
-  margin-top: 1px;
   font-size: 11px;
+  line-height: 1.2;
   color: #8b9195;
 }
 
 .brw-user-card__logout {
-  width: 40px;
-  min-width: 40px;
-  height: 40px;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  margin-left: auto;
   color: #8b9195;
 }
 
@@ -669,9 +678,7 @@ watch(
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
 }
 
-.brw-drawer .q-layout__shadow,
-.q-drawer__backdrop,
-.q-layout__backdrop {
+.brw-shell .q-drawer__backdrop {
   background: rgba(0, 0, 0, 0.45);
 }
 </style>

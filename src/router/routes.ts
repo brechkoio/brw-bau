@@ -1,13 +1,32 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+declare module 'vue-router' {
+  interface RouteMeta {
+    requiresAuth?: boolean;
+    requiresGuest?: boolean;
+  }
+}
+
 const routes: RouteRecordRaw[] = [
+  {
+    path: '/login',
+    component: () => import('@/layouts/AuthLayout.vue'),
+    meta: { requiresGuest: true },
+    children: [{ path: '', component: () => import('@/pages/auth/LoginPage.vue') }],
+  },
+
+  {
+    path: '/register',
+    component: () => import('@/layouts/AuthLayout.vue'),
+    meta: { requiresGuest: true },
+    children: [{ path: '', component: () => import('@/pages/auth/RegisterPage.vue') }],
+  },
+
   {
     path: '/',
     component: () => import('@/layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('@/pages/IndexPage.vue') },
-      { path: 'second', component: () => import('@/pages/SecondPage.vue') },
-    ],
+    meta: { requiresAuth: true },
+    children: [{ path: '', component: () => import('@/pages/HomePage.vue') }],
   },
 
   // Always leave this as last one,

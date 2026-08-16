@@ -57,6 +57,13 @@
           </q-item-section>
           <q-item-section>Загальний звіт</q-item-section>
         </q-item>
+
+        <q-item v-if="auth.isAdmin" to="/admin/rates" clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="payments" />
+          </q-item-section>
+          <q-item-section>Ставки співробітників</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 

@@ -1,0 +1,30 @@
+src/router/index.ts
+  s_b39216e3f48bdc::t_f1935cae7e503d 48-50
+src/pages/reports/GeneralReportPage.vue
+  s_b39216e3f48bdc::t_b822103408052f 1-5,8-10
+  s_b39216e3f48bdc::t_9afb5c733304e3 6-7
+src/pages/reports/MonthlyReportPage.vue
+  s_b39216e3f48bdc::t_697d7046855b3f 1-13,16-45
+  s_b39216e3f48bdc::t_9afb5c733304e3 14-15
+src/router/routes.ts
+  s_b39216e3f48bdc::t_9303c83fe2a2ec 30-38
+  s_b39216e3f48bdc::t_f1087e9699573e 7
+src/layouts/MainLayout.vue
+  s_b39216e3f48bdc::t_f4e6f69bf79c69 5-13,24-48,56,62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "495ba30967d4e85ef315d35175e0990aafd9ff89",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

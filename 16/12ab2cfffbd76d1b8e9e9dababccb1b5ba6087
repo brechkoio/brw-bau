@@ -1,0 +1,73 @@
+.editorconfig
+  s_b39216e3f48bdc::t_7a739e9c49cd09 1-7
+.gitignore
+  s_b39216e3f48bdc::t_855ee1ae866892 1-26
+.prettierrc.json
+  s_b39216e3f48bdc::t_d3d7586cb4ee6e 1-5
+.vscode/extensions.json
+  s_b39216e3f48bdc::t_77ba47add16567 1-15
+.vscode/settings.json
+  s_b39216e3f48bdc::t_b897522564a350 1-21
+README.md
+  s_b39216e3f48bdc::t_559117042373c7 1-38
+env.d.ts
+  s_b39216e3f48bdc::t_678c35def94aee 1-15
+eslint.config.js
+  s_b39216e3f48bdc::t_4cdd1707e5e6a4 1-86
+index.html
+  s_b39216e3f48bdc::t_81f0550280f2dd 1-21
+package-lock.json
+  s_b39216e3f48bdc::t_b2b72cfe0dde4e 1-6014
+package.json
+  s_b39216e3f48bdc::t_0a25917ba86be7 1-53
+pnpm-workspace.yaml
+  s_b39216e3f48bdc::t_bf417df2bc170f 1-10
+postcss.config.js
+  s_b39216e3f48bdc::t_4843ae9588c739 1-30
+quasar.config.ts
+  s_b39216e3f48bdc::t_bc9710089fff63 1-245
+src/App.vue
+  s_b39216e3f48bdc::t_0e33983cee1124 1-3
+src/assets/quasar-logo-vertical.svg
+  s_b39216e3f48bdc::t_a599431ab4e1ab 1-15
+src/components/EssentialLink.vue
+  s_b39216e3f48bdc::t_38b8c7cd22a48b 1-35
+src/css/app.scss
+  s_b39216e3f48bdc::t_82903ddae01e73 1
+src/css/quasar.variables.scss
+  s_b39216e3f48bdc::t_0a578c5e1bcb23 1-25
+src/layouts/MainLayout.vue
+  s_b39216e3f48bdc::t_5d75dd1c33ff68 1-102
+src/pages/ErrorNotFound.vue
+  s_b39216e3f48bdc::t_e69107393a9ef5 1-23
+src/pages/IndexPage.vue
+  s_b39216e3f48bdc::t_e9931dff3f4071 1-23
+src/pages/SecondPage.vue
+  s_b39216e3f48bdc::t_71a558840c4a76 1-9
+src/router/index.ts
+  s_b39216e3f48bdc::t_b5f41a18496ccd 1-36
+src/router/routes.ts
+  s_b39216e3f48bdc::t_c4cf35b72ed320 1-21
+src/stores/example-store.ts
+  s_b39216e3f48bdc::t_462bc0d80e12a7 1-21
+src/stores/index.ts
+  s_b39216e3f48bdc::t_50643ad649dffa 1-32
+tsconfig.json
+  s_b39216e3f48bdc::t_7844e6ada72d76 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "1612ab2cfffbd76d1b8e9e9dababccb1b5ba6087",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

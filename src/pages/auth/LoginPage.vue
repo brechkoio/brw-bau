@@ -26,7 +26,17 @@
       </template>
     </q-input>
 
-    <q-btn type="submit" color="primary" label="Увійти" :loading="loading" unelevated />
+    <q-btn
+      type="submit"
+      color="primary"
+      text-color="black"
+      label="Увійти"
+      :loading="loading"
+      unelevated
+      no-caps
+      rounded
+      class="text-weight-bold"
+    />
 
     <div class="text-center text-caption">
       Немає акаунту?

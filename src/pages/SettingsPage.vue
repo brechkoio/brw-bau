@@ -35,7 +35,17 @@
             lazy-rules
           />
 
-          <q-btn type="submit" color="primary" label="Зберегти" :loading="saving" unelevated />
+          <q-btn
+            type="submit"
+            color="primary"
+            text-color="black"
+            label="Зберегти"
+            :loading="saving"
+            unelevated
+            no-caps
+            rounded
+            class="text-weight-bold"
+          />
         </q-form>
       </q-card-section>
     </q-card>

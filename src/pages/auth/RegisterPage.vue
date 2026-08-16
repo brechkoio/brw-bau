@@ -41,7 +41,17 @@
       </template>
     </q-input>
 
-    <q-btn type="submit" color="primary" label="Зареєструватися" :loading="loading" unelevated />
+    <q-btn
+      type="submit"
+      color="primary"
+      text-color="black"
+      label="Зареєструватися"
+      :loading="loading"
+      unelevated
+      no-caps
+      rounded
+      class="text-weight-bold"
+    />
 
     <div class="text-center text-caption">
       Вже є акаунт?

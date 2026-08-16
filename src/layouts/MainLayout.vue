@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="bg-secondary text-white">
       <q-toolbar>
         <q-btn
           flat
@@ -11,6 +11,9 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
+        <q-avatar size="32px" class="q-mr-sm">
+          <img :src="logo" alt="BRW-BAU" />
+        </q-avatar>
         <q-toolbar-title>BRW-BAU</q-toolbar-title>
 
         <div v-if="auth.profile" class="row items-center q-gutter-sm q-mr-md">
@@ -67,6 +70,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth-store';
+import logo from '@/assets/logo.png';
 
 const router = useRouter();
 const auth = useAuthStore();

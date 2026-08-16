@@ -1,1 +1,38 @@
 // app global css
+
+body {
+  color: #1f2933;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: #000;
+  font-weight: 800;
+}
+
+.brw-section {
+  padding: 80px 0;
+}
+
+.brw-dark {
+  background: #1f2933;
+  color: #fff;
+}
+
+.brw-card {
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow: none;
+}
+
+.brw-card:hover {
+  border-color: #ffcf00;
+}
+
+@media (max-width: 599px) {
+  .brw-section {
+    padding: 48px 0;
+  }
+}

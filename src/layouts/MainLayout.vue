@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title>Salary Calc</q-toolbar-title>
+        <q-toolbar-title>BRW-BAU</q-toolbar-title>
 
         <div v-if="auth.profile" class="q-mr-md">
           {{ auth.profile.first_name }} {{ auth.profile.last_name }}

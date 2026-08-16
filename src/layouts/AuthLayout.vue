@@ -4,7 +4,7 @@
       <q-page class="row items-center justify-center q-pa-md">
         <q-card class="auth-card" flat bordered>
           <q-card-section class="text-center">
-            <div class="text-h5">Salary Calc</div>
+            <div class="text-h5">BRW-BAU</div>
           </q-card-section>
 
           <q-card-section>

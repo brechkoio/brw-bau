@@ -1,0 +1,21 @@
+src/layouts/AuthLayout.vue
+  s_b39216e3f48bdc::t_b9fbfc6f4abd76 7
+src/layouts/MainLayout.vue
+  s_b39216e3f48bdc::t_01430bfea1964e 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "c59e8f6ca8759b158ae4613b496c7446ae3c19a2",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

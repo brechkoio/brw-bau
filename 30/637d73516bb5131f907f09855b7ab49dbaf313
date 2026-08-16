@@ -1,0 +1,34 @@
+src/layouts/AuthLayout.vue
+  s_b39216e3f48bdc::t_45681cb62172e0 4,7,19-22,27-32
+src/css/app.scss
+  s_b39216e3f48bdc::t_93288232398ded 2-38
+src/layouts/MainLayout.vue
+  s_b39216e3f48bdc::t_77bd698a14011e 73
+  s_b39216e3f48bdc::t_36e6fa0f5cf846 3,14-16
+src/pages/auth/RegisterPage.vue
+  s_b39216e3f48bdc::t_dbf5d8542b89c7 44-54
+src/css/quasar.variables.scss
+  s_b39216e3f48bdc::t_5e6d3c4326aebe 15-17,19,22-25
+src/pages/auth/LoginPage.vue
+  s_b39216e3f48bdc::t_8ace3e8131083a 29-39
+src/pages/SettingsPage.vue
+  s_b39216e3f48bdc::t_2b1fe8219eb844 38-48
+src/pages/ErrorNotFound.vue
+  s_b39216e3f48bdc::t_ed3fe3193153ee 2,6,9-11,13,15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "30637d73516bb5131f907f09855b7ab49dbaf313",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

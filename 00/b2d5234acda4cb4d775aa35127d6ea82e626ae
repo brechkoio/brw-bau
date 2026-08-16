@@ -1,0 +1,54 @@
+src/components/LocaleSwitcher.vue
+  s_db6a305f08e5df::t_7d6d480af815ec 2-7,26-32,43-44,47-55
+src/layouts/MainLayout.vue
+  s_db6a305f08e5df::t_dfaee49387d0fc 3
+  s_db6a305f08e5df::t_6527de60ad5220 473
+  s_db6a305f08e5df::t_35165b4eb3c05a 2,4,6,8-9,11-15,18-21,23-24,26-33,35-44,46-69,73-83,85-86,88-96,98-117,119-120,122-124,126-128,131,133-136,138-139,141-148,150,152-155,157-183,187,194-195,197,200,202-223,226-341,347-362,366-467,470-472,474-528,530-536,541-559,561-654
+  s_db6a305f08e5df::t_609c90a233c6fd 45
+  s_db6a305f08e5df::t_4668c6ec627442 84,87
+  s_db6a305f08e5df::t_ffeb267b1de45b 529
+  s_db6a305f08e5df::t_d3a54fba2033b2 537-540
+  s_db6a305f08e5df::t_20f803c7b59342 469
+  s_db6a305f08e5df::t_44919fcf2673cc 468
+src/css/quasar.variables.scss
+  s_db6a305f08e5df::t_9115fd7b30a815 3-4,6-8,10,18-20
+  s_db6a305f08e5df::t_42761a927c7de3 21
+src/i18n/uk.ts
+  s_db6a305f08e5df::t_dd4791725e793d 74-82,91-99
+  s_db6a305f08e5df::t_337971569fb7ac 100-101
+src/i18n/de.ts
+  s_db6a305f08e5df::t_029a42a8b316bc 76-84,93-101
+  s_db6a305f08e5df::t_1755e6970fc625 102-103
+src/router/routes.ts
+  s_db6a305f08e5df::t_c9a42c29413391 8,32-46,50,55,60
+quasar.config.ts
+  s_db6a305f08e5df::t_bf4b1249bca31b 94-106
+src/i18n/en-US.ts
+  s_db6a305f08e5df::t_6732c43a60caf3 76-84,93-101
+  s_db6a305f08e5df::t_f1bca31a7884f9 102-103
+src/css/app.scss
+  s_db6a305f08e5df::t_1959e3bfbfe7c8 31-36,39-44
+  s_db6a305f08e5df::t_3141d278f85c91 191
+  s_db6a305f08e5df::t_18e05ce2001f18 7-30,37-38
+src/i18n/ru.ts
+  s_db6a305f08e5df::t_4154a234563ca2 76-84,93-101
+  s_db6a305f08e5df::t_160e1eed16430b 102-103
+.cursor/rules/styles-guide.mdc
+  s_db6a305f08e5df::t_bd71008b6b75bc 1-79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "00b2d5234acda4cb4d775aa35127d6ea82e626ae",
+  "prompts": {},
+  "sessions": {
+    "s_db6a305f08e5df": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2b45de05-5d3c-405b-b901-a48c3b30bec5",
+        "model": "grok-4.6"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

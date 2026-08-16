@@ -1,0 +1,79 @@
+public/icons/safari-pinned-tab.svg
+  s_b39216e3f48bdc::t_8970ea5582eae9 1
+src/boot/supabase.ts
+  s_b39216e3f48bdc::t_0c6f22ff836a3e 1-23
+eslint.config.js
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 1-6,36,41-42,60-61,67,69-70,74,77-79,82-83
+src/components/EssentialLink.vue
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 2-3,20
+src/pages/ErrorNotFound.vue
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 4,6
+src/stores/index.ts
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 1-2,26,31-32
+tsconfig.json
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 3
+src-pwa/package.json
+  s_b39216e3f48bdc::t_8970ea5582eae9 1-19
+src-pwa/register-sw.ts
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 1,40
+  s_b39216e3f48bdc::t_8970ea5582eae9 2-39,41
+src-pwa/sw/tsconfig.json
+  s_b39216e3f48bdc::t_8970ea5582eae9 1-3
+src-pwa/manifest.json
+  s_b39216e3f48bdc::t_8970ea5582eae9 1-34
+.prettierrc.json
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 5
+src-pwa/sw/custom-sw.ts
+  s_b39216e3f48bdc::t_8970ea5582eae9 1-6,9-11,14-28,32-33
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 7-8,12-13,29-31
+postcss.config.js
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 3,19-20,29-30
+package.json
+  s_b39216e3f48bdc::t_262372ea0d6638 19-20,27-31,35-37,40,54
+  s_b39216e3f48bdc::t_840f8dbf717cf0 11
+.github/workflows/deploy.yml
+  s_b39216e3f48bdc::t_114043ed211be8 1-48
+src/css/quasar.variables.scss
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 15-17,19-20,22-25
+src/pages/IndexPage.vue
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 10
+quasar.config.ts
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 14,17,42,65-76,83,101,129,175,192,202,223-224,240-242
+  s_b39216e3f48bdc::t_e9b427e073ce3a 52-54
+.vscode/extensions.json
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 15
+.vscode/settings.json
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 6-7,14
+src/router/routes.ts
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 9
+src/router/index.ts
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 23-25,34
+src/layouts/MainLayout.vue
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 5,7,13,15,17,36,42,48,54,60,66,72-73,78
+env.d.ts
+  s_b39216e3f48bdc::t_671393642f9cf8 15-18
+index.html
+  s_b39216e3f48bdc::t_fd29d9cdb7ac12 6-13,15-19
+.nvmrc
+  s_b39216e3f48bdc::t_8068d55f67a0d3 1
+package-lock.json
+  s_b39216e3f48bdc::t_a624851c71cb73 13,1380-1471,3324-3332
+src-pwa/package-lock.json
+  s_b39216e3f48bdc::t_9a05bd8a0f840d 1-5293
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "d83b279201ac9ddb3235a17771ac77bd5126ae7f",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

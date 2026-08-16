@@ -1,6 +1,16 @@
 import type { MessageSchema } from './uk';
 
 export default {
+  common: {
+    currency: '€',
+    search: 'Search',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    delete: 'Delete',
+    edit: 'Edit',
+    save: 'Save',
+  },
+
   validation: {
     requiredEmail: 'Enter your email',
     requiredPassword: 'Enter your password',
@@ -9,6 +19,10 @@ export default {
     minPassword: 'At least 6 characters',
     requiredAmount: 'Enter an amount greater than 0',
     requiredDate: 'Select a date',
+    requiredSiteName: 'Enter a site name',
+    requiredSite: 'Select a site',
+    requiredTime: 'Enter a time',
+    endAfterStart: 'End time must be after the start time',
   },
 
   auth: {
@@ -38,17 +52,22 @@ export default {
 
   layout: {
     menuAria: 'Menu',
+    languageAria: 'Language',
     logoutAria: 'Sign out',
     navHome: 'Home',
     navSettings: 'Settings',
     navMonthlyReport: 'Monthly report',
     navGeneralReport: 'General report',
     navEmployeeRates: 'Employee rates',
+    navSites: 'Sites',
   },
 
   home: {
     welcomeNamed: 'Welcome, {name}!',
     welcomeGeneric: 'Welcome!',
+    totalHoursLabel: 'Hours this month',
+    daysApprox: '≈ {days} days (8h/day)',
+    expectedSalaryLabel: 'Expected salary this month',
   },
 
   settings: {
@@ -65,8 +84,27 @@ export default {
     monthly: {
       title: 'Monthly report',
       monthLabel: 'Month',
-      placeholder:
-        'Hours and salary calculations for the selected month will appear once Stage 9 (salary and social contribution calculations) is implemented.',
+      siteLabel: 'Site',
+      dateLabel: 'Date',
+      startTimeLabel: 'Start',
+      endTimeLabel: 'End',
+      submit: 'Add entry',
+      columnDate: 'Date',
+      columnWeekday: 'Weekday',
+      columnSite: 'Site',
+      columnTime: 'Time',
+      columnHours: 'Hours',
+      columnEarned: 'Earned',
+      columnActions: 'Actions',
+      totalHours: 'Total hours',
+      totalEarned: 'Total earned',
+      noReports: 'No entries for this month',
+      deleteConfirmTitle: 'Delete this entry?',
+      deleteConfirmMessage: 'This cannot be undone.',
+      successAdded: 'Entry added',
+      successUpdated: 'Entry updated',
+      successDeleted: 'Entry deleted',
+      errorFallback: 'Could not save the entry',
     },
     general: {
       title: 'General report',
@@ -79,15 +117,25 @@ export default {
     rates: {
       title: 'Employee rates',
       employeeLabel: 'Employee',
-      rateLabel: 'Rate, UAH/hour',
+      rateLabel: 'Rate, €/hour',
       effectiveFromLabel: 'Effective from',
       submit: 'Save rate',
       historyTitle: 'Rate history',
-      perHourSuffix: 'UAH/hour',
+      noRates: 'No rates',
+      perHourSuffix: '€/hour',
       columnEffectiveFrom: 'Effective from',
       columnRate: 'Rate',
       successMessage: 'Rate saved',
       errorFallback: 'Could not save the rate',
+    },
+    sites: {
+      title: 'Sites',
+      nameLabel: 'Site name',
+      add: 'Add',
+      columnName: 'Name',
+      columnActive: 'Active',
+      noSites: 'No sites',
+      errorFallback: 'Could not add the site',
     },
   },
 
@@ -112,4 +160,6 @@ export default {
     'November',
     'December',
   ],
+
+  weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 } satisfies MessageSchema;

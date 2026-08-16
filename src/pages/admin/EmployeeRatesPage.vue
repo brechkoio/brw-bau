@@ -1,60 +1,74 @@
 <template>
-  <q-page class="q-pa-md">
-    <div class="text-h6 q-mb-md">{{ t('admin.rates.title') }}</div>
+  <q-page>
+    <TableFiltersBar>
+      <q-select
+        v-model="selectedEmployeeId"
+        :options="employeeOptions"
+        :label="t('admin.rates.employeeLabel')"
+        color="accent"
+        bg-color="white"
+        emit-value
+        map-options
+        dense
+        outlined
+        style="min-width: 280px"
+        @update:model-value="loadRates"
+      />
+    </TableFiltersBar>
 
-    <q-select
-      v-model="selectedEmployeeId"
-      :options="employeeOptions"
-      :label="t('admin.rates.employeeLabel')"
-      emit-value
-      map-options
-      style="max-width: 350px"
-      class="q-mb-md"
-      @update:model-value="loadRates"
-    />
+    <div class="q-pa-md">
+      <div class="text-h6 q-mb-md">{{ t('admin.rates.title') }}</div>
 
-    <template v-if="selectedEmployeeId">
-      <q-form class="row items-start q-col-gutter-md q-mb-lg" @submit.prevent="onSave">
-        <q-input
-          v-model.number="hourlyRate"
-          type="number"
-          step="0.01"
-          min="0.01"
-          :label="t('admin.rates.rateLabel')"
-          style="max-width: 200px"
-          :rules="[(val) => (val && val > 0) || t('validation.requiredAmount')]"
-          lazy-rules
-        />
+      <template v-if="selectedEmployeeId">
+        <q-form class="row items-start q-col-gutter-md q-mb-lg" @submit.prevent="onSave">
+          <q-input
+            v-model.number="hourlyRate"
+            type="number"
+            step="0.01"
+            min="0.01"
+            :label="t('admin.rates.rateLabel')"
+            style="max-width: 200px"
+            :rules="[(val) => (val && val > 0) || t('validation.requiredAmount')]"
+            lazy-rules
+          />
 
-        <q-input
-          v-model="effectiveFrom"
-          type="date"
-          :label="t('admin.rates.effectiveFromLabel')"
-          style="max-width: 200px"
-          :rules="[(val) => !!val || t('validation.requiredDate')]"
-          lazy-rules
-        />
+          <q-input
+            v-model="effectiveFrom"
+            type="date"
+            :label="t('admin.rates.effectiveFromLabel')"
+            style="max-width: 200px"
+            :rules="[(val) => !!val || t('validation.requiredDate')]"
+            lazy-rules
+          />
 
-        <q-btn
-          type="submit"
-          color="primary"
-          text-color="black"
-          :label="t('admin.rates.submit')"
-          :loading="saving"
-          unelevated
-          no-caps
-          rounded
-          class="text-weight-bold q-mt-sm"
-        />
-      </q-form>
+          <q-btn
+            type="submit"
+            color="accent"
+            text-color="black"
+            :label="t('admin.rates.submit')"
+            :loading="saving"
+            unelevated
+            no-caps
+            class="text-weight-bold q-mt-sm"
+          />
+        </q-form>
+      </template>
 
       <div class="text-subtitle2 q-mb-sm">{{ t('admin.rates.historyTitle') }}</div>
-      <q-table :rows="rates" :columns="columns" row-key="id" flat bordered :loading="loading">
+      <q-table
+        :rows="rates"
+        :columns="columns"
+        row-key="id"
+        flat
+        bordered
+        :loading="loading"
+        :no-data-label="t('admin.rates.noRates')"
+      >
         <template #body-cell-hourly_rate="props">
           <q-td :props="props"> {{ props.value }} {{ t('admin.rates.perHourSuffix') }} </q-td>
         </template>
       </q-table>
-    </template>
+    </div>
   </q-page>
 </template>
 
@@ -63,6 +77,7 @@ import { ref, computed } from 'vue';
 import { useQuasar, type QTableColumn } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
+import TableFiltersBar from '@/components/TableFiltersBar.vue';
 
 interface EmployeeOption {
   label: string;

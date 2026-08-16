@@ -1,6 +1,16 @@
 import type { MessageSchema } from './uk';
 
 export default {
+  common: {
+    currency: '€',
+    search: 'Suche',
+    cancel: 'Abbrechen',
+    confirm: 'Bestätigen',
+    delete: 'Löschen',
+    edit: 'Bearbeiten',
+    save: 'Speichern',
+  },
+
   validation: {
     requiredEmail: 'E-Mail eingeben',
     requiredPassword: 'Passwort eingeben',
@@ -9,6 +19,10 @@ export default {
     minPassword: 'Mindestens 6 Zeichen',
     requiredAmount: 'Betrag größer als 0 eingeben',
     requiredDate: 'Datum wählen',
+    requiredSiteName: 'Objektname eingeben',
+    requiredSite: 'Objekt wählen',
+    requiredTime: 'Uhrzeit eingeben',
+    endAfterStart: 'Die Endzeit muss nach der Startzeit liegen',
   },
 
   auth: {
@@ -38,17 +52,22 @@ export default {
 
   layout: {
     menuAria: 'Menü',
+    languageAria: 'Sprache',
     logoutAria: 'Abmelden',
     navHome: 'Start',
     navSettings: 'Einstellungen',
     navMonthlyReport: 'Monatsbericht',
     navGeneralReport: 'Gesamtbericht',
     navEmployeeRates: 'Mitarbeiterlöhne',
+    navSites: 'Objekte',
   },
 
   home: {
     welcomeNamed: 'Willkommen, {name}!',
     welcomeGeneric: 'Willkommen!',
+    totalHoursLabel: 'Stunden diesen Monat',
+    daysApprox: '≈ {days} Tage (8-Std.-Tag)',
+    expectedSalaryLabel: 'Erwartetes Gehalt diesen Monat',
   },
 
   settings: {
@@ -65,8 +84,27 @@ export default {
     monthly: {
       title: 'Monatsbericht',
       monthLabel: 'Monat',
-      placeholder:
-        'Die Berechnung von Stunden und Gehalt für den gewählten Monat erscheint nach Umsetzung von Stufe 9 (Gehalts- und Sozialabgabenberechnung).',
+      siteLabel: 'Objekt',
+      dateLabel: 'Datum',
+      startTimeLabel: 'Beginn',
+      endTimeLabel: 'Ende',
+      submit: 'Eintrag hinzufügen',
+      columnDate: 'Datum',
+      columnWeekday: 'Wochentag',
+      columnSite: 'Objekt',
+      columnTime: 'Uhrzeit',
+      columnHours: 'Stunden',
+      columnEarned: 'Verdienst',
+      columnActions: 'Aktionen',
+      totalHours: 'Stunden gesamt',
+      totalEarned: 'Verdienst gesamt',
+      noReports: 'Keine Einträge für diesen Monat',
+      deleteConfirmTitle: 'Eintrag löschen?',
+      deleteConfirmMessage: 'Dies kann nicht rückgängig gemacht werden.',
+      successAdded: 'Eintrag hinzugefügt',
+      successUpdated: 'Eintrag aktualisiert',
+      successDeleted: 'Eintrag gelöscht',
+      errorFallback: 'Eintrag konnte nicht gespeichert werden',
     },
     general: {
       title: 'Gesamtbericht',
@@ -79,15 +117,25 @@ export default {
     rates: {
       title: 'Mitarbeiterlöhne',
       employeeLabel: 'Mitarbeiter',
-      rateLabel: 'Stundenlohn, UAH/Std.',
+      rateLabel: 'Stundenlohn, €/Std.',
       effectiveFromLabel: 'Gültig ab',
       submit: 'Lohn speichern',
       historyTitle: 'Lohnverlauf',
-      perHourSuffix: 'UAH/Std.',
+      noRates: 'Keine Löhne',
+      perHourSuffix: '€/Std.',
       columnEffectiveFrom: 'Gültig ab',
       columnRate: 'Lohn',
       successMessage: 'Lohn gespeichert',
       errorFallback: 'Lohn konnte nicht gespeichert werden',
+    },
+    sites: {
+      title: 'Objekte',
+      nameLabel: 'Objektname',
+      add: 'Hinzufügen',
+      columnName: 'Name',
+      columnActive: 'Aktiv',
+      noSites: 'Keine Objekte',
+      errorFallback: 'Objekt konnte nicht hinzugefügt werden',
     },
   },
 
@@ -112,4 +160,6 @@ export default {
     'November',
     'Dezember',
   ],
+
+  weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
 } satisfies MessageSchema;

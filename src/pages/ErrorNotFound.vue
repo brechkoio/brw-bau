@@ -7,10 +7,9 @@
 
       <q-btn
         class="q-mt-xl text-weight-bold"
-        color="primary"
+        color="accent"
         text-color="black"
         unelevated
-        rounded
         to="/"
         :label="t('errors.notFound.backHome')"
         no-caps

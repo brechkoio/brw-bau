@@ -43,13 +43,12 @@
 
     <q-btn
       type="submit"
-      color="primary"
+      color="accent"
       text-color="black"
       :label="t('auth.register.submit')"
       :loading="loading"
       unelevated
       no-caps
-      rounded
       class="text-weight-bold"
     />
 
@@ -60,13 +59,13 @@
   </q-form>
 
   <div v-else class="column q-gutter-md text-center">
-    <q-icon name="mark_email_read" size="48px" color="primary" class="q-mx-auto" />
+    <q-icon name="mark_email_read" size="48px" color="accent" class="q-mx-auto" />
     <i18n-t keypath="auth.register.confirmationSent" tag="div">
       <template #email>
         <strong>{{ email }}</strong>
       </template>
     </i18n-t>
-    <q-btn flat color="primary" :label="t('auth.register.backToLogin')" to="/login" />
+    <q-btn flat color="accent" :label="t('auth.register.backToLogin')" to="/login" />
   </div>
 </template>
 

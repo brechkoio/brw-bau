@@ -1,14 +1,16 @@
 // app global css
 
+@import '@fontsource-variable/rubik';
+
 body {
-  color: #1f2933;
+  color: $dark;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  color: #000;
+  color: $dark;
   font-weight: 800;
 }
 
@@ -17,18 +19,18 @@ h4 {
 }
 
 .brw-dark {
-  background: #1f2933;
-  color: #fff;
+  background: $dark;
+  color: white;
 }
 
 .brw-card {
   border-radius: 14px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid $separator-color;
   box-shadow: none;
 }
 
 .brw-card:hover {
-  border-color: #ffcf00;
+  border-color: $accent;
 }
 
 @media (max-width: 599px) {

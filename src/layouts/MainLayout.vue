@@ -11,20 +11,16 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-avatar size="32px" class="q-mr-sm">
-          <img :src="logo" alt="BRW-BAU" />
-        </q-avatar>
-        <q-toolbar-title>BRW-BAU</q-toolbar-title>
+        <q-toolbar-title>
+          <span class="text-weight-bold text-accent">BRW</span>
+          <span class="text-weight-regular"> Bau</span>
+        </q-toolbar-title>
 
-        <LocaleSwitcher class="q-mr-md" />
+        <LocaleSwitcher />
 
-        <div v-if="auth.profile" class="row items-center q-gutter-sm q-mr-md">
-          <span>{{ auth.profile.first_name }} {{ auth.profile.last_name }}</span>
-          <q-avatar size="32px">
-            <img v-if="auth.profile.avatar_url" :src="auth.profile.avatar_url" />
-            <q-icon v-else name="person" />
-          </q-avatar>
-        </div>
+        <span v-if="auth.profile" class="q-mx-md">
+          {{ auth.profile.last_name }} {{ auth.profile.first_name }}
+        </span>
 
         <q-btn
           flat
@@ -38,42 +34,74 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item to="/" exact clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="home" />
-          </q-item-section>
-          <q-item-section>{{ t('layout.navHome') }}</q-item-section>
-        </q-item>
+      <div class="column fit">
+        <q-scroll-area class="col">
+          <q-list>
+            <q-item to="/" exact clickable v-ripple active-class="text-accent">
+              <q-item-section avatar>
+                <q-icon name="home" />
+              </q-item-section>
+              <q-item-section>{{ t('layout.navHome') }}</q-item-section>
+            </q-item>
 
-        <q-item to="/settings" clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="settings" />
-          </q-item-section>
-          <q-item-section>{{ t('layout.navSettings') }}</q-item-section>
-        </q-item>
+            <q-item to="/reports/monthly" clickable v-ripple active-class="text-accent">
+              <q-item-section avatar>
+                <q-icon name="calendar_month" />
+              </q-item-section>
+              <q-item-section>{{ t('layout.navMonthlyReport') }}</q-item-section>
+            </q-item>
 
-        <q-item to="/reports/monthly" clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="calendar_month" />
-          </q-item-section>
-          <q-item-section>{{ t('layout.navMonthlyReport') }}</q-item-section>
-        </q-item>
+            <q-item
+              v-if="auth.isAdmin"
+              to="/reports/general"
+              clickable
+              v-ripple
+              active-class="text-accent"
+            >
+              <q-item-section avatar>
+                <q-icon name="summarize" />
+              </q-item-section>
+              <q-item-section>{{ t('layout.navGeneralReport') }}</q-item-section>
+            </q-item>
 
-        <q-item v-if="auth.isAdmin" to="/reports/general" clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="summarize" />
-          </q-item-section>
-          <q-item-section>{{ t('layout.navGeneralReport') }}</q-item-section>
-        </q-item>
+            <q-item
+              v-if="auth.isAdmin"
+              to="/admin/rates"
+              clickable
+              v-ripple
+              active-class="text-accent"
+            >
+              <q-item-section avatar>
+                <q-icon name="payments" />
+              </q-item-section>
+              <q-item-section>{{ t('layout.navEmployeeRates') }}</q-item-section>
+            </q-item>
 
-        <q-item v-if="auth.isAdmin" to="/admin/rates" clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="payments" />
-          </q-item-section>
-          <q-item-section>{{ t('layout.navEmployeeRates') }}</q-item-section>
-        </q-item>
-      </q-list>
+            <q-item
+              v-if="auth.isAdmin"
+              to="/admin/sites"
+              clickable
+              v-ripple
+              active-class="text-accent"
+            >
+              <q-item-section avatar>
+                <q-icon name="location_city" />
+              </q-item-section>
+              <q-item-section>{{ t('layout.navSites') }}</q-item-section>
+            </q-item>
+          </q-list>
+        </q-scroll-area>
+
+        <q-separator />
+        <q-list>
+          <q-item to="/settings" clickable v-ripple active-class="text-accent">
+            <q-item-section avatar>
+              <q-icon name="settings" />
+            </q-item-section>
+            <q-item-section>{{ t('layout.navSettings') }}</q-item-section>
+          </q-item>
+        </q-list>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -87,7 +115,6 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
-import logo from '@/assets/logo.png';
 import LocaleSwitcher from '@/components/LocaleSwitcher.vue';
 
 const router = useRouter();
@@ -100,3 +127,9 @@ async function onLogout() {
   await router.push('/login');
 }
 </script>
+
+<style lang="scss" scoped>
+.q-drawer :deep(.q-item:hover) {
+  color: $accent;
+}
+</style>

@@ -13,7 +13,7 @@
           flat
           dense
           :label="t('settings.changeAvatar')"
-          color="primary"
+          color="accent"
           @click="fileInput?.pickFiles()"
         />
         <q-file
@@ -43,13 +43,12 @@
 
           <q-btn
             type="submit"
-            color="primary"
+            color="accent"
             text-color="black"
             :label="t('settings.submit')"
             :loading="saving"
             unelevated
             no-caps
-            rounded
             class="text-weight-bold"
           />
         </q-form>

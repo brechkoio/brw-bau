@@ -28,13 +28,12 @@
 
     <q-btn
       type="submit"
-      color="primary"
+      color="accent"
       text-color="black"
       :label="t('auth.login.submit')"
       :loading="loading"
       unelevated
       no-caps
-      rounded
       class="text-weight-bold"
     />
 

@@ -41,6 +41,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/admin/EmployeeRatesPage.vue'),
         meta: { requiresAdmin: true },
       },
+      {
+        path: 'admin/sites',
+        component: () => import('@/pages/admin/SitesPage.vue'),
+        meta: { requiresAdmin: true },
+      },
     ],
   },
 

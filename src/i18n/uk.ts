@@ -1,4 +1,14 @@
 const uk = {
+  common: {
+    currency: '€',
+    search: 'Пошук',
+    cancel: 'Скасувати',
+    confirm: 'Підтвердити',
+    delete: 'Видалити',
+    edit: 'Редагувати',
+    save: 'Зберегти',
+  },
+
   validation: {
     requiredEmail: 'Введіть email',
     requiredPassword: 'Введіть пароль',
@@ -7,6 +17,10 @@ const uk = {
     minPassword: 'Мінімум 6 символів',
     requiredAmount: 'Введіть суму більше 0',
     requiredDate: 'Оберіть дату',
+    requiredSiteName: "Введіть назву об'єкта",
+    requiredSite: "Оберіть об'єкт",
+    requiredTime: 'Вкажіть час',
+    endAfterStart: 'Час завершення має бути пізніше початку',
   },
 
   auth: {
@@ -36,17 +50,22 @@ const uk = {
 
   layout: {
     menuAria: 'Меню',
+    languageAria: 'Мова',
     logoutAria: 'Вийти',
     navHome: 'Головна',
     navSettings: 'Налаштування',
     navMonthlyReport: 'Звіт за місяць',
     navGeneralReport: 'Загальний звіт',
     navEmployeeRates: 'Ставки співробітників',
+    navSites: "Об'єкти",
   },
 
   home: {
     welcomeNamed: 'Ласкаво просимо, {name}!',
     welcomeGeneric: 'Ласкаво просимо!',
+    totalHoursLabel: 'Годин за поточний місяць',
+    daysApprox: '≈ {days} дн. (при 8-год дні)',
+    expectedSalaryLabel: 'Очікувана зарплата за місяць',
   },
 
   settings: {
@@ -63,8 +82,27 @@ const uk = {
     monthly: {
       title: 'Звіт за місяць',
       monthLabel: 'Місяць',
-      placeholder:
-        "Розрахунок годин і зарплати за обраний місяць з'явиться після впровадження Етапу 9 (розрахунки зарплати та страхових внесків).",
+      siteLabel: "Об'єкт",
+      dateLabel: 'Дата',
+      startTimeLabel: 'Початок',
+      endTimeLabel: 'Кінець',
+      submit: 'Додати запис',
+      columnDate: 'Дата',
+      columnWeekday: 'День тижня',
+      columnSite: "Об'єкт",
+      columnTime: 'Час',
+      columnHours: 'Години',
+      columnEarned: 'Сума',
+      columnActions: 'Дії',
+      totalHours: 'Разом годин',
+      totalEarned: 'Разом зароблено',
+      noReports: 'Немає записів за цей місяць',
+      deleteConfirmTitle: 'Видалити запис?',
+      deleteConfirmMessage: 'Цю дію не можна скасувати.',
+      successAdded: 'Запис додано',
+      successUpdated: 'Запис оновлено',
+      successDeleted: 'Запис видалено',
+      errorFallback: 'Не вдалося зберегти запис',
     },
     general: {
       title: 'Загальний звіт',
@@ -77,15 +115,25 @@ const uk = {
     rates: {
       title: 'Ставки співробітників',
       employeeLabel: 'Співробітник',
-      rateLabel: 'Ставка, грн/год',
+      rateLabel: 'Ставка, €/год',
       effectiveFromLabel: 'Діє з',
       submit: 'Зберегти ставку',
       historyTitle: 'Історія ставок',
-      perHourSuffix: 'грн/год',
+      noRates: 'Немає ставок',
+      perHourSuffix: '€/год',
       columnEffectiveFrom: 'Діє з',
       columnRate: 'Ставка',
       successMessage: 'Ставку збережено',
       errorFallback: 'Не вдалося зберегти ставку',
+    },
+    sites: {
+      title: "Об'єкти",
+      nameLabel: "Назва об'єкта",
+      add: 'Додати',
+      columnName: 'Назва',
+      columnActive: 'Активний',
+      noSites: "Немає об'єктів",
+      errorFallback: "Не вдалося додати об'єкт",
     },
   },
 
@@ -110,6 +158,8 @@ const uk = {
     'Листопад',
     'Грудень',
   ],
+
+  weekdaysShort: ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
 };
 
 export type MessageSchema = typeof uk;

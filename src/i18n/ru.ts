@@ -1,6 +1,16 @@
 import type { MessageSchema } from './uk';
 
 export default {
+  common: {
+    currency: '€',
+    search: 'Поиск',
+    cancel: 'Отмена',
+    confirm: 'Подтвердить',
+    delete: 'Удалить',
+    edit: 'Редактировать',
+    save: 'Сохранить',
+  },
+
   validation: {
     requiredEmail: 'Введите email',
     requiredPassword: 'Введите пароль',
@@ -9,6 +19,10 @@ export default {
     minPassword: 'Минимум 6 символов',
     requiredAmount: 'Введите сумму больше 0',
     requiredDate: 'Выберите дату',
+    requiredSiteName: 'Введите название объекта',
+    requiredSite: 'Выберите объект',
+    requiredTime: 'Укажите время',
+    endAfterStart: 'Время окончания должно быть позже начала',
   },
 
   auth: {
@@ -38,17 +52,22 @@ export default {
 
   layout: {
     menuAria: 'Меню',
+    languageAria: 'Язык',
     logoutAria: 'Выйти',
     navHome: 'Главная',
     navSettings: 'Настройки',
     navMonthlyReport: 'Отчёт за месяц',
     navGeneralReport: 'Общий отчёт',
     navEmployeeRates: 'Ставки сотрудников',
+    navSites: 'Объекты',
   },
 
   home: {
     welcomeNamed: 'Добро пожаловать, {name}!',
     welcomeGeneric: 'Добро пожаловать!',
+    totalHoursLabel: 'Часов за текущий месяц',
+    daysApprox: '≈ {days} дн. (при 8-час дне)',
+    expectedSalaryLabel: 'Ожидаемая зарплата за месяц',
   },
 
   settings: {
@@ -65,8 +84,27 @@ export default {
     monthly: {
       title: 'Отчёт за месяц',
       monthLabel: 'Месяц',
-      placeholder:
-        'Расчёт часов и зарплаты за выбранный месяц появится после внедрения Этапа 9 (расчёты зарплаты и страховых взносов).',
+      siteLabel: 'Объект',
+      dateLabel: 'Дата',
+      startTimeLabel: 'Начало',
+      endTimeLabel: 'Конец',
+      submit: 'Добавить запись',
+      columnDate: 'Дата',
+      columnWeekday: 'День недели',
+      columnSite: 'Объект',
+      columnTime: 'Время',
+      columnHours: 'Часы',
+      columnEarned: 'Сумма',
+      columnActions: 'Действия',
+      totalHours: 'Всего часов',
+      totalEarned: 'Всего заработано',
+      noReports: 'Нет записей за этот месяц',
+      deleteConfirmTitle: 'Удалить запись?',
+      deleteConfirmMessage: 'Это действие нельзя отменить.',
+      successAdded: 'Запись добавлена',
+      successUpdated: 'Запись обновлена',
+      successDeleted: 'Запись удалена',
+      errorFallback: 'Не удалось сохранить запись',
     },
     general: {
       title: 'Общий отчёт',
@@ -79,15 +117,25 @@ export default {
     rates: {
       title: 'Ставки сотрудников',
       employeeLabel: 'Сотрудник',
-      rateLabel: 'Ставка, грн/час',
+      rateLabel: 'Ставка, €/час',
       effectiveFromLabel: 'Действует с',
       submit: 'Сохранить ставку',
       historyTitle: 'История ставок',
-      perHourSuffix: 'грн/час',
+      noRates: 'Нет ставок',
+      perHourSuffix: '€/час',
       columnEffectiveFrom: 'Действует с',
       columnRate: 'Ставка',
       successMessage: 'Ставка сохранена',
       errorFallback: 'Не удалось сохранить ставку',
+    },
+    sites: {
+      title: 'Объекты',
+      nameLabel: 'Название объекта',
+      add: 'Добавить',
+      columnName: 'Название',
+      columnActive: 'Активен',
+      noSites: 'Нет объектов',
+      errorFallback: 'Не удалось добавить объект',
     },
   },
 
@@ -112,4 +160,6 @@ export default {
     'Ноябрь',
     'Декабрь',
   ],
+
+  weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
 } satisfies MessageSchema;

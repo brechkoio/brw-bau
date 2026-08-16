@@ -1,0 +1,27 @@
+package.json
+  s_b39216e3f48bdc::t_64317dce188adf 53-56
+.github/workflows/deploy.yml
+  s_b39216e3f48bdc::t_a02b15ae9df32e 23,25,27,30
+README.md
+  s_b39216e3f48bdc::t_d50655921a536c 6,12,18,24,30
+bun.lock
+  s_b39216e3f48bdc::t_4a0a333839bbd7 2-4,13,30,33-874
+src-pwa/bun.lock
+  s_b39216e3f48bdc::t_b666a3e506e4e0 2-4,8,17,20-718
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "d3f1cbc944551d8d0135d46b5a4f82c01877f5d5",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

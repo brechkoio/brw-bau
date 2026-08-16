@@ -52,6 +52,12 @@ export default defineConfig((/* ctx */) => {
       // GitHub Pages project site (https://github.com/brechkoio/salary-calc)
       // is served from /salary-calc/, so all built asset URLs must be prefixed accordingly.
       publicPath: '/salary-calc/',
+
+      // Use the standard Vite `VITE_` prefix (instead of Quasar's default `QCLI_`)
+      // so env var names match what Supabase's own docs/dashboard give you.
+      env: {
+        clientPrefix: 'VITE_',
+      },
       // define: {},
       // defineEnv: {}
       // ignorePublicFolder: true,

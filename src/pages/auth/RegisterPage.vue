@@ -2,34 +2,34 @@
   <q-form v-if="!submitted" class="column q-gutter-md" @submit.prevent="onSubmit">
     <q-input
       v-model="firstName"
-      label="Ім'я"
-      :rules="[(val) => !!val || 'Введіть ім\'я']"
+      :label="t('auth.register.firstNameLabel')"
+      :rules="[(val) => !!val || t('validation.requiredFirstName')]"
       lazy-rules
     />
 
     <q-input
       v-model="lastName"
-      label="Прізвище"
-      :rules="[(val) => !!val || 'Введіть прізвище']"
+      :label="t('auth.register.lastNameLabel')"
+      :rules="[(val) => !!val || t('validation.requiredLastName')]"
       lazy-rules
     />
 
     <q-input
       v-model="email"
       type="email"
-      label="Email"
+      :label="t('auth.register.emailLabel')"
       autocomplete="email"
-      :rules="[(val) => !!val || 'Введіть email']"
+      :rules="[(val) => !!val || t('validation.requiredEmail')]"
       lazy-rules
     />
 
     <q-input
       v-model="password"
       :type="showPassword ? 'text' : 'password'"
-      label="Пароль"
+      :label="t('auth.register.passwordLabel')"
       autocomplete="new-password"
-      hint="Щонайменше 6 символів"
-      :rules="[(val) => (val && val.length >= 6) || 'Мінімум 6 символів']"
+      :hint="t('auth.register.passwordHint')"
+      :rules="[(val) => (val && val.length >= 6) || t('validation.minPassword')]"
       lazy-rules
     >
       <template #append>
@@ -45,7 +45,7 @@
       type="submit"
       color="primary"
       text-color="black"
-      label="Зареєструватися"
+      :label="t('auth.register.submit')"
       :loading="loading"
       unelevated
       no-caps
@@ -54,28 +54,31 @@
     />
 
     <div class="text-center text-caption">
-      Вже є акаунт?
-      <router-link to="/login">Увійти</router-link>
+      {{ t('auth.register.haveAccount') }}
+      <router-link to="/login">{{ t('auth.register.loginLink') }}</router-link>
     </div>
   </q-form>
 
   <div v-else class="column q-gutter-md text-center">
     <q-icon name="mark_email_read" size="48px" color="primary" class="q-mx-auto" />
-    <div>
-      Лист із підтвердженням надіслано на <strong>{{ email }}</strong
-      >. Перейдіть за посиланням у листі, щоб активувати акаунт.
-    </div>
-    <q-btn flat color="primary" label="До входу" to="/login" />
+    <i18n-t keypath="auth.register.confirmationSent" tag="div">
+      <template #email>
+        <strong>{{ email }}</strong>
+      </template>
+    </i18n-t>
+    <q-btn flat color="primary" :label="t('auth.register.backToLogin')" to="/login" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
 
 const $q = useQuasar();
 const auth = useAuthStore();
+const { t } = useI18n();
 
 const firstName = ref('');
 const lastName = ref('');
@@ -98,7 +101,7 @@ async function onSubmit() {
   } catch (err) {
     $q.notify({
       type: 'negative',
-      message: err instanceof Error ? err.message : 'Не вдалося зареєструватися',
+      message: err instanceof Error ? err.message : t('auth.register.errorFallback'),
     });
   } finally {
     loading.value = false;

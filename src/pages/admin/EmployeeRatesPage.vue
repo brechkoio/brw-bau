@@ -1,11 +1,11 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="text-h6 q-mb-md">Ставки співробітників</div>
+    <div class="text-h6 q-mb-md">{{ t('admin.rates.title') }}</div>
 
     <q-select
       v-model="selectedEmployeeId"
       :options="employeeOptions"
-      label="Співробітник"
+      :label="t('admin.rates.employeeLabel')"
       emit-value
       map-options
       style="max-width: 350px"
@@ -20,18 +20,18 @@
           type="number"
           step="0.01"
           min="0.01"
-          label="Ставка, грн/год"
+          :label="t('admin.rates.rateLabel')"
           style="max-width: 200px"
-          :rules="[(val) => (val && val > 0) || 'Введіть суму більше 0']"
+          :rules="[(val) => (val && val > 0) || t('validation.requiredAmount')]"
           lazy-rules
         />
 
         <q-input
           v-model="effectiveFrom"
           type="date"
-          label="Діє з"
+          :label="t('admin.rates.effectiveFromLabel')"
           style="max-width: 200px"
-          :rules="[(val) => !!val || 'Оберіть дату']"
+          :rules="[(val) => !!val || t('validation.requiredDate')]"
           lazy-rules
         />
 
@@ -39,7 +39,7 @@
           type="submit"
           color="primary"
           text-color="black"
-          label="Зберегти ставку"
+          :label="t('admin.rates.submit')"
           :loading="saving"
           unelevated
           no-caps
@@ -48,10 +48,10 @@
         />
       </q-form>
 
-      <div class="text-subtitle2 q-mb-sm">Історія ставок</div>
+      <div class="text-subtitle2 q-mb-sm">{{ t('admin.rates.historyTitle') }}</div>
       <q-table :rows="rates" :columns="columns" row-key="id" flat bordered :loading="loading">
         <template #body-cell-hourly_rate="props">
-          <q-td :props="props"> {{ props.value }} грн/год </q-td>
+          <q-td :props="props"> {{ props.value }} {{ t('admin.rates.perHourSuffix') }} </q-td>
         </template>
       </q-table>
     </template>
@@ -61,6 +61,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useQuasar, type QTableColumn } from 'quasar';
+import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 
 interface EmployeeOption {
@@ -76,6 +77,7 @@ interface RateRow {
 }
 
 const $q = useQuasar();
+const { t } = useI18n();
 
 const employeeOptions = ref<EmployeeOption[]>([]);
 const selectedEmployeeId = ref<string | null>(null);
@@ -88,12 +90,12 @@ const saving = ref(false);
 const columns = computed<QTableColumn[]>(() => [
   {
     name: 'effective_from',
-    label: 'Діє з',
+    label: t('admin.rates.columnEffectiveFrom'),
     field: 'effective_from',
     align: 'left',
     sortable: true,
   },
-  { name: 'hourly_rate', label: 'Ставка', field: 'hourly_rate', align: 'left' },
+  { name: 'hourly_rate', label: t('admin.rates.columnRate'), field: 'hourly_rate', align: 'left' },
 ]);
 
 async function loadEmployees() {
@@ -137,13 +139,13 @@ async function onSave() {
       effective_from: effectiveFrom.value,
     });
     if (error) throw error;
-    $q.notify({ type: 'positive', message: 'Ставку збережено' });
+    $q.notify({ type: 'positive', message: t('admin.rates.successMessage') });
     hourlyRate.value = null;
     await loadRates();
   } catch (err) {
     $q.notify({
       type: 'negative',
-      message: err instanceof Error ? err.message : 'Не вдалося зберегти ставку',
+      message: err instanceof Error ? err.message : t('admin.rates.errorFallback'),
     });
   } finally {
     saving.value = false;

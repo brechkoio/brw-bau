@@ -3,18 +3,18 @@
     <q-input
       v-model="email"
       type="email"
-      label="Email"
+      :label="t('auth.login.emailLabel')"
       autocomplete="email"
-      :rules="[(val) => !!val || 'Введіть email']"
+      :rules="[(val) => !!val || t('validation.requiredEmail')]"
       lazy-rules
     />
 
     <q-input
       v-model="password"
       :type="showPassword ? 'text' : 'password'"
-      label="Пароль"
+      :label="t('auth.login.passwordLabel')"
       autocomplete="current-password"
-      :rules="[(val) => !!val || 'Введіть пароль']"
+      :rules="[(val) => !!val || t('validation.requiredPassword')]"
       lazy-rules
     >
       <template #append>
@@ -30,7 +30,7 @@
       type="submit"
       color="primary"
       text-color="black"
-      label="Увійти"
+      :label="t('auth.login.submit')"
       :loading="loading"
       unelevated
       no-caps
@@ -39,8 +39,8 @@
     />
 
     <div class="text-center text-caption">
-      Немає акаунту?
-      <router-link to="/register">Зареєструватися</router-link>
+      {{ t('auth.login.noAccount') }}
+      <router-link to="/register">{{ t('auth.login.registerLink') }}</router-link>
     </div>
   </q-form>
 </template>
@@ -49,11 +49,13 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
 
 const router = useRouter();
 const $q = useQuasar();
 const auth = useAuthStore();
+const { t } = useI18n();
 
 const email = ref('');
 const password = ref('');
@@ -68,7 +70,7 @@ async function onSubmit() {
   } catch (err) {
     $q.notify({
       type: 'negative',
-      message: err instanceof Error ? err.message : 'Не вдалося увійти',
+      message: err instanceof Error ? err.message : t('auth.login.errorFallback'),
     });
   } finally {
     loading.value = false;

@@ -3,7 +3,11 @@
     <q-page-container>
       <q-page class="row items-center justify-center q-pa-md brw-dark">
         <q-card class="auth-card" flat bordered>
-          <q-card-section class="text-center">
+          <q-card-section class="row justify-end q-pb-none">
+            <LocaleSwitcher />
+          </q-card-section>
+
+          <q-card-section class="text-center q-pt-none">
             <img :src="logo" alt="BRW-BAU" class="auth-logo" />
           </q-card-section>
 
@@ -18,6 +22,7 @@
 
 <script setup lang="ts">
 import logo from '@/assets/logo.png';
+import LocaleSwitcher from '@/components/LocaleSwitcher.vue';
 </script>
 
 <style scoped>

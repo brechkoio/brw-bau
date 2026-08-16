@@ -1,45 +1,36 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="text-h6 q-mb-md">Звіт за місяць</div>
+    <div class="text-h6 q-mb-md">{{ t('reports.monthly.title') }}</div>
 
     <q-select
       v-model="month"
       :options="monthOptions"
-      label="Місяць"
+      :label="t('reports.monthly.monthLabel')"
       style="max-width: 250px"
       class="q-mb-md"
     />
 
     <q-banner class="bg-grey-2">
-      Розрахунок годин і зарплати за обраний місяць з'явиться після впровадження Етапу 9 (розрахунки
-      зарплати та страхових внесків).
+      {{ t('reports.monthly.placeholder') }}
     </q-banner>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-const monthNames = [
-  'Січень',
-  'Лютий',
-  'Березень',
-  'Квітень',
-  'Травень',
-  'Червень',
-  'Липень',
-  'Серпень',
-  'Вересень',
-  'Жовтень',
-  'Листопад',
-  'Грудень',
-];
+const i18n = useI18n();
+const { t } = i18n;
 
 const now = new Date();
-const monthOptions = monthNames.map((label, i) => ({
-  label: `${label} ${now.getFullYear()}`,
-  value: `${now.getFullYear()}-${String(i + 1).padStart(2, '0')}`,
-}));
+const monthOptions = computed(() => {
+  const monthNames = i18n.tm('months');
+  return monthNames.map((label, i) => ({
+    label: `${label} ${now.getFullYear()}`,
+    value: `${now.getFullYear()}-${String(i + 1).padStart(2, '0')}`,
+  }));
+});
 
-const month = ref(monthOptions[now.getMonth()]);
+const month = ref(monthOptions.value[now.getMonth()]);
 </script>

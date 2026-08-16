@@ -3,7 +3,7 @@
     <div>
       <div style="font-size: 30vh">404</div>
 
-      <div class="text-h4" style="opacity: 0.7">Сторінку не знайдено</div>
+      <div class="text-h4" style="opacity: 0.7">{{ t('errors.notFound.title') }}</div>
 
       <q-btn
         class="q-mt-xl text-weight-bold"
@@ -12,9 +12,15 @@
         unelevated
         rounded
         to="/"
-        label="На головну"
+        :label="t('errors.notFound.backHome')"
         no-caps
       />
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+</script>

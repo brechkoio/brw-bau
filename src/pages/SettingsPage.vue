@@ -2,14 +2,20 @@
   <q-page class="q-pa-md flex flex-center">
     <q-card style="width: 100%; max-width: 480px">
       <q-card-section class="column items-center q-gutter-sm">
-        <div class="text-h6">Налаштування профілю</div>
+        <div class="text-h6">{{ t('settings.title') }}</div>
 
         <q-avatar size="100px">
           <img v-if="avatarPreview" :src="avatarPreview" />
           <q-icon v-else name="person" size="60px" />
         </q-avatar>
 
-        <q-btn flat dense label="Змінити аватар" color="primary" @click="fileInput?.pickFiles()" />
+        <q-btn
+          flat
+          dense
+          :label="t('settings.changeAvatar')"
+          color="primary"
+          @click="fileInput?.pickFiles()"
+        />
         <q-file
           ref="fileInput"
           v-model="avatarFile"
@@ -23,15 +29,15 @@
         <q-form class="column q-gutter-md" @submit.prevent="onSave">
           <q-input
             v-model="firstName"
-            label="Ім'я"
-            :rules="[(val) => !!val || 'Введіть ім\'я']"
+            :label="t('settings.firstNameLabel')"
+            :rules="[(val) => !!val || t('validation.requiredFirstName')]"
             lazy-rules
           />
 
           <q-input
             v-model="lastName"
-            label="Прізвище"
-            :rules="[(val) => !!val || 'Введіть прізвище']"
+            :label="t('settings.lastNameLabel')"
+            :rules="[(val) => !!val || t('validation.requiredLastName')]"
             lazy-rules
           />
 
@@ -39,7 +45,7 @@
             type="submit"
             color="primary"
             text-color="black"
-            label="Зберегти"
+            :label="t('settings.submit')"
             :loading="saving"
             unelevated
             no-caps
@@ -55,10 +61,12 @@
 <script setup lang="ts">
 import { ref, onBeforeUnmount } from 'vue';
 import { useQuasar, type QFile } from 'quasar';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
 
 const $q = useQuasar();
 const auth = useAuthStore();
+const { t } = useI18n();
 
 const firstName = ref(auth.profile?.first_name ?? '');
 const lastName = ref(auth.profile?.last_name ?? '');
@@ -90,11 +98,11 @@ async function onSave() {
       avatarFile: avatarFile.value,
     });
     avatarFile.value = null;
-    $q.notify({ type: 'positive', message: 'Профіль оновлено' });
+    $q.notify({ type: 'positive', message: t('settings.successMessage') });
   } catch (err) {
     $q.notify({
       type: 'negative',
-      message: err instanceof Error ? err.message : 'Не вдалося зберегти зміни',
+      message: err instanceof Error ? err.message : t('settings.errorFallback'),
     });
   } finally {
     saving.value = false;

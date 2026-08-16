@@ -13,8 +13,12 @@
 
         <q-toolbar-title>BRW-BAU</q-toolbar-title>
 
-        <div v-if="auth.profile" class="q-mr-md">
-          {{ auth.profile.first_name }} {{ auth.profile.last_name }}
+        <div v-if="auth.profile" class="row items-center q-gutter-sm q-mr-md">
+          <span>{{ auth.profile.first_name }} {{ auth.profile.last_name }}</span>
+          <q-avatar size="32px">
+            <img v-if="auth.profile.avatar_url" :src="auth.profile.avatar_url" />
+            <q-icon v-else name="person" />
+          </q-avatar>
         </div>
 
         <q-btn flat dense round icon="logout" aria-label="Вийти" @click="onLogout" />
@@ -28,6 +32,13 @@
             <q-icon name="home" />
           </q-item-section>
           <q-item-section>Головна</q-item-section>
+        </q-item>
+
+        <q-item to="/settings" clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="settings" />
+          </q-item-section>
+          <q-item-section>Налаштування</q-item-section>
         </q-item>
 
         <q-item to="/reports/monthly" clickable v-ripple>

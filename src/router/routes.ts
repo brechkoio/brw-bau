@@ -29,6 +29,7 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
     children: [
       { path: '', component: () => import('@/pages/HomePage.vue') },
+      { path: 'settings', component: () => import('@/pages/SettingsPage.vue') },
       { path: 'reports/monthly', component: () => import('@/pages/reports/MonthlyReportPage.vue') },
       {
         path: 'reports/general',

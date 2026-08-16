@@ -7,6 +7,7 @@ interface Profile {
   first_name: string;
   last_name: string;
   role: 'admin' | 'user';
+  avatar_url: string | null;
 }
 
 export const useAuthStore = defineStore('auth', () => {
@@ -21,7 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
   async function loadProfile(userId: string) {
     const { data } = await supabase
       .from('profiles')
-      .select('first_name, last_name, role')
+      .select('first_name, last_name, role, avatar_url')
       .eq('id', userId)
       .single();
     profile.value = data;
@@ -84,6 +85,39 @@ export const useAuthStore = defineStore('auth', () => {
     if (error) throw error;
   }
 
+  async function updateProfile(params: {
+    firstName: string;
+    lastName: string;
+    avatarFile?: File | null;
+  }) {
+    if (!user.value) throw new Error('Not authenticated');
+
+    let avatarUrl = profile.value?.avatar_url ?? null;
+
+    if (params.avatarFile) {
+      const ext = params.avatarFile.name.split('.').pop() ?? 'jpg';
+      const path = `${user.value.id}/avatar-${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(path, params.avatarFile);
+      if (uploadError) throw uploadError;
+
+      avatarUrl = supabase.storage.from('avatars').getPublicUrl(path).data.publicUrl;
+    }
+
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        first_name: params.firstName,
+        last_name: params.lastName,
+        avatar_url: avatarUrl,
+      })
+      .eq('id', user.value.id);
+    if (error) throw error;
+
+    await loadProfile(user.value.id);
+  }
+
   return {
     session,
     user,
@@ -95,6 +129,7 @@ export const useAuthStore = defineStore('auth', () => {
     signIn,
     signUp,
     signOut,
+    updateProfile,
   };
 });
 

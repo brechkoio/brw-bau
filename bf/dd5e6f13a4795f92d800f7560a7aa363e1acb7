@@ -1,0 +1,25 @@
+src/stores/auth-store.ts
+  s_b39216e3f48bdc::t_39a09463fb37ce 72
+src/boot/supabase.ts
+  s_b39216e3f48bdc::t_0d50720dfade86 13-19
+supabase/config.toml
+  s_b39216e3f48bdc::t_a8dfabe2ace422 159,163-167
+  s_b39216e3f48bdc::t_7323ebead24981 230,234,236
+  s_b39216e3f48bdc::t_b4b01072085217 307-308
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "bfdd5e6f13a4795f92d800f7560a7aa363e1acb7",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

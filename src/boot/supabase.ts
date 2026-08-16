@@ -10,7 +10,13 @@ if (!supabaseUrl || !supabasePublishableKey) {
   );
 }
 
-export const supabase: SupabaseClient = createClient(supabaseUrl, supabasePublishableKey);
+export const supabase: SupabaseClient = createClient(supabaseUrl, supabasePublishableKey, {
+  auth: {
+    // Email confirmation / recovery links then carry `?code=...` instead of
+    // `#access_token=...`, which doesn't collide with the app's hash-mode router.
+    flowType: 'pkce',
+  },
+});
 
 declare module 'vue' {
   interface ComponentCustomProperties {

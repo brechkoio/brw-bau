@@ -69,6 +69,7 @@ export const useAuthStore = defineStore('auth', () => {
       email: params.email,
       password: params.password,
       options: {
+        emailRedirectTo: `${window.location.origin}${window.location.pathname}`,
         data: {
           first_name: params.firstName,
           last_name: params.lastName,

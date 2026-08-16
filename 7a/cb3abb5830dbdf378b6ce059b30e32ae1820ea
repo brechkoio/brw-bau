@@ -1,0 +1,83 @@
+src/i18n/en-US.ts
+  s_b39216e3f48bdc::t_284b09ebd4b33d 70,72-81
+  s_b39216e3f48bdc::t_bb000b2976d834 82-83
+  s_b39216e3f48bdc::t_745c6541b2838e 71
+  s_b39216e3f48bdc::t_6d52ec229b7f18 139
+  s_b39216e3f48bdc::t_7b48775c8ac61f 24
+src/css/app.scss
+  s_b39216e3f48bdc::t_cf1b819b6f87a4 36-74
+src/pages/auth/RegisterPage.vue
+  s_b39216e3f48bdc::t_c2802ab9a5e5ea 6,14,24,34
+src/components/AddWorkReportDialog.vue
+  s_b39216e3f48bdc::t_12d77b44862152 1,12,14-18,20-29,32-35,74,98-99,101-108,110-117,119-126,134-151,159-165,167-176,204,208-219,233-235,237-260,262
+  s_b39216e3f48bdc::t_910e096b7e77da 94-95
+  s_b39216e3f48bdc::t_9afc7ec37d17d4 19,31
+  s_b39216e3f48bdc::t_293b9c9acab264 2-11,13,30,36-73,75-93,96-97,100,109,118,127-133,152-158,166,177-203,205-207,220-232,236,261,263-288
+src/i18n/uk.ts
+  s_b39216e3f48bdc::t_0a156e15595763 22
+  s_b39216e3f48bdc::t_03ab41c0f56977 68,70-79
+  s_b39216e3f48bdc::t_353a2e65e05d1a 69
+  s_b39216e3f48bdc::t_892fb780abb5c0 137
+  s_b39216e3f48bdc::t_9d5f4c462bfb42 80-81
+src/i18n/ru.ts
+  s_b39216e3f48bdc::t_9426beb55c047d 82-83
+  s_b39216e3f48bdc::t_68943b509c7b25 71
+  s_b39216e3f48bdc::t_c06c4e4ddedc77 139
+  s_b39216e3f48bdc::t_306b95abcb9d60 24
+  s_b39216e3f48bdc::t_c29a8f4070a6c9 70,72-81
+src/pages/admin/SitesPage.vue
+  s_b39216e3f48bdc::t_f9bfae17b62435 33
+  s_b39216e3f48bdc::t_d53dae618bd1a6 37
+  s_b39216e3f48bdc::t_2017434f99bfe4 2
+  s_b39216e3f48bdc::t_feb6ef27dd16cd 9-10
+  s_b39216e3f48bdc::t_c813df7ecedc6e 18,20-30,53-81,106,143
+  s_b39216e3f48bdc::t_caa4f3e7480231 31
+  s_b39216e3f48bdc::t_7d3129c99fb555 34
+src/i18n/de.ts
+  s_b39216e3f48bdc::t_770460831253d8 70,72-81
+  s_b39216e3f48bdc::t_238c80d3877203 71
+  s_b39216e3f48bdc::t_0b61127b51efda 82-83
+  s_b39216e3f48bdc::t_804fad9871b9b6 24
+  s_b39216e3f48bdc::t_87152f2d84a664 139
+src/pages/HomePage.vue
+  s_b39216e3f48bdc::t_e3c91f6cba829f 374-382
+  s_b39216e3f48bdc::t_08e69b0f74d6ec 23,56-57,81-82,94,98,102,107,152,157,162-171,174-175,179-197,201-202,209-210,212-239,257-312,314-338,340-365,368-373,383-398,400-414,416-419,421-422,522,561-562
+  s_b39216e3f48bdc::t_910e096b7e77da 99-101,138-140,211,313,339,399
+  s_b39216e3f48bdc::t_cbc763e61d9fe9 5
+  s_b39216e3f48bdc::t_f0845bc9d2446b 151,161,176-178
+  s_b39216e3f48bdc::t_f36bce71896c5c 438
+  s_b39216e3f48bdc::t_5fcaa65804bc5a 2-4,6-22,24,26-29,31-51,53-55,58-68,73-80,83-93,95-97,103-106,109-137,141-147,366-367,423-437,439-521,523-560
+src/pages/reports/MonthlyReportPage.vue
+  s_b39216e3f48bdc::t_a695d6c6a3bd7c 124
+  s_b39216e3f48bdc::t_cc17214bbcd75b 2,30,34
+  s_b39216e3f48bdc::t_0b6377c7955296 86,94,100,106
+  s_b39216e3f48bdc::t_fd7402fa59709f 136
+src/pages/admin/EmployeeRatesPage.vue
+  s_b39216e3f48bdc::t_f40312fe227fa2 33
+  s_b39216e3f48bdc::t_ede9475821fc6b 37
+  s_b39216e3f48bdc::t_d3a604ed490107 62,75,84
+  s_b39216e3f48bdc::t_ce223d21312785 192-200
+  s_b39216e3f48bdc::t_7dbaad065cb09e 4-6,8,11-29,38,51-61,63-74,76-83,85-103,123,131,134-146,149-155,185,204,208-210,214-219,232
+  s_b39216e3f48bdc::t_3fbdf7708581b3 10
+  s_b39216e3f48bdc::t_22e2b1c7f9a28d 2
+src/pages/auth/LoginPage.vue
+  s_b39216e3f48bdc::t_dead3ba7802dc7 8,18
+src/pages/SettingsPage.vue
+  s_b39216e3f48bdc::t_c7cebb09c1eef3 33,41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "7acb3abb5830dbdf378b6ce059b30e32ae1820ea",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

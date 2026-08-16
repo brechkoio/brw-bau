@@ -45,6 +45,9 @@ export default defineRouter(({ store }) => {
     if (to.meta.requiresGuest && auth.isAuthenticated) {
       return '/';
     }
+    if (to.meta.requiresAdmin && !auth.isAdmin) {
+      return '/';
+    }
     return true;
   });
 

@@ -4,6 +4,7 @@ declare module 'vue-router' {
   interface RouteMeta {
     requiresAuth?: boolean;
     requiresGuest?: boolean;
+    requiresAdmin?: boolean;
   }
 }
 
@@ -26,7 +27,15 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('@/layouts/MainLayout.vue'),
     meta: { requiresAuth: true },
-    children: [{ path: '', component: () => import('@/pages/HomePage.vue') }],
+    children: [
+      { path: '', component: () => import('@/pages/HomePage.vue') },
+      { path: 'reports/monthly', component: () => import('@/pages/reports/MonthlyReportPage.vue') },
+      {
+        path: 'reports/general',
+        component: () => import('@/pages/reports/GeneralReportPage.vue'),
+        meta: { requiresAdmin: true },
+      },
+    ],
   },
 
   // Always leave this as last one,

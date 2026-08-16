@@ -1,0 +1,71 @@
+src/components/LocaleSwitcher.vue
+  s_94ad9f85b98bf4::t_14bac16e917df0 2-14,24-25,46
+  s_94ad9f85b98bf4::t_83904a526409b7 26-45
+src/pages/auth/RegisterPage.vue
+  s_94ad9f85b98bf4::t_83904a526409b7 9-15,17-28,30-34,37-44,46-48,50-51,53-59,61-75,78-86,88-91,97-103,105,107-109,128,132,142
+  s_94ad9f85b98bf4::t_90bfaa38cf60c2 16,29,45,60
+  s_94ad9f85b98bf4::t_349bc7e19cd8da 2-5,7-8,35-36,52,76-77,87,92,94-96,111,130
+src/i18n/ru.ts
+  s_94ad9f85b98bf4::t_cf46df09d75f92 39
+  s_94ad9f85b98bf4::t_00f35bb31297e4 33
+  s_94ad9f85b98bf4::t_25d2cbe46d8ce2 36-38,40,42-43,49-50,54-55,68
+  s_94ad9f85b98bf4::t_90bfaa38cf60c2 30-32,34-35
+src/composables/use-locale.ts
+  s_94ad9f85b98bf4::t_14bac16e917df0 5-8
+src/i18n/en-US.ts
+  s_94ad9f85b98bf4::t_90bfaa38cf60c2 30-32,34-35
+  s_94ad9f85b98bf4::t_00f35bb31297e4 33
+  s_94ad9f85b98bf4::t_25d2cbe46d8ce2 36-38,40,43,49-50,55,68
+  s_998eafc7b075e8::t_55ed1be990426f 42,54
+  s_94ad9f85b98bf4::t_cf46df09d75f92 39
+src/i18n/de.ts
+  s_94ad9f85b98bf4::t_00f35bb31297e4 33
+  s_94ad9f85b98bf4::t_25d2cbe46d8ce2 36-38,40,43,49-50,55,68
+  s_94ad9f85b98bf4::t_90bfaa38cf60c2 30-32,34-35
+  s_998eafc7b075e8::t_9322effce0937a 42,54
+  s_94ad9f85b98bf4::t_cf46df09d75f92 39
+src/css/app.scss
+  s_94ad9f85b98bf4::t_25d2cbe46d8ce2 134
+  s_94ad9f85b98bf4::t_83904a526409b7 9-133
+src/i18n/uk.ts
+  s_94ad9f85b98bf4::t_cf46df09d75f92 37
+  s_94ad9f85b98bf4::t_25d2cbe46d8ce2 34-36,38,40-41,47-48,52-53,66
+  s_94ad9f85b98bf4::t_90bfaa38cf60c2 28-30,32-33
+  s_94ad9f85b98bf4::t_00f35bb31297e4 31
+src/layouts/AuthLayout.vue
+  s_94ad9f85b98bf4::t_83904a526409b7 54-58,60-91,93,95-134
+  s_94ad9f85b98bf4::t_ece1f6c4478381 4-10,12,14-32,34-37,44-45,48-50
+src/pages/auth/LoginPage.vue
+  s_94ad9f85b98bf4::t_64a06e9604a193 2-4,6,8-10,23-25,48,52,62,68,84,90,92
+  s_94ad9f85b98bf4::t_90bfaa38cf60c2 16,31
+  s_94ad9f85b98bf4::t_83904a526409b7 11-15,17-22,26-30,32-47,49-51,53-61,64,67,86-88,97
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "d9fc4ac37e123a6744f315dc9048a03a1a9e10c7",
+  "prompts": {},
+  "humans": {
+    "h_0d835848e7aea2": {
+      "author": "Yurii <brechkoio@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_94ad9f85b98bf4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a00b75-bbb4-7300-ae31-20f10c816b41",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    },
+    "s_998eafc7b075e8": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "dc4c0b18-8a20-44d7-94d1-279d155de6f4",
+        "model": "claude-haiku-4.5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

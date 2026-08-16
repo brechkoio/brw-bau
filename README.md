@@ -3,34 +3,31 @@
 ## Install the dependencies
 
 ```bash
-pnpm install
-# or: yarn/npm/bun install
+bun install
 ```
 
 ### Start the app in development mode (HMR, error reporting, etc.)
 
 ```bash
-quasar dev
+bun run dev
 ```
 
 ### Format & Lint the files
 
 ```bash
-pnpm run lint
-# or: yarn/npm/bun run lint
+bun run lint
 ```
 
 ...or just check formatting & linting:
 
 ```bash
-pnpm run lint:check
-# or: yarn/npm/bun run lint:check
+bun run lint:check
 ```
 
 ### Build the app for production
 
 ```bash
-quasar build
+bun run build
 ```
 
 ### Customize the configuration

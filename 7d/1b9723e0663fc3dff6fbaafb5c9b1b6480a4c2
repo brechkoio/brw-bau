@@ -1,0 +1,43 @@
+src/pages/HomePage.vue
+  s_b39216e3f48bdc::t_4ce22316f5c51c 3-5
+  s_b39216e3f48bdc::t_37a47b605db3af 1-2,6-13
+src/router/routes.ts
+  s_b39216e3f48bdc::t_777697d9825419 11-12,15-22
+  s_b39216e3f48bdc::t_0166559a34d764 3-9
+  s_b39216e3f48bdc::t_16b0d8a9b40ed4 13-14,23-24,28-29
+src/layouts/MainLayout.vue
+  s_b39216e3f48bdc::t_ad0d6d47a62f09 5,7-9,11,22-23,25-26,28-30
+src/pages/auth/LoginPage.vue
+  s_b39216e3f48bdc::t_aa16b6b8357dd2 1-67
+src/router/index.ts
+  s_b39216e3f48bdc::t_a2f622c93e9927 10,21,38-48
+  s_b39216e3f48bdc::t_eb809e1a6df477 49-50
+quasar.config.ts
+  s_b39216e3f48bdc::t_528826da472623 107
+supabase/migrations/20260816091233_fix_profiles_select_policy_perf.sql
+  s_b39216e3f48bdc::t_ce92cbc300df5e 1-10
+src/layouts/AuthLayout.vue
+  s_b39216e3f48bdc::t_0599fbebd65aef 1-24
+supabase/migrations/20260816090948_add_profiles_self_select_policy.sql
+  s_b39216e3f48bdc::t_91d85e79938458 1-9
+src/stores/auth-store.ts
+  s_b39216e3f48bdc::t_3decd013443e83 1-102
+src/pages/auth/RegisterPage.vue
+  s_b39216e3f48bdc::t_cf8abf78dcf1ec 1-97
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "7d1b9723e0663fc3dff6fbaafb5c9b1b6480a4c2",
+  "prompts": {},
+  "sessions": {
+    "s_b39216e3f48bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c23aa7f8-299b-4fd6-b62b-53986d020534",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

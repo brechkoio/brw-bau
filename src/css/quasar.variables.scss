@@ -21,3 +21,13 @@ $button-border-radius: 12px;
 
 $typography-font-family:
   'Rubik Variable', 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// Shell tokens (header + drawer). Used by MainLayout and app.scss so a
+// theme change stays a one-line edit.
+$hairline: #e6e6e6; // header bottom border, icon-button border, header divider
+$text-muted: #757575; // captions, secondary labels on light surfaces
+$drawer-text: #c8ccce; // idle nav item text on the dark panel
+$drawer-surface: #20262a; // user card inside the drawer
+$drawer-border: #262b2f; // drawer footer separator
+$drawer-muted: #8b9195; // role line, logout icon
+$drawer-group: #6f7579; // nav group captions

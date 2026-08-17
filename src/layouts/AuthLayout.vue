@@ -20,6 +20,7 @@
                 :label="t('auth.tabLogin')"
                 class="auth-tab"
                 :class="{ 'auth-tab--active': route.path === '/login' }"
+                :aria-current="route.path === '/login' ? 'page' : undefined"
               />
               <q-btn
                 to="/register"
@@ -28,6 +29,7 @@
                 :label="t('auth.tabRegister')"
                 class="auth-tab"
                 :class="{ 'auth-tab--active': route.path === '/register' }"
+                :aria-current="route.path === '/register' ? 'page' : undefined"
               />
             </nav>
             <router-view />
@@ -50,9 +52,9 @@ const route = useRoute();
 const { t } = useI18n();
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .auth-page {
-  min-height: 100vh;
+  min-height: 100dvh;
   padding: 24px 16px;
 }
 .auth-shell {
@@ -76,7 +78,7 @@ const { t } = useI18n();
   white-space: nowrap;
 }
 .auth-brand strong {
-  color: #ffcf00;
+  color: $accent;
   font-weight: 700;
 }
 .auth-brand-logo {
@@ -97,13 +99,13 @@ const { t } = useI18n();
   gap: 4px;
   padding: 4px;
   border-radius: 12px;
-  background: #f5f5f5;
+  background: $secondary;
 }
 .auth-tab {
   flex: 1;
   min-height: 44px;
   border-radius: 9px;
-  color: #161a1d;
+  color: $dark;
   font-size: 14px;
   font-weight: 400;
 }
@@ -114,7 +116,7 @@ const { t } = useI18n();
 }
 .auth-footer {
   margin-top: 16px;
-  color: #8b9195;
+  color: $drawer-muted;
   font-size: 12px;
   text-align: center;
 }

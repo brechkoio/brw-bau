@@ -98,6 +98,7 @@ export default {
       generalReport: 'Общий отчёт',
       employeeRates: 'Ставки сотрудников',
       sites: 'Объекты',
+      fallback: 'BRW Bau',
     },
   },
 

@@ -2,6 +2,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
 import { defineConfig } from '#q-app';
+import { fileURLToPath } from 'node:url';
 
 export default defineConfig((ctx) => {
   return {
@@ -32,6 +33,9 @@ export default defineConfig((ctx) => {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#build
     build: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
       target: {
         // browser: 'baseline-widely-available',
         // node: 'node22'

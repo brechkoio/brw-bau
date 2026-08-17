@@ -98,6 +98,7 @@ export default {
       generalReport: 'Gesamtbericht',
       employeeRates: 'Mitarbeiterlöhne',
       sites: 'Objekte',
+      fallback: 'BRW Bau',
     },
   },
 

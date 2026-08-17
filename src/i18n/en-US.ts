@@ -98,6 +98,7 @@ export default {
       generalReport: 'General report',
       employeeRates: 'Employee rates',
       sites: 'Sites',
+      fallback: 'BRW Bau',
     },
   },
 

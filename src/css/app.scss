@@ -21,22 +21,19 @@ body {
   -webkit-text-fill-color: $dark;
 }
 
+// Shell: only what scoped styles in MainLayout cannot reach (Quasar's own
+// header/drawer internals). Everything else lives in MainLayout.vue.
 .brw-header.q-header {
   background: #fff;
   color: $dark;
-  border-bottom: 1px solid #ebebe6;
+  border-bottom: 1px solid $hairline;
   box-shadow: none;
-}
-
-.brw-header .q-toolbar {
-  min-height: 64px;
-  padding: 0 20px;
 }
 
 .brw-shell .q-drawer,
 .brw-shell .q-drawer__content {
   background: $primary;
-  color: #c8ccce;
+  color: $drawer-text;
   box-shadow: none;
 }
 
@@ -44,10 +41,8 @@ body {
   overflow: hidden;
 }
 
-.brw-shell .q-drawer--mini .q-item__label,
-.brw-shell .q-drawer--mini .q-item__section:not(.q-item__section--avatar) {
-  opacity: 0;
-  overflow: hidden;
+.brw-shell .q-drawer__backdrop {
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .auth-form-section {
@@ -56,7 +51,7 @@ body {
 .auth-form-section h1,
 .auth-success h1 {
   margin: 0;
-  color: #161a1d;
+  color: $dark;
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -64,7 +59,7 @@ body {
 }
 .auth-subtitle {
   margin: 4px 0 20px;
-  color: #757575;
+  color: $text-muted;
   font-size: 13px;
 }
 .auth-form {
@@ -83,19 +78,18 @@ body {
   border-radius: 12px;
 }
 .auth-input.q-field--outlined .q-field__control:before {
-  border-color: #e0e0e0;
+  border-color: $separator-color;
 }
 .auth-input.q-field--focused .q-field__control:before,
 .auth-input.q-field--focused .q-field__control:after {
-  border-color: #ffcf00;
+  border-color: $accent;
 }
 .auth-input input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 100px white inset;
-  -webkit-text-fill-color: #161a1d;
+  -webkit-text-fill-color: $dark;
 }
 .auth-input .q-field__native {
-  padding: 0 14px;
-  color: #161a1d;
+  color: $dark;
   font-size: 15px;
 }
 .auth-input .q-field__append {
@@ -119,14 +113,14 @@ body {
   height: 52px;
   margin-top: 4px;
   border-radius: 12px;
-  background: #ffcf00;
-  color: #161a1d;
+  background: $accent;
+  color: $dark;
   font-size: 16px;
   font-weight: 600;
 }
 .auth-switch {
   margin: 16px 0 0;
-  color: #757575;
+  color: $text-muted;
   font-size: 13px;
   text-align: center;
 }
@@ -135,7 +129,15 @@ body {
   border: 1px solid #f5c2c2;
   border-radius: 12px;
   background: #fdecec;
-  color: #c62828;
+  color: $negative;
+  font-size: 13px;
+}
+.auth-notice-banner {
+  margin: 16px 0;
+  border: 1px solid #ffe97f;
+  border-radius: 12px;
+  background: #fffbe6;
+  color: #6b5b00;
   font-size: 13px;
 }
 .auth-name-row {
@@ -159,21 +161,30 @@ body {
 }
 .auth-success p {
   margin: 12px 0 20px;
-  color: #757575;
+  color: $text-muted;
   font-size: 13px;
   line-height: 1.5;
 }
 .auth-secondary-btn {
   min-height: 48px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid $separator-color;
   border-radius: 12px;
-  color: #161a1d;
+  color: $dark;
 }
 @media (max-width: 399px) {
   .auth-name-row {
     grid-template-columns: 1fr;
     gap: 14px;
   }
+}
+
+.auth-tab:focus-visible,
+.auth-submit:focus-visible,
+.auth-secondary-btn:focus-visible,
+.auth-forgot a:focus-visible,
+.auth-switch a:focus-visible {
+  outline: 2px solid $accent;
+  outline-offset: 2px;
 }
 
 h1,

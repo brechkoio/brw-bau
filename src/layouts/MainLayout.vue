@@ -10,7 +10,8 @@
           icon="menu"
           class="brw-icon-btn"
           :aria-label="burgerAriaLabel"
-          :aria-expanded="drawerExpanded"
+          :aria-expanded="isMobile ? mobileOpen : undefined"
+          :aria-pressed="isMobile ? undefined : !drawerExpanded"
           aria-controls="brw-main-drawer"
           @click="onBurgerClick"
         />
@@ -27,10 +28,12 @@
             flat
             unelevated
             no-caps
-            icon="notifications_none"
+            :icon="hasUnread ? 'notifications' : 'notifications_none'"
             class="brw-icon-btn brw-icon-btn--outlined"
             :aria-label="t('layout.notificationsAria')"
-          />
+          >
+            <span v-if="hasUnread" class="brw-notify-dot" aria-hidden="true" />
+          </q-btn>
 
           <div class="brw-header-divider" aria-hidden="true" />
 
@@ -80,12 +83,10 @@
       :width="drawerWidth"
       :mini-width="76"
       :overlay="isMobile"
-      :mini-to-overlay="isTablet"
       :behavior="isMobile ? 'mobile' : 'desktop'"
       :persistent="!isMobile"
       :no-swipe-open="!isMobile"
       @hide="onDrawerHide"
-      @mini-state="onMiniUpdate"
     >
       <div class="brw-drawer__inner">
         <div class="brw-drawer__brand">
@@ -232,6 +233,9 @@ const collapsed = ref(readCollapsed());
 const tabletExpanded = ref(false);
 const mobileOpen = ref(false);
 
+// Placeholder until the notifications feed lands — drives the accent dot only.
+const hasUnread = ref(false);
+
 const isDesktop = computed(() => $q.screen.gt.sm);
 const isTablet = computed(() => $q.screen.sm);
 const isMobile = computed(() => $q.screen.lt.sm);
@@ -273,7 +277,10 @@ const burgerAriaLabel = computed(() => {
   return drawerExpanded.value ? t('layout.collapseAria') : t('layout.expandAria');
 });
 
-const pageTitle = computed(() => (route.meta.title ? t(route.meta.title) : ''));
+const pageTitle = computed(() => {
+  const key = typeof route.meta.title === 'string' ? route.meta.title : 'meta.title.fallback';
+  return t(key);
+});
 
 const headerDate = computed(() => formatHeaderDate(locale.value));
 
@@ -327,16 +334,6 @@ function onBurgerClick() {
   mobileOpen.value = !mobileOpen.value;
 }
 
-function onMiniUpdate(mini: boolean) {
-  if (isDesktop.value) {
-    collapsed.value = mini;
-    return;
-  }
-  if (isTablet.value) {
-    tabletExpanded.value = !mini;
-  }
-}
-
 function onDrawerHide() {
   if (!isMobile.value) return;
   void nextTick(() => burgerRef.value?.$el?.focus());
@@ -388,7 +385,7 @@ watch(
   margin-top: 2px;
   font-size: 12px;
   line-height: 1.2;
-  color: #757575;
+  color: $text-muted;
 }
 
 .brw-header-actions {
@@ -406,7 +403,7 @@ watch(
 }
 
 .brw-icon-btn:hover {
-  background: #f5f5f5;
+  background: $secondary;
 }
 
 .brw-icon-btn:focus-visible,
@@ -418,13 +415,24 @@ watch(
 }
 
 .brw-icon-btn--outlined {
-  border: 1px solid #ebebe6;
+  border: 1px solid $hairline;
+}
+
+.brw-notify-dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: $accent;
+  box-shadow: 0 0 0 2px #fff;
 }
 
 .brw-header-divider {
   width: 1px;
   height: 28px;
-  background: #ebebe6;
+  background: $hairline;
 }
 
 .brw-profile-trigger {
@@ -441,7 +449,7 @@ watch(
 }
 
 .brw-profile-trigger:hover {
-  background: #f5f5f5;
+  background: $secondary;
 }
 
 .brw-profile-meta {
@@ -462,7 +470,7 @@ watch(
 .brw-profile-role {
   font-size: 11px;
   font-weight: 400;
-  color: #757575;
+  color: $text-muted;
 }
 
 .brw-profile-trigger :deep(.q-icon) {
@@ -487,8 +495,6 @@ watch(
 .brw-drawer {
   height: 100%;
   overflow: hidden;
-  background: $primary;
-  color: #c8ccce;
 }
 
 .brw-drawer__inner {
@@ -537,7 +543,7 @@ watch(
 
 .brw-nav-group {
   padding: 14px 10px 8px;
-  color: #6f7579;
+  color: $drawer-group;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -550,7 +556,7 @@ watch(
   height: 46px;
   padding: 0 12px;
   border-radius: 10px;
-  color: #c8ccce;
+  color: $drawer-text;
 }
 
 .brw-nav-item :deep(.q-icon) {
@@ -567,6 +573,9 @@ watch(
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition:
+    opacity 0.16s ease,
+    width 0.2s ease;
 }
 
 .brw-nav-item:hover {
@@ -580,10 +589,11 @@ watch(
   font-weight: 500;
 }
 
+// Marker sits on the panel edge, so it has to escape the 10px nav padding.
 .brw-nav-item--active::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: -10px;
   top: 50%;
   width: 3px;
   height: 22px;
@@ -595,7 +605,7 @@ watch(
 .brw-drawer__footer {
   flex-shrink: 0;
   padding: 8px 10px 14px;
-  border-top: 1px solid #262b2f;
+  border-top: 1px solid $drawer-border;
 }
 
 .brw-user-card {
@@ -605,7 +615,7 @@ watch(
   margin-top: 10px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: #20262a;
+  background: $drawer-surface;
 }
 
 .brw-user-card :deep(.q-avatar) {
@@ -634,7 +644,7 @@ watch(
 .brw-user-card__role {
   font-size: 11px;
   line-height: 1.2;
-  color: #8b9195;
+  color: $drawer-muted;
 }
 
 .brw-user-card__logout {
@@ -642,7 +652,7 @@ watch(
   min-width: 36px;
   height: 36px;
   margin-left: auto;
-  color: #8b9195;
+  color: $drawer-muted;
 }
 
 .brw-drawer__locale {
@@ -676,9 +686,5 @@ watch(
   width: 220px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
-}
-
-.brw-shell .q-drawer__backdrop {
-  background: rgba(0, 0, 0, 0.45);
 }
 </style>

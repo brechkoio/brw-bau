@@ -96,6 +96,7 @@ const uk = {
       generalReport: 'Загальний звіт',
       employeeRates: 'Ставки співробітників',
       sites: "Об'єкти",
+      fallback: 'BRW Bau',
     },
   },
 

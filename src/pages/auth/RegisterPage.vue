@@ -16,7 +16,7 @@
             :autofocus="autofocusFirst"
             :placeholder="t('auth.placeholders.firstName')"
             :disable="loading"
-            lazy-rules
+            lazy-rules="ondemand"
             hide-bottom-space
             :rules="[(val) => !!val || t('validation.requiredFirstName')]"
             class="auth-input"

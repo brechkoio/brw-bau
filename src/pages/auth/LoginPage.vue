@@ -18,7 +18,7 @@
           outlined
           :autofocus="autofocusFirst"
           :disable="loading"
-          lazy-rules
+          lazy-rules="ondemand"
           hide-bottom-space
           :rules="[(val) => !!val || t('validation.requiredEmail')]"
           class="auth-input"

@@ -1,0 +1,61 @@
+src/css/app.scss
+  s_3743930260481a::t_6c15d555a93cb6 116-117,123,132-140
+  s_3743930260481a::t_45ab13530f9518 81,85,89,92
+  s_3743930260481a::t_ab670fbb0bb721 54,62
+  s_3743930260481a::t_057ead6cb72680 164,170,172
+  s_3743930260481a::t_e4b6dde2e3d3cb 181-189
+  s_3743930260481a::t_1da0139f032295 24-25,29,36,44-45
+src/i18n/ru.ts
+  s_3743930260481a::t_ae7d5bc383d691 101
+src/pages/auth/LoginPage.vue
+  s_3743930260481a::t_7483aaa8852340 6-7,13,19,21-22,30,37-38,61
+  s_3743930260481a::t_d3691b5f4d30ae 76,79,85,91-94,97-98,104
+quasar.config.ts
+  h_0d835848e7aea2 5,36-38
+src/i18n/de.ts
+  s_3743930260481a::t_ae8075be56cac1 101
+src/i18n/uk.ts
+  s_3743930260481a::t_b2c8ac4eb80130 99
+src/pages/auth/RegisterPage.vue
+  s_3743930260481a::t_f9953fc6228074 121,123,128,137-142
+  s_3743930260481a::t_0c969efb89744b 5,12,15-16,19-20,28,31,34-35,44,51-52,60,67,88
+  s_3743930260481a::t_119f1d7b1bac05 101
+.gitignore
+  s_3743930260481a::t_37f8a60bb14d3a 4
+src/layouts/AuthLayout.vue
+  s_3743930260481a::t_5c5e8ab00b2dee 23,32
+  s_3743930260481a::t_e14e33d478fae5 55,57
+  s_3743930260481a::t_5d19e4261de3b3 102,108
+  s_3743930260481a::t_32021dbce9e0bc 81
+  s_3743930260481a::t_1c48ce633cc8b8 119
+src/i18n/en-US.ts
+  s_3743930260481a::t_fea8967f2f2292 101
+src/router/routes.ts
+  s_3743930260481a::t_59667acf56ef07 70
+src/layouts/MainLayout.vue
+  s_3743930260481a::t_cbf08e61746c3a 280-283
+  s_3743930260481a::t_7d42f42e213b6d 13-14,31,34-36,236-238,388,406,418-429,435,452,473,546,559,576-578,592,596,608,618,647,655
+src/css/quasar.variables.scss
+  h_0d835848e7aea2 24-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "e067dcfbeffec060735fa4b3e6fc3a60a7d8babd",
+  "prompts": {},
+  "humans": {
+    "h_0d835848e7aea2": {
+      "author": "Yurii <brechkoio@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_3743930260481a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2d839a71-14c2-4107-b9b4-8bea558e60f1",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

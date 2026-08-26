@@ -1,35 +1,60 @@
 <template>
   <q-page class="column no-wrap">
     <TableFiltersBar>
-      <q-select
-        v-model="month"
-        :options="monthOptions"
-        :label="t('reports.monthly.monthLabel')"
-        color="accent"
-        bg-color="white"
-        dense
+      <q-input
+        :model-value="rangeLabel"
+        :aria-label="t('reports.monthly.periodLabel')"
         outlined
-        style="min-width: 200px"
-      />
+        readonly
+        class="brw-input cursor-pointer"
+        style="min-width: 220px"
+      >
+        <template #append>
+          <q-icon name="event" />
+        </template>
+        <q-popup-proxy transition-show="scale" transition-hide="scale">
+          <q-date
+            v-model="rawDateRange"
+            mask="YYYY-MM-DD"
+            range
+            no-unset
+            today-btn
+            color="accent"
+            text-color="dark"
+          >
+            <div class="row items-center justify-end">
+              <q-btn v-close-popup flat no-caps color="dark" :label="t('common.confirm')" />
+            </div>
+          </q-date>
+        </q-popup-proxy>
+      </q-input>
 
       <q-space />
 
       <q-btn
-        color="accent"
-        text-color="black"
-        icon="add"
-        :label="t('reports.monthly.submit')"
+        v-if="!$q.screen.lt.sm"
         unelevated
         no-caps
-        dense
-        class="text-weight-bold"
+        icon="add"
+        :label="t('reports.monthly.submit')"
+        class="brw-btn-primary"
         @click="openAdd"
       />
     </TableFiltersBar>
 
-    <div class="brw-page-body q-pa-md">
-      <div class="text-h6 q-mb-md">{{ t('reports.monthly.title') }}</div>
+    <q-page-sticky v-if="$q.screen.lt.sm" position="bottom-right" :offset="[16, 24]">
+      <q-btn
+        rounded
+        unelevated
+        no-caps
+        icon="add"
+        :label="t('common.add')"
+        class="brw-btn-primary brw-btn-primary--fab"
+        @click="openAdd"
+      />
+    </q-page-sticky>
 
+    <div class="brw-page-body q-pa-md">
       <q-table
         class="col brw-sticky-table"
         :rows="filteredRows"
@@ -59,8 +84,13 @@
 
         <template #body-cell-actions="props">
           <q-td :props="props">
-            <q-btn flat dense round icon="edit" size="sm" @click="openEdit(props.row)" />
-            <q-btn flat dense round icon="delete" size="sm" @click="confirmDelete(props.row)" />
+            <q-btn flat icon="edit" class="brw-table-icon-btn" @click="openEdit(props.row)" />
+            <q-btn
+              flat
+              icon="delete"
+              class="brw-table-icon-btn"
+              @click="confirmDelete(props.row)"
+            />
           </q-td>
         </template>
       </q-table>
@@ -78,21 +108,54 @@
         <q-card style="min-width: 320px">
           <q-card-section class="text-h6">{{ t('common.edit') }}</q-card-section>
           <q-card-section class="column q-gutter-md">
-            <q-select
-              v-model="editForm.siteId"
-              :options="siteOptions"
-              :label="t('reports.monthly.siteLabel')"
-              color="accent"
-              outlined
-              emit-value
-              map-options
-            />
+            <div class="brw-field">
+              <label for="edit-report-site">{{ t('reports.monthly.siteLabel') }}</label>
+              <q-select
+                for="edit-report-site"
+                v-model="editForm.siteId"
+                :options="siteOptions"
+                :placeholder="t('reports.monthly.sitePlaceholder')"
+                outlined
+                emit-value
+                map-options
+                popup-content-class="brw-select__menu"
+                class="brw-select"
+              >
+                <template #option="scope">
+                  <q-item v-bind="scope.itemProps">
+                    <q-item-section>{{ scope.opt.label }}</q-item-section>
+                    <q-item-section v-if="scope.selected" side>
+                      <q-icon name="check" size="18px" class="brw-select__check" />
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
             <q-input
               v-model="editForm.workDate"
-              type="date"
               :label="t('reports.monthly.dateLabel')"
               outlined
-            />
+              readonly
+              class="cursor-pointer"
+            >
+              <template #append>
+                <q-icon name="event" />
+              </template>
+              <q-popup-proxy
+                ref="editWorkDateProxy"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-date
+                  v-model="editForm.workDate"
+                  mask="YYYY-MM-DD"
+                  today-btn
+                  color="accent"
+                  text-color="dark"
+                  @update:model-value="() => editWorkDateProxy?.hide()"
+                />
+              </q-popup-proxy>
+            </q-input>
             <q-input
               v-model="editForm.startTime"
               type="time"
@@ -127,8 +190,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useQuasar, type QTableColumn } from 'quasar';
+import { ref, computed, watch } from 'vue';
+import { useQuasar, type QTableColumn, type QPopupProxy } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import { useAuthStore } from '@/stores/auth-store';
@@ -156,15 +219,31 @@ const i18n = useI18n();
 const { t } = i18n;
 const auth = useAuthStore();
 
-const now = new Date();
-const monthOptions = computed(() => {
-  const monthNames = i18n.tm('months');
-  return monthNames.map((label, idx) => ({
-    label: `${label} ${now.getFullYear()}`,
-    value: `${now.getFullYear()}-${String(idx + 1).padStart(2, '0')}`,
-  }));
+function currentMonthRange() {
+  const now = new Date();
+  return {
+    from: new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10),
+    to: new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10),
+  };
+}
+
+function formatDisplayDate(iso: string): string {
+  const [y, m, d] = iso.split('-');
+  return `${d}.${m}.${y}`;
+}
+
+const dateRange = ref<{ from: string; to: string }>(currentMonthRange());
+// q-date's range model collapses to a plain date string when both ends of
+// the range land on the same day (e.g. clicking one day twice) instead of
+// { from, to } — normalize it back into an object either way.
+const rawDateRange = ref<string | { from: string; to: string }>(dateRange.value);
+watch(rawDateRange, (val) => {
+  dateRange.value = typeof val === 'string' ? { from: val, to: val } : val;
 });
-const month = ref(monthOptions.value[now.getMonth()]!);
+
+const rangeLabel = computed(
+  () => `${formatDisplayDate(dateRange.value.from)} – ${formatDisplayDate(dateRange.value.to)}`,
+);
 
 const rows = ref<ReportRow[]>([]);
 const siteOptions = ref<SiteOption[]>([]);
@@ -178,9 +257,9 @@ function openAdd() {
 }
 
 const filteredRows = computed(() => {
-  const prefix = month.value.value;
+  const { from, to } = dateRange.value;
   return rows.value
-    .filter((r) => r.work_date.startsWith(prefix))
+    .filter((r) => r.work_date >= from && r.work_date <= to)
     .sort((a, b) => a.work_date.localeCompare(b.work_date));
 });
 
@@ -255,6 +334,7 @@ async function loadReports() {
 
 const editDialogOpen = ref(false);
 const editingId = ref<string | null>(null);
+const editWorkDateProxy = ref<QPopupProxy | null>(null);
 const editForm = ref({
   siteId: null as string | null,
   workDate: '',
@@ -322,3 +402,12 @@ async function onDelete(row: ReportRow) {
 void loadSites();
 void loadReports();
 </script>
+
+<style lang="scss" scoped>
+.brw-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: $text-secondary;
+}
+</style>

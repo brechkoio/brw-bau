@@ -19,7 +19,7 @@
             lazy-rules="ondemand"
             hide-bottom-space
             :rules="[(val) => !!val || t('validation.requiredFirstName')]"
-            class="auth-input"
+            class="brw-input"
           />
         </div>
         <div class="auth-field">
@@ -34,7 +34,7 @@
             lazy-rules
             hide-bottom-space
             :rules="[(val) => !!val || t('validation.requiredLastName')]"
-            class="auth-input"
+            class="brw-input"
           />
         </div>
       </div>
@@ -51,7 +51,7 @@
           lazy-rules
           hide-bottom-space
           :rules="[(val) => !!val || t('validation.requiredEmail')]"
-          class="auth-input"
+          class="brw-input"
         />
       </div>
       <div class="auth-field">
@@ -67,7 +67,7 @@
           lazy-rules
           :hint="t('auth.register.passwordHint')"
           :rules="[(val) => (val && val.length >= 6) || t('validation.minPassword')]"
-          class="auth-input"
+          class="brw-input"
         >
           <template #append
             ><q-btn
@@ -88,7 +88,7 @@
         :disable="loading || !canSubmit"
         unelevated
         no-caps
-        class="auth-submit"
+        class="brw-btn-primary brw-btn-primary--cta"
       />
     </q-form>
     <p class="auth-switch">
@@ -108,11 +108,11 @@
       >
     </p>
     <q-btn
-      outline
+      unelevated
       no-caps
       :label="t('auth.register.backToLogin')"
       to="/login"
-      class="auth-secondary-btn"
+      class="brw-btn-secondary brw-btn-secondary--lg"
     />
   </section>
 </template>

@@ -6,107 +6,117 @@
   >
     <q-card :class="$q.screen.lt.sm ? 'brw-sheet' : ''" style="width: 440px; max-width: 100vw">
       <div v-if="$q.screen.lt.sm" class="brw-sheet-handle" />
-      <q-card-section>
-        <div class="text-h6">{{ t('reports.monthly.submit') }}</div>
+
+      <q-card-section class="brw-dialog-header">
+        <div class="brw-dialog-header__text">
+          <div class="brw-dialog-title">{{ t('reports.monthly.submit') }}</div>
+          <div class="brw-dialog-hint">{{ t('reports.monthly.addHint') }}</div>
+        </div>
+        <q-btn
+          v-if="!$q.screen.lt.sm"
+          flat
+          dense
+          round
+          icon="close"
+          class="brw-dialog-close"
+          v-close-popup
+        />
       </q-card-section>
+
       <q-form @submit.prevent="onSave">
-        <q-card-section class="column q-gutter-md q-pt-none">
-          <q-select
-            v-model="form.siteId"
-            :options="siteOptions"
-            :label="t('reports.monthly.siteLabel')"
-            color="accent"
-            outlined
-            emit-value
-            map-options
-            :rules="[(val) => !!val || t('validation.requiredSite')]"
-            lazy-rules
-          />
+        <q-card-section class="brw-dialog-body">
+          <div class="brw-field">
+            <label for="report-site">{{ t('reports.monthly.siteLabel') }}</label>
+            <q-select
+              for="report-site"
+              v-model="form.siteId"
+              :options="siteOptions"
+              :placeholder="t('reports.monthly.sitePlaceholder')"
+              outlined
+              emit-value
+              map-options
+              hide-bottom-space
+              popup-content-class="brw-select__menu"
+              class="brw-select"
+            >
+              <template #option="scope">
+                <q-item v-bind="scope.itemProps">
+                  <q-item-section>{{ scope.opt.label }}</q-item-section>
+                  <q-item-section v-if="scope.selected" side>
+                    <q-icon name="check" size="18px" class="brw-select__check" />
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+          </div>
 
-          <q-input
-            v-model="form.workDate"
-            type="date"
-            :label="t('reports.monthly.dateLabel')"
-            color="accent"
-            outlined
-            :rules="[(val) => !!val || t('validation.requiredDate')]"
-            lazy-rules
-          />
+          <div class="brw-field">
+            <label for="report-date">{{ t('reports.monthly.dateLabel') }}</label>
+            <q-input
+              for="report-date"
+              v-model="form.workDate"
+              outlined
+              readonly
+              hide-bottom-space
+              class="brw-input cursor-pointer"
+            >
+              <template #append>
+                <q-icon name="event" />
+              </template>
+              <q-popup-proxy ref="workDateProxy" transition-show="scale" transition-hide="scale">
+                <q-date
+                  v-model="form.workDate"
+                  mask="YYYY-MM-DD"
+                  today-btn
+                  color="accent"
+                  text-color="dark"
+                  @update:model-value="() => workDateProxy?.hide()"
+                />
+              </q-popup-proxy>
+            </q-input>
+          </div>
 
-          <div class="row q-col-gutter-sm">
-            <div class="col-4">
+          <div class="brw-time-row">
+            <div class="brw-field">
+              <label for="report-start">{{ t('reports.monthly.startTimeLabel') }}</label>
               <q-input
+                for="report-start"
                 v-model="form.startTime"
                 type="time"
-                :label="t('reports.monthly.startTimeLabel')"
-                color="accent"
                 outlined
-                :rules="[(val) => !!val || t('validation.requiredTime')]"
-                lazy-rules
+                hide-bottom-space
+                class="brw-input"
               />
             </div>
-            <div class="col-4">
+            <div class="brw-field">
+              <label for="report-end">{{ t('reports.monthly.endTimeLabel') }}</label>
               <q-input
+                for="report-end"
                 v-model="form.endTime"
                 type="time"
-                :label="t('reports.monthly.endTimeLabel')"
-                color="accent"
                 outlined
-                :rules="[
-                  (val) => !!val || t('validation.requiredTime'),
-                  () => isRangeValid || t('validation.endAfterStart'),
-                ]"
-                lazy-rules
-              />
-            </div>
-            <div class="col-4">
-              <q-input
-                v-model.number="form.pauseMinutes"
-                type="number"
-                min="0"
-                step="15"
-                :label="t('home.pauseLabel')"
-                color="accent"
-                outlined
+                hide-bottom-space
+                :class="['brw-input', { 'brw-input--error': isRangeInverted }]"
               />
             </div>
           </div>
 
-          <div class="row q-gutter-sm">
-            <q-btn
-              v-for="preset in presets"
-              :key="preset.label"
-              dense
-              no-caps
-              outline
-              :color="isPresetActive(preset) ? 'accent' : 'grey-5'"
-              :text-color="isPresetActive(preset) ? 'black' : 'dark'"
-              :class="isPresetActive(preset) ? 'bg-accent' : ''"
-              class="brw-preset-chip"
-              :label="preset.label"
-              @click="applyPreset(preset)"
-            />
-          </div>
-
-          <div class="brw-summary-banner row items-baseline justify-between">
-            <div class="text-caption">{{ t('home.creditedHours') }}</div>
-            <div class="text-h6 text-weight-bold">
-              {{ previewHours }} {{ t('reports.monthly.columnHours') }} · {{ previewEarned }}
-              {{ t('common.currency') }}
-            </div>
+          <div class="brw-hours-hint" :class="{ 'brw-hours-hint--error': isRangeInverted }">
+            <q-icon :name="hoursHint.icon" size="16px" />
+            <span>{{ hoursHint.text }}</span>
           </div>
         </q-card-section>
-        <q-card-actions align="right">
-          <q-btn flat no-caps :label="t('common.cancel')" v-close-popup />
+
+        <q-card-actions align="right" class="brw-dialog-actions">
+          <q-btn flat no-caps class="brw-btn-ghost" :label="t('common.cancel')" v-close-popup />
           <q-btn
             type="submit"
-            color="accent"
-            text-color="black"
             unelevated
             no-caps
+            class="brw-btn-primary brw-btn-primary--dialog"
             :label="t('common.save')"
             :loading="saving"
-            :disable="!isRangeValid"
+            :disable="!canSave"
           />
         </q-card-actions>
       </q-form>
@@ -116,7 +126,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { useQuasar } from 'quasar';
+import { useQuasar, type QPopupProxy } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import { useAuthStore } from '@/stores/auth-store';
@@ -124,13 +134,6 @@ import { useAuthStore } from '@/stores/auth-store';
 interface SiteOption {
   label: string;
   value: string;
-}
-
-interface Preset {
-  label: string;
-  startTime: string;
-  endTime: string;
-  pauseMinutes: number;
 }
 
 const props = defineProps<{
@@ -149,13 +152,7 @@ const auth = useAuthStore();
 
 const siteOptions = ref<SiteOption[]>([]);
 const saving = ref(false);
-const currentRate = ref(0);
-
-const presets: Preset[] = [
-  { label: '7:00–16:30 · 45', startTime: '07:00', endTime: '16:30', pauseMinutes: 45 },
-  { label: '6:30–15:00 · 30', startTime: '06:30', endTime: '15:00', pauseMinutes: 30 },
-  { label: '8:00–17:00 · 60', startTime: '08:00', endTime: '17:00', pauseMinutes: 60 },
-];
+const workDateProxy = ref<QPopupProxy | null>(null);
 
 function blankForm() {
   return {
@@ -163,7 +160,6 @@ function blankForm() {
     workDate: props.workDate ?? new Date().toISOString().slice(0, 10),
     startTime: '',
     endTime: '',
-    pauseMinutes: 0,
   };
 }
 
@@ -176,35 +172,37 @@ watch(
   },
 );
 
-function isPresetActive(preset: Preset) {
-  return (
-    form.value.startTime === preset.startTime &&
-    form.value.endTime === preset.endTime &&
-    form.value.pauseMinutes === preset.pauseMinutes
-  );
-}
-
-function applyPreset(preset: Preset) {
-  form.value.startTime = preset.startTime;
-  form.value.endTime = preset.endTime;
-  form.value.pauseMinutes = preset.pauseMinutes;
-}
-
 const previewDurationHours = computed(() => {
   if (!form.value.startTime || !form.value.endTime) return 0;
   const [sh, sm] = form.value.startTime.split(':').map(Number);
   const [eh, em] = form.value.endTime.split(':').map(Number);
   if (sh === undefined || sm === undefined || eh === undefined || em === undefined) return 0;
-  const minutes = eh * 60 + em - (sh * 60 + sm) - (form.value.pauseMinutes || 0);
+  const minutes = eh * 60 + em - (sh * 60 + sm);
   return Math.max(0, minutes / 60);
 });
 
 const isRangeValid = computed(
   () => !!form.value.startTime && !!form.value.endTime && previewDurationHours.value > 0,
 );
+const isRangeInverted = computed(
+  () => !!form.value.startTime && !!form.value.endTime && previewDurationHours.value <= 0,
+);
+const canSave = computed(() => !!form.value.siteId && isRangeValid.value);
 
 const previewHours = computed(() => previewDurationHours.value.toFixed(2));
-const previewEarned = computed(() => (previewDurationHours.value * currentRate.value).toFixed(2));
+
+const hoursHint = computed(() => {
+  if (!form.value.startTime || !form.value.endTime) {
+    return { icon: 'schedule', text: t('reports.monthly.hoursHintEmpty') };
+  }
+  if (isRangeInverted.value) {
+    return { icon: 'error', text: t('validation.endAfterStart') };
+  }
+  return {
+    icon: 'schedule',
+    text: t('reports.monthly.hoursHintValue', { hours: previewHours.value }),
+  };
+});
 
 async function loadSites() {
   const { data, error } = await supabase
@@ -219,21 +217,8 @@ async function loadSites() {
   siteOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
 }
 
-async function loadCurrentRate() {
-  if (!auth.user) return;
-  const { data } = await supabase
-    .from('employee_rates')
-    .select('hourly_rate')
-    .eq('user_id', auth.user.id)
-    .lte('effective_from', new Date().toISOString().slice(0, 10))
-    .order('effective_from', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  currentRate.value = data ? Number(data.hourly_rate) : 0;
-}
-
 async function onSave() {
-  if (!auth.user || !form.value.siteId || !isRangeValid.value) return;
+  if (!auth.user || !canSave.value) return;
   saving.value = true;
   try {
     const { error } = await supabase.from('work_reports').insert({
@@ -258,7 +243,6 @@ async function onSave() {
 }
 
 void loadSites();
-void loadCurrentRate();
 </script>
 
 <style lang="scss" scoped>
@@ -275,14 +259,91 @@ void loadCurrentRate();
   }
 }
 
-.brw-preset-chip {
-  border-radius: 99px;
+.brw-dialog-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px 20px 4px;
 }
 
-.brw-summary-banner {
-  background: #fffbe6;
-  border: 1px solid #ffe97f;
-  border-radius: 10px;
-  padding: 12px 16px;
+.brw-dialog-header__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.brw-dialog-title {
+  font-size: 19px;
+  font-weight: 600;
+  color: $dark;
+}
+
+.brw-dialog-hint {
+  margin-top: 2px;
+  font-size: 12px;
+  color: $text-muted;
+}
+
+.brw-dialog-close {
+  width: 34px;
+  height: 34px;
+  min-height: 34px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  color: $text-secondary;
+
+  &:hover {
+    background: $secondary;
+  }
+}
+
+.brw-dialog-body {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.brw-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: $text-secondary;
+}
+
+.brw-time-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.brw-hours-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 18px;
+  font-size: 12px;
+  color: $text-secondary;
+
+  &--error {
+    color: $field-invalid;
+  }
+}
+
+.brw-dialog-actions {
+  gap: 8px;
+}
+
+@media (max-width: 599px) {
+  .brw-dialog-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    padding: 0 20px 20px;
+    gap: 8px;
+
+    .brw-btn-primary,
+    .brw-btn-ghost {
+      width: 100%;
+    }
+  }
 }
 </style>

@@ -9,6 +9,7 @@ export default {
     delete: 'Löschen',
     edit: 'Bearbeiten',
     save: 'Speichern',
+    add: 'Hinzufügen',
   },
 
   validation: {
@@ -17,6 +18,7 @@ export default {
     requiredFirstName: 'Vorname eingeben',
     requiredLastName: 'Nachname eingeben',
     minPassword: 'Mindestens 6 Zeichen',
+    passwordsMismatch: 'Passwörter stimmen nicht überein',
     requiredAmount: 'Betrag größer als 0 eingeben',
     requiredDate: 'Datum wählen',
     requiredSiteName: 'Objektname eingeben',
@@ -86,6 +88,7 @@ export default {
     navSettings: 'Einstellungen',
     navMonthlyReport: 'Monatsbericht',
     navGeneralReport: 'Gesamtbericht',
+    navSitesReport: 'Objektbericht',
     navEmployeeRates: 'Mitarbeiterlöhne',
     navSites: 'Objekte',
   },
@@ -96,6 +99,7 @@ export default {
       settings: 'Einstellungen',
       monthlyReport: 'Monatsbericht',
       generalReport: 'Gesamtbericht',
+      sitesReport: 'Objektbericht',
       employeeRates: 'Mitarbeiterlöhne',
       sites: 'Objekte',
       fallback: 'BRW Bau',
@@ -132,6 +136,78 @@ export default {
     errorFallback: 'Änderungen konnten nicht gespeichert werden',
     installApp: 'App installieren',
     iosInstallTitle: 'Zum Home-Bildschirm hinzufügen',
+
+    tabProfile: 'Profil',
+    tabSecurity: 'Sicherheit',
+    tabApp: 'App',
+
+    profileSection: 'Profil',
+    profileHint: 'Name und Foto sind für den Vorarbeiter in Brigadeberichten sichtbar',
+    avatarHint: 'JPG oder PNG, bis 2 MB',
+    emailLabel: 'E-Mail',
+    emailLockedHint: 'Die E-Mail ändert der Administrator',
+
+    workSection: 'Arbeitsparameter',
+    workHint: 'Werden zur Berechnung von Lohn und Fortschritt auf der Startseite genutzt',
+    rateLabel: 'Stundenlohn',
+    rateLockedHint: 'Legt der Administrator fest',
+    normLabel: 'Sollstunden pro Monat',
+    normHint: 'Arbeitstage × 8 Std.',
+    defaultSiteLabel: 'Standardobjekt',
+    defaultSiteHint: 'Wird im Stundenformular vorausgewählt',
+
+    passwordSection: 'Passwort',
+    passwordHint: 'Verwenden Sie ein sicheres Passwort, das Sie sonst nirgends nutzen',
+    currentPassword: 'Aktuelles Passwort',
+    newPassword: 'Neues Passwort',
+    repeatPassword: 'Passwort wiederholen',
+    changePassword: 'Passwort ändern',
+
+    sessionsSection: 'Sitzungen',
+    thisDevice: 'Dieses Gerät',
+    sessionActive: 'Aktiv',
+    signOutEverywhere: 'Von allen Geräten abmelden',
+    signOutEverywhereConfirm:
+      'Sie werden von allen Geräten abgemeldet, einschließlich diesem. Fortfahren?',
+
+    pwaSection: 'App-Installation',
+    pwaTitle: 'BRW Bau installieren',
+    pwaHint: 'Funktioniert offline, Stunden werden schneller erfasst',
+    pwaInstall: 'Installieren',
+
+    notificationsSection: 'Benachrichtigungen',
+    notifyNewReport: 'Bestätigung erfasster Stunden',
+    notifyNewReportHint: 'Benachrichtigung nach jedem gespeicherten Eintrag',
+    notifyWeekly: 'Wochenzusammenfassung',
+    notifyWeeklyHint: 'Wöchentliche Übersicht der geleisteten Stunden',
+    notifyCrewMissing: 'Team ohne Eintrag',
+    notifyCrewMissingHint: 'Wenn jemand aus dem Team die Stunden für den Tag nicht erfasst hat',
+
+    aboutSection: 'Über die App',
+    appVersion: 'BRW Bau · Version {version}',
+    termsLink: 'Nutzungsbedingungen',
+
+    dirtyNotice: 'Es gibt ungespeicherte Änderungen',
+    savedNotice: 'Alle Änderungen gespeichert',
+    discardChanges: 'Verwerfen',
+    discardConfirm: 'Sie haben ungespeicherte Änderungen. Seite ohne Speichern verlassen?',
+
+    dangerSection: 'Konto löschen',
+    dangerHint:
+      'Konto und Zugang werden gelöscht. Erfasste Stunden bleiben in den Unternehmensberichten erhalten — sie werden für die Lohnabrechnung benötigt.',
+    dangerBullet1: 'Profil, Foto und Einstellungen werden endgültig gelöscht',
+    dangerBullet2:
+      'Stundeneinträge bleiben erhalten, als Autor wird „Gelöschter Mitarbeiter“ angezeigt',
+    dangerBullet3: 'Diese Aktion kann nicht rückgängig gemacht werden',
+    deleteAccount: 'Konto löschen',
+    deleteDialogTitle: 'Konto löschen?',
+    deleteDialogText:
+      'Diese Aktion löscht Ihr Konto und den Zugang zur App. Sie kann nicht rückgängig gemacht werden.',
+    deleteConfirmLabel: 'Geben Sie „{word}“ ein, um zu bestätigen',
+    deleteConfirmWord: 'LÖSCHEN',
+    deleteFinal: 'Endgültig löschen',
+    deleteSuccess: 'Konto gelöscht',
+    deleteError: 'Konto konnte nicht gelöscht werden',
   },
 
   pwa: {
@@ -146,12 +222,16 @@ export default {
   reports: {
     monthly: {
       title: 'Monatsbericht',
-      monthLabel: 'Monat',
+      periodLabel: 'Zeitraum',
       siteLabel: 'Objekt',
+      sitePlaceholder: 'Objekt auswählen',
       dateLabel: 'Datum',
       startTimeLabel: 'Beginn',
       endTimeLabel: 'Ende',
       submit: 'Eintrag hinzufügen',
+      addHint: 'Stunden werden automatisch berechnet',
+      hoursHintEmpty: 'Uhrzeit eingeben, um die Stunden zu sehen',
+      hoursHintValue: '{hours} Std.',
       columnDate: 'Datum',
       columnWeekday: 'Wochentag',
       columnSite: 'Objekt',
@@ -174,6 +254,7 @@ export default {
       placeholder:
         'Ein zusammenfassender Bericht über alle Mitarbeiter (Monat und Jahr) erscheint nach Umsetzung von Stufe 9. Diese Seite ist nur für Administratoren.',
     },
+    deletedEmployee: 'Gelöschter Mitarbeiter',
   },
 
   admin: {

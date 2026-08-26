@@ -31,8 +31,6 @@
     </TableFiltersBar>
 
     <div class="brw-page-body q-pa-md">
-      <div class="text-h6 q-mb-md">{{ t('admin.sites.title') }}</div>
-
       <q-table
         class="col brw-sticky-table"
         :rows="filteredSites"

@@ -9,6 +9,7 @@ export default {
     delete: 'Delete',
     edit: 'Edit',
     save: 'Save',
+    add: 'Add',
   },
 
   validation: {
@@ -17,6 +18,7 @@ export default {
     requiredFirstName: 'Enter your first name',
     requiredLastName: 'Enter your last name',
     minPassword: 'At least 6 characters',
+    passwordsMismatch: 'Passwords do not match',
     requiredAmount: 'Enter an amount greater than 0',
     requiredDate: 'Select a date',
     requiredSiteName: 'Enter a site name',
@@ -86,6 +88,7 @@ export default {
     navSettings: 'Settings',
     navMonthlyReport: 'Monthly report',
     navGeneralReport: 'General report',
+    navSitesReport: 'Sites report',
     navEmployeeRates: 'Employee rates',
     navSites: 'Sites',
   },
@@ -96,6 +99,7 @@ export default {
       settings: 'Settings',
       monthlyReport: 'Monthly report',
       generalReport: 'General report',
+      sitesReport: 'Sites report',
       employeeRates: 'Employee rates',
       sites: 'Sites',
       fallback: 'BRW Bau',
@@ -132,6 +136,76 @@ export default {
     errorFallback: 'Could not save changes',
     installApp: 'Install app',
     iosInstallTitle: 'How to add to Home Screen',
+
+    tabProfile: 'Profile',
+    tabSecurity: 'Security',
+    tabApp: 'App',
+
+    profileSection: 'Profile',
+    profileHint: 'Your name and photo are visible to the foreman in crew reports',
+    avatarHint: 'JPG or PNG, up to 2 MB',
+    emailLabel: 'Email',
+    emailLockedHint: 'The administrator changes the email',
+
+    workSection: 'Work parameters',
+    workHint: 'Used to calculate pay and progress on the home page',
+    rateLabel: 'Hourly rate',
+    rateLockedHint: 'Set by the administrator',
+    normLabel: 'Monthly hour norm',
+    normHint: 'Workdays × 8 h',
+    defaultSiteLabel: 'Default site',
+    defaultSiteHint: 'Pre-filled into the hours form',
+
+    passwordSection: 'Password',
+    passwordHint: "Use a strong password you don't use anywhere else",
+    currentPassword: 'Current password',
+    newPassword: 'New password',
+    repeatPassword: 'Repeat password',
+    changePassword: 'Change password',
+
+    sessionsSection: 'Sessions',
+    thisDevice: 'This device',
+    sessionActive: 'Current',
+    signOutEverywhere: 'Sign out everywhere',
+    signOutEverywhereConfirm:
+      'You will be signed out of all devices, including this one. Continue?',
+
+    pwaSection: 'App installation',
+    pwaTitle: 'Install BRW Bau',
+    pwaHint: 'Works offline, log hours faster',
+    pwaInstall: 'Install',
+
+    notificationsSection: 'Notifications',
+    notifyNewReport: 'Logged hours confirmation',
+    notifyNewReportHint: 'Notify after every saved entry',
+    notifyWeekly: 'Weekly summary',
+    notifyWeeklyHint: 'Weekly summary of hours worked',
+    notifyCrewMissing: 'Crew missing an entry',
+    notifyCrewMissingHint: "When someone on the crew hasn't logged hours for the day",
+
+    aboutSection: 'About',
+    appVersion: 'BRW Bau · version {version}',
+    termsLink: 'Terms of use',
+
+    dirtyNotice: 'You have unsaved changes',
+    savedNotice: 'All changes saved',
+    discardChanges: 'Discard',
+    discardConfirm: 'You have unsaved changes. Leave the page without saving?',
+
+    dangerSection: 'Delete account',
+    dangerHint:
+      'Your account and access will be deleted. Logged hours remain in company reports — they are needed to calculate payroll.',
+    dangerBullet1: 'Profile, photo and settings are permanently deleted',
+    dangerBullet2: 'Hour entries remain, the author is shown as "Deleted employee"',
+    dangerBullet3: 'This action cannot be undone',
+    deleteAccount: 'Delete account',
+    deleteDialogTitle: 'Delete account?',
+    deleteDialogText: 'This will delete your account and access to the app. It cannot be undone.',
+    deleteConfirmLabel: 'Type "{word}" to confirm',
+    deleteConfirmWord: 'DELETE',
+    deleteFinal: 'Delete permanently',
+    deleteSuccess: 'Account deleted',
+    deleteError: 'Failed to delete the account',
   },
 
   pwa: {
@@ -146,12 +220,16 @@ export default {
   reports: {
     monthly: {
       title: 'Monthly report',
-      monthLabel: 'Month',
+      periodLabel: 'Period',
       siteLabel: 'Site',
+      sitePlaceholder: 'Select a site',
       dateLabel: 'Date',
       startTimeLabel: 'Start',
       endTimeLabel: 'End',
       submit: 'Add entry',
+      addHint: 'Hours are calculated automatically',
+      hoursHintEmpty: 'Enter the time to see the hours',
+      hoursHintValue: '{hours} h',
       columnDate: 'Date',
       columnWeekday: 'Weekday',
       columnSite: 'Site',
@@ -174,6 +252,7 @@ export default {
       placeholder:
         'A summary report across all employees (monthly and yearly) will appear once Stage 9 is implemented. This page is admin-only.',
     },
+    deletedEmployee: 'Deleted employee',
   },
 
   admin: {

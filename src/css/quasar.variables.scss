@@ -31,3 +31,16 @@ $drawer-surface: #20262a; // user card inside the drawer
 $drawer-border: #262b2f; // drawer footer separator
 $drawer-muted: #8b9195; // role line, logout icon
 $drawer-group: #6f7579; // nav group captions
+
+// Shared surface/text tokens, used across auth, layout, and settings.
+$surface-muted: #fafafa; // read-only field background
+$row-divider: #f0f0f0; // divider between list rows (sessions, toggles)
+$accent-soft: #fffbe6; // PWA banner / notice background
+$accent-soft-border: #ffe97f; // PWA banner / notice border
+$accent-ink: #6b5b00; // text on $accent-soft
+$accent-icon: #cfa600; // icon on $accent-soft (more saturated than $accent-ink)
+$accent-link: #8a7300; // links / status text tinted toward the brand accent
+$text-hint: #9e9e9e; // field hints, muted icons
+$text-secondary: #5f6368; // form labels, dialog body copy
+$field-invalid: #d93025; // invalid time-range border/hint (distinct from $negative)
+$negative-border: #e0a5a5; // border for outline-style danger buttons

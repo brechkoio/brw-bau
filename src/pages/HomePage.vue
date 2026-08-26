@@ -4,13 +4,11 @@
       <!-- CTA row -->
       <div class="row items-center brw-cta-row">
         <q-btn
-          color="accent"
-          text-color="black"
-          icon="add"
-          :label="t('home.addTodayEntry')"
           unelevated
           no-caps
-          class="text-weight-bold brw-cta-btn"
+          icon="add"
+          :label="t('home.addTodayEntry')"
+          class="brw-btn-primary"
           @click="addDialogOpen = true"
         />
         <div class="text-body2 brw-muted">
@@ -438,16 +436,8 @@ void loadRecentEntries();
   gap: 16px;
 }
 
-.brw-cta-btn {
-  border-radius: 6px;
-  padding: 14px 20px;
-  font-size: 15px;
-  letter-spacing: 0.02em;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
-}
-
 .brw-muted {
-  color: #5f6368;
+  color: $text-secondary;
 }
 
 .brw-stat-grid {
@@ -469,12 +459,12 @@ void loadRecentEntries();
 
 .brw-stat-fraction {
   font-size: 13px;
-  color: #757575;
+  color: $text-muted;
 }
 
 .brw-stat-caption {
   font-size: 12px;
-  color: #757575;
+  color: $text-muted;
 }
 
 .brw-two-col {
@@ -532,7 +522,7 @@ void loadRecentEntries();
 .brw-chart-weekday {
   text-align: center;
   font-size: 11px;
-  color: #757575;
+  color: $text-muted;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -556,7 +546,7 @@ void loadRecentEntries();
 
 .brw-entry-weekday {
   font-size: 11px;
-  color: #9e9e9e;
+  color: $text-hint;
   text-transform: uppercase;
 }
 </style>

@@ -31,8 +31,6 @@
     </TableFiltersBar>
 
     <div class="brw-page-body q-pa-md">
-      <div class="text-h6 q-mb-md">{{ t('admin.rates.title') }}</div>
-
       <q-table
         class="col brw-sticky-table"
         :rows="filteredRates"
@@ -54,17 +52,30 @@
         <q-card-section class="text-h6">{{ t('admin.rates.submit') }}</q-card-section>
         <q-form @submit.prevent="onSave">
           <q-card-section class="column q-gutter-md">
-            <q-select
-              v-model="form.employeeId"
-              :options="employeeOptions"
-              :label="t('admin.rates.employeeLabel')"
-              color="accent"
-              outlined
-              emit-value
-              map-options
-              :rules="[(val) => !!val || t('validation.requiredEmployee')]"
-              lazy-rules
-            />
+            <div class="brw-field">
+              <label for="rate-employee">{{ t('admin.rates.employeeLabel') }}</label>
+              <q-select
+                for="rate-employee"
+                v-model="form.employeeId"
+                :options="employeeOptions"
+                outlined
+                emit-value
+                map-options
+                popup-content-class="brw-select__menu"
+                class="brw-select"
+                :rules="[(val) => !!val || t('validation.requiredEmployee')]"
+                lazy-rules
+              >
+                <template #option="scope">
+                  <q-item v-bind="scope.itemProps">
+                    <q-item-section>{{ scope.opt.label }}</q-item-section>
+                    <q-item-section v-if="scope.selected" side>
+                      <q-icon name="check" size="18px" class="brw-select__check" />
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
 
             <q-input
               v-model.number="form.hourlyRate"
@@ -79,12 +90,31 @@
 
             <q-input
               v-model="form.effectiveFrom"
-              type="date"
               :label="t('admin.rates.effectiveFromLabel')"
               outlined
+              readonly
+              class="cursor-pointer"
               :rules="[(val) => !!val || t('validation.requiredDate')]"
               lazy-rules
-            />
+            >
+              <template #append>
+                <q-icon name="event" />
+              </template>
+              <q-popup-proxy
+                ref="effectiveFromProxy"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-date
+                  v-model="form.effectiveFrom"
+                  mask="YYYY-MM-DD"
+                  today-btn
+                  color="accent"
+                  text-color="dark"
+                  @update:model-value="() => effectiveFromProxy?.hide()"
+                />
+              </q-popup-proxy>
+            </q-input>
           </q-card-section>
           <q-card-actions align="right">
             <q-btn flat :label="t('common.cancel')" v-close-popup />
@@ -106,7 +136,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useQuasar, type QTableColumn } from 'quasar';
+import { useQuasar, type QTableColumn, type QPopupProxy } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
@@ -132,6 +162,7 @@ const search = ref('');
 const loading = ref(false);
 const saving = ref(false);
 const addDialogOpen = ref(false);
+const effectiveFromProxy = ref<QPopupProxy | null>(null);
 
 const form = ref({
   employeeId: null as string | null,
@@ -231,3 +262,12 @@ async function onSave() {
 void loadEmployees();
 void loadRates();
 </script>
+
+<style lang="scss" scoped>
+.brw-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: $text-secondary;
+}
+</style>

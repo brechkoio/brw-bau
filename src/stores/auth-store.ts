@@ -86,6 +86,29 @@ export const useAuthStore = defineStore('auth', () => {
     if (error) throw error;
   }
 
+  async function signOutEverywhere() {
+    const { error } = await supabase.auth.signOut({ scope: 'global' });
+    if (error) throw error;
+  }
+
+  async function changePassword(currentPassword: string, newPassword: string) {
+    if (!user.value?.email) throw new Error('Not authenticated');
+
+    const { error: reauthError } = await supabase.auth.signInWithPassword({
+      email: user.value.email,
+      password: currentPassword,
+    });
+    if (reauthError) throw reauthError;
+
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+  }
+
+  async function deleteAccount() {
+    const { error } = await supabase.functions.invoke('delete-account');
+    if (error) throw error;
+  }
+
   async function updateProfile(params: {
     firstName: string;
     lastName: string;
@@ -130,6 +153,9 @@ export const useAuthStore = defineStore('auth', () => {
     signIn,
     signUp,
     signOut,
+    signOutEverywhere,
+    changePassword,
+    deleteAccount,
     updateProfile,
   };
 });

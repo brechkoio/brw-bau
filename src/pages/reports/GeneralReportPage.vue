@@ -1,7 +1,5 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="text-h6 q-mb-md">{{ t('reports.general.title') }}</div>
-
     <q-banner class="bg-grey-2">
       {{ t('reports.general.placeholder') }}
     </q-banner>

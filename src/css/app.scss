@@ -70,32 +70,317 @@ body {
 .auth-field label {
   display: block;
   margin-bottom: 6px;
-  color: #5f6368;
+  color: $text-secondary;
   font-size: 12px;
 }
-.auth-input .q-field__control {
+.brw-input .q-field__control {
   height: 48px;
   border-radius: 12px;
 }
-.auth-input.q-field--outlined .q-field__control:before {
+.brw-input.q-field--outlined .q-field__control:before {
   border-color: $separator-color;
 }
-.auth-input.q-field--focused .q-field__control:before,
-.auth-input.q-field--focused .q-field__control:after {
+.brw-input.q-field--focused .q-field__control:before,
+.brw-input.q-field--focused .q-field__control:after {
   border-color: $accent;
 }
-.auth-input input:-webkit-autofill {
+.brw-input input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 100px white inset;
   -webkit-text-fill-color: $dark;
 }
-.auth-input .q-field__native {
+.brw-input .q-field__native {
   color: $dark;
   font-size: 15px;
 }
-.auth-input .q-field__append {
+.brw-input .q-field__append {
   padding-right: 4px;
-  color: #5f6368;
+  color: $text-secondary;
 }
+.brw-input--error .q-field__control:before {
+  border-color: $field-invalid !important;
+}
+.brw-input__unit {
+  font-size: 15px;
+  color: $text-hint;
+}
+
+// Real (Quasar-disabled) control that exists but is currently unavailable —
+// distinct from `--readonly` below, which is a value the user can see but
+// never edits at all.
+.brw-input.q-field--disabled,
+.brw-input--disabled {
+  .q-field__control {
+    background: $surface-muted;
+  }
+  &.q-field--outlined .q-field__control:before {
+    border-style: dashed;
+    border-color: $separator-color;
+  }
+  .q-field__native,
+  .q-field__label,
+  label {
+    color: #bdbdbd;
+  }
+  cursor: not-allowed;
+}
+
+// Not an actual q-field — a plain row styled to match `.brw-input`'s
+// geometry, for values the user sees but never edits (email, rate, norm).
+// Put the icon last in markup to push it right via margin-left:auto.
+.brw-input--readonly {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid #efefef;
+  border-radius: 12px;
+  background: $surface-muted;
+  color: $text-muted;
+  font-size: 15px;
+
+  .q-icon {
+    flex-shrink: 0;
+    font-size: 20px;
+    color: $text-hint;
+
+    &:last-child {
+      margin-left: auto;
+    }
+  }
+}
+
+@media (max-width: 599px) {
+  .brw-input .q-field__control {
+    height: 52px;
+  }
+  .brw-input--readonly {
+    height: 52px;
+  }
+}
+
+// ---- Select: geometry/states inherited from .brw-input, nothing copied ----
+.brw-select {
+  @extend .brw-input;
+
+  .q-select__dropdown-icon {
+    color: $text-hint;
+    font-size: 20px;
+
+    &.rotate-180 {
+      color: $text-secondary;
+    }
+  }
+}
+
+// Quasar teleports the options popup out of the component tree, so this
+// has to be a global class (passed via `popup-content-class`), not scoped.
+.brw-select__menu {
+  border-radius: 12px;
+  border: 1px solid $separator-color;
+  box-shadow: 0 12px 28px rgba(22, 26, 29, 0.14);
+
+  .q-item {
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 14px;
+    color: $dark;
+  }
+
+  .q-item:hover {
+    background: $secondary;
+  }
+
+  // Overrides Quasar's default `color: var(--q-primary)` active tint.
+  .q-item--active {
+    background: $accent-soft !important;
+    color: $dark !important;
+    font-weight: 500;
+  }
+
+  .brw-select__check {
+    color: $accent-icon;
+  }
+}
+
+// Primary yellow CTA — hover/active feedback and fill are shared everywhere
+// (toolbar trigger, dialog save, mobile FAB); the default sizing here is the
+// 40px toolbar/CTA variant, with size modifiers for the other two spots.
+.brw-btn-primary {
+  min-height: 40px;
+  padding: 0 18px 0 14px;
+  border-radius: 10px;
+  background: $accent;
+  color: $dark;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(22, 26, 29, 0.14);
+
+  .q-btn__content {
+    gap: 8px;
+  }
+
+  .q-icon {
+    font-size: 20px;
+  }
+
+  &:hover {
+    background: #ffd633;
+    box-shadow: 0 3px 10px rgba(255, 207, 0, 0.45);
+  }
+
+  &:active {
+    background: #e8bd00;
+    box-shadow: none;
+  }
+
+  &--dialog {
+    min-height: 44px;
+    padding: 0 22px;
+    border-radius: 11px;
+
+    &.disabled {
+      background: #f0f0f0;
+      color: #bdbdbd;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+
+  &--fab {
+    min-height: 52px;
+    padding: 0 20px 0 16px;
+    border-radius: 99px;
+    font-size: 15px;
+    box-shadow: 0 8px 20px rgba(22, 26, 29, 0.22);
+
+    .q-icon {
+      font-size: 24px;
+    }
+  }
+
+  // Full-width CTA used on the auth screens (login/register submit).
+  &--cta {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 4px;
+    padding: 0;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  // Icon-only square variant — caller must still set an aria-label.
+  &--icon {
+    min-height: 40px;
+    width: 40px;
+    padding: 0;
+    border-radius: 10px;
+
+    .q-icon {
+      font-size: 22px;
+    }
+  }
+
+  // Quasar keeps the original content in the DOM at opacity:0 while loading
+  // (class q-btn__content--hidden) and overlays a spinner, so width already
+  // can't jump — this just dims the button to signal the busy state.
+  &:has(.q-btn__content--hidden) {
+    opacity: 0.85;
+  }
+}
+
+// Secondary (white, bordered) action — one step down from the primary CTA.
+.brw-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid $separator-color;
+  border-radius: 12px;
+  background: #fff;
+  color: $dark;
+  font-size: 14px;
+  font-weight: 500;
+
+  .q-icon {
+    font-size: 20px;
+  }
+
+  &:hover {
+    background: $secondary;
+  }
+
+  &--lg {
+    min-height: 48px;
+  }
+}
+
+// Quiet action — background only appears on hover. Used for "Cancel" next to
+// a primary/danger action, never on its own.
+.brw-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 11px;
+  background: transparent;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 500;
+
+  .q-icon {
+    font-size: 20px;
+  }
+
+  &:hover {
+    background: $secondary;
+  }
+}
+
+// Destructive action trigger — outline only. The solid fill is reserved for
+// the final confirmation step inside a dialog (--solid below).
+.brw-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid $negative-border;
+  border-radius: 12px;
+  background: #fff;
+  color: $negative;
+  font-size: 14px;
+  font-weight: 600;
+
+  .q-icon {
+    font-size: 20px;
+  }
+
+  &--solid {
+    padding: 0 20px;
+    border-color: transparent;
+    background: $negative;
+    color: #fff;
+  }
+}
+
+// Row-level icon action in tables (edit/delete).
+.brw-table-icon-btn {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  border: 1px solid $hairline;
+  border-radius: 10px;
+  color: $text-secondary;
+
+  .q-icon {
+    font-size: 20px;
+  }
+}
+
 .auth-forgot {
   display: flex;
   justify-content: flex-end;
@@ -104,19 +389,9 @@ body {
 }
 .auth-forgot a,
 .auth-switch a {
-  color: #8a7300;
+  color: $accent-link;
   font-weight: 500;
   text-decoration: none;
-}
-.auth-submit {
-  width: 100%;
-  height: 52px;
-  margin-top: 4px;
-  border-radius: 12px;
-  background: $accent;
-  color: $dark;
-  font-size: 16px;
-  font-weight: 600;
 }
 .auth-switch {
   margin: 16px 0 0;
@@ -134,10 +409,10 @@ body {
 }
 .auth-notice-banner {
   margin: 16px 0;
-  border: 1px solid #ffe97f;
+  border: 1px solid $accent-soft-border;
   border-radius: 12px;
-  background: #fffbe6;
-  color: #6b5b00;
+  background: $accent-soft;
+  color: $accent-ink;
   font-size: 13px;
 }
 .auth-name-row {
@@ -156,20 +431,14 @@ body {
   margin: 0 auto 16px;
   place-items: center;
   border-radius: 50%;
-  background: #fffbe6;
-  color: #cfa600;
+  background: $accent-soft;
+  color: $accent-icon;
 }
 .auth-success p {
   margin: 12px 0 20px;
   color: $text-muted;
   font-size: 13px;
   line-height: 1.5;
-}
-.auth-secondary-btn {
-  min-height: 48px;
-  border: 1px solid $separator-color;
-  border-radius: 12px;
-  color: $dark;
 }
 @media (max-width: 399px) {
   .auth-name-row {
@@ -178,12 +447,17 @@ body {
   }
 }
 
-.auth-tab:focus-visible,
-.auth-submit:focus-visible,
-.auth-secondary-btn:focus-visible,
+// One rule for every custom control's focus ring instead of a per-component
+// selector list that has to be kept in sync by hand. The wildcard matches
+// any element carrying a class itself (all our buttons/links do); the two
+// plain `<a>` selectors below cover links whose class lives on a wrapper.
+// !important is required: every q-btn ships Quasar's own `.no-outline`
+// utility class (`outline: 0 !important`), which otherwise wins outright.
+[class*='auth-']:focus-visible,
+[class*='brw-']:focus-visible,
 .auth-forgot a:focus-visible,
 .auth-switch a:focus-visible {
-  outline: 2px solid $accent;
+  outline: 2px solid $accent !important;
   outline-offset: 2px;
 }
 

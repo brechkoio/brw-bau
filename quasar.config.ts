@@ -3,6 +3,11 @@
 
 import { defineConfig } from '#q-app';
 import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
+
+const pkg = JSON.parse(
+  readFileSync(fileURLToPath(new URL('./package.json', import.meta.url)), 'utf-8'),
+) as { version: string };
 
 export default defineConfig((ctx) => {
   return {
@@ -62,7 +67,9 @@ export default defineConfig((ctx) => {
       env: {
         clientPrefix: 'VITE_',
       },
-      // define: {},
+      define: {
+        'import.meta.env.APP_VERSION': JSON.stringify(pkg.version),
+      },
       // defineEnv: {}
       // ignorePublicFolder: true,
       // minify: false,

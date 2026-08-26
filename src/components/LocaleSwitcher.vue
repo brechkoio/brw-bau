@@ -34,7 +34,7 @@ const { t } = useI18n();
 const { locale, setLocale, locales } = useLocale();
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .locale-switcher {
   display: flex;
   gap: 2px;
@@ -62,7 +62,7 @@ const { locale, setLocale, locales } = useLocale();
   font-weight: 600;
 }
 .locale-switcher__button--active {
-  background: #ffcf00;
-  color: #161a1d;
+  background: $accent;
+  color: $dark;
 }
 </style>

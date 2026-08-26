@@ -7,6 +7,7 @@ const uk = {
     delete: 'Видалити',
     edit: 'Редагувати',
     save: 'Зберегти',
+    add: 'Додати',
   },
 
   validation: {
@@ -15,6 +16,7 @@ const uk = {
     requiredFirstName: "Введіть ім'я",
     requiredLastName: 'Введіть прізвище',
     minPassword: 'Мінімум 6 символів',
+    passwordsMismatch: 'Паролі не збігаються',
     requiredAmount: 'Введіть суму більше 0',
     requiredDate: 'Оберіть дату',
     requiredSiteName: "Введіть назву об'єкта",
@@ -84,6 +86,7 @@ const uk = {
     navSettings: 'Налаштування',
     navMonthlyReport: 'Звіт за місяць',
     navGeneralReport: 'Загальний звіт',
+    navSitesReport: "Звіт по об'єктах",
     navEmployeeRates: 'Ставки співробітників',
     navSites: "Об'єкти",
   },
@@ -94,6 +97,7 @@ const uk = {
       settings: 'Налаштування',
       monthlyReport: 'Звіт за місяць',
       generalReport: 'Загальний звіт',
+      sitesReport: "Звіт по об'єктах",
       employeeRates: 'Ставки співробітників',
       sites: "Об'єкти",
       fallback: 'BRW Bau',
@@ -130,6 +134,75 @@ const uk = {
     errorFallback: 'Не вдалося зберегти зміни',
     installApp: 'Встановити додаток',
     iosInstallTitle: 'Як додати на екран «Додому»',
+
+    tabProfile: 'Профіль',
+    tabSecurity: 'Безпека',
+    tabApp: 'Застосунок',
+
+    profileSection: 'Профіль',
+    profileHint: "Ім'я та фото видно майстру у звітах бригади",
+    avatarHint: 'JPG або PNG, до 2 МБ',
+    emailLabel: 'Email',
+    emailLockedHint: 'Email змінює адміністратор',
+
+    workSection: 'Робочі параметри',
+    workHint: 'Використовуються для розрахунку зарплати й прогресу на головній',
+    rateLabel: 'Ставка за годину',
+    rateLockedHint: 'Встановлює адміністратор',
+    normLabel: 'Норма годин на місяць',
+    normHint: 'Робочі дні × 8 год',
+    defaultSiteLabel: "Об'єкт за замовчуванням",
+    defaultSiteHint: 'Підставляється у форму годин',
+
+    passwordSection: 'Пароль',
+    passwordHint: 'Використовуйте надійний пароль, який ви не використовуєте більше ніде',
+    currentPassword: 'Поточний пароль',
+    newPassword: 'Новий пароль',
+    repeatPassword: 'Повторіть пароль',
+    changePassword: 'Змінити пароль',
+
+    sessionsSection: 'Сесії',
+    thisDevice: 'Цей пристрій',
+    sessionActive: 'Поточна',
+    signOutEverywhere: 'Вийти на всіх пристроях',
+    signOutEverywhereConfirm: 'Ви вийдете з усіх пристроїв, включно з цим. Продовжити?',
+
+    pwaSection: 'Встановлення застосунку',
+    pwaTitle: 'Встановити BRW Bau',
+    pwaHint: 'Працює офлайн, години вносяться швидше',
+    pwaInstall: 'Встановити',
+
+    notificationsSection: 'Сповіщення',
+    notifyNewReport: 'Підтвердження внесених годин',
+    notifyNewReportHint: 'Сповіщення після кожного збереженого запису',
+    notifyWeekly: 'Тижневий підсумок',
+    notifyWeeklyHint: 'Підсумок відпрацьованих годин щотижня',
+    notifyCrewMissing: 'Бригада без запису',
+    notifyCrewMissingHint: 'Коли хтось із бригади не вніс години за день',
+
+    aboutSection: 'Про застосунок',
+    appVersion: 'BRW Bau · версія {version}',
+    termsLink: 'Умови користування',
+
+    dirtyNotice: 'Є незбережені зміни',
+    savedNotice: 'Усі зміни збережено',
+    discardChanges: 'Скасувати',
+    discardConfirm: 'У вас є незбережені зміни. Покинути сторінку без збереження?',
+
+    dangerSection: 'Видалення акаунту',
+    dangerHint:
+      'Акаунт і доступ буде видалено. Внесені години залишаються у звітах компанії — вони потрібні для розрахунку виплат.',
+    dangerBullet1: 'Профіль, фото та налаштування видаляються остаточно',
+    dangerBullet2: 'Записи годин залишаються, автор позначається як «Видалений співробітник»',
+    dangerBullet3: 'Скасувати дію неможливо',
+    deleteAccount: 'Видалити акаунт',
+    deleteDialogTitle: 'Видалити акаунт?',
+    deleteDialogText: 'Ця дія видалить ваш акаунт і доступ до застосунку. Скасувати її неможливо.',
+    deleteConfirmLabel: 'Введіть «{word}», щоб підтвердити',
+    deleteConfirmWord: 'ВИДАЛИТИ',
+    deleteFinal: 'Видалити остаточно',
+    deleteSuccess: 'Акаунт видалено',
+    deleteError: 'Не вдалося видалити акаунт',
   },
 
   pwa: {
@@ -144,12 +217,16 @@ const uk = {
   reports: {
     monthly: {
       title: 'Звіт за місяць',
-      monthLabel: 'Місяць',
+      periodLabel: 'Період',
       siteLabel: "Об'єкт",
+      sitePlaceholder: "Виберіть об'єкт",
       dateLabel: 'Дата',
       startTimeLabel: 'Початок',
       endTimeLabel: 'Кінець',
       submit: 'Додати запис',
+      addHint: 'Годин буде розраховано автоматично',
+      hoursHintEmpty: 'Вкажіть час, щоб побачити годин',
+      hoursHintValue: '{hours} год',
       columnDate: 'Дата',
       columnWeekday: 'День тижня',
       columnSite: "Об'єкт",
@@ -172,6 +249,7 @@ const uk = {
       placeholder:
         "Зведений звіт по всіх співробітниках (за місяць і за рік) з'явиться після впровадження Етапу 9. Ця сторінка доступна лише адміністраторам.",
     },
+    deletedEmployee: 'Видалений співробітник',
   },
 
   admin: {

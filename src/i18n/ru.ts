@@ -9,6 +9,7 @@ export default {
     delete: 'Удалить',
     edit: 'Редактировать',
     save: 'Сохранить',
+    add: 'Добавить',
   },
 
   validation: {
@@ -17,6 +18,7 @@ export default {
     requiredFirstName: 'Введите имя',
     requiredLastName: 'Введите фамилию',
     minPassword: 'Минимум 6 символов',
+    passwordsMismatch: 'Пароли не совпадают',
     requiredAmount: 'Введите сумму больше 0',
     requiredDate: 'Выберите дату',
     requiredSiteName: 'Введите название объекта',
@@ -86,6 +88,7 @@ export default {
     navSettings: 'Настройки',
     navMonthlyReport: 'Отчёт за месяц',
     navGeneralReport: 'Общий отчёт',
+    navSitesReport: 'Отчёт по объектам',
     navEmployeeRates: 'Ставки сотрудников',
     navSites: 'Объекты',
   },
@@ -96,6 +99,7 @@ export default {
       settings: 'Настройки',
       monthlyReport: 'Отчёт за месяц',
       generalReport: 'Общий отчёт',
+      sitesReport: 'Отчёт по объектам',
       employeeRates: 'Ставки сотрудников',
       sites: 'Объекты',
       fallback: 'BRW Bau',
@@ -132,6 +136,75 @@ export default {
     errorFallback: 'Не удалось сохранить изменения',
     installApp: 'Установить приложение',
     iosInstallTitle: 'Как добавить на экран «Домой»',
+
+    tabProfile: 'Профиль',
+    tabSecurity: 'Безопасность',
+    tabApp: 'Приложение',
+
+    profileSection: 'Профиль',
+    profileHint: 'Имя и фото видны мастеру в отчётах бригады',
+    avatarHint: 'JPG или PNG, до 2 МБ',
+    emailLabel: 'Email',
+    emailLockedHint: 'Email меняет администратор',
+
+    workSection: 'Рабочие параметры',
+    workHint: 'Используются для расчёта зарплаты и прогресса на главной',
+    rateLabel: 'Ставка за час',
+    rateLockedHint: 'Устанавливает администратор',
+    normLabel: 'Норма часов в месяц',
+    normHint: 'Рабочие дни × 8 ч',
+    defaultSiteLabel: 'Объект по умолчанию',
+    defaultSiteHint: 'Подставляется в форму часов',
+
+    passwordSection: 'Пароль',
+    passwordHint: 'Используйте надёжный пароль, который вы не используете больше нигде',
+    currentPassword: 'Текущий пароль',
+    newPassword: 'Новый пароль',
+    repeatPassword: 'Повторите пароль',
+    changePassword: 'Изменить пароль',
+
+    sessionsSection: 'Сессии',
+    thisDevice: 'Это устройство',
+    sessionActive: 'Текущая',
+    signOutEverywhere: 'Выйти на всех устройствах',
+    signOutEverywhereConfirm: 'Вы выйдете со всех устройств, включая это. Продолжить?',
+
+    pwaSection: 'Установка приложения',
+    pwaTitle: 'Установить BRW Bau',
+    pwaHint: 'Работает офлайн, часы вносятся быстрее',
+    pwaInstall: 'Установить',
+
+    notificationsSection: 'Уведомления',
+    notifyNewReport: 'Подтверждение внесённых часов',
+    notifyNewReportHint: 'Уведомление после каждой сохранённой записи',
+    notifyWeekly: 'Недельный итог',
+    notifyWeeklyHint: 'Итог отработанных часов каждую неделю',
+    notifyCrewMissing: 'Бригада без записи',
+    notifyCrewMissingHint: 'Когда кто-то из бригады не внёс часы за день',
+
+    aboutSection: 'О приложении',
+    appVersion: 'BRW Bau · версия {version}',
+    termsLink: 'Условия использования',
+
+    dirtyNotice: 'Есть несохранённые изменения',
+    savedNotice: 'Все изменения сохранены',
+    discardChanges: 'Отменить',
+    discardConfirm: 'У вас есть несохранённые изменения. Покинуть страницу без сохранения?',
+
+    dangerSection: 'Удаление аккаунта',
+    dangerHint:
+      'Аккаунт и доступ будут удалены. Внесённые часы остаются в отчётах компании — они нужны для расчёта выплат.',
+    dangerBullet1: 'Профиль, фото и настройки удаляются безвозвратно',
+    dangerBullet2: 'Записи часов остаются, автор помечается как «Удалённый сотрудник»',
+    dangerBullet3: 'Отменить действие невозможно',
+    deleteAccount: 'Удалить аккаунт',
+    deleteDialogTitle: 'Удалить аккаунт?',
+    deleteDialogText: 'Это действие удалит ваш аккаунт и доступ к приложению. Отменить его нельзя.',
+    deleteConfirmLabel: 'Введите «{word}», чтобы подтвердить',
+    deleteConfirmWord: 'УДАЛИТЬ',
+    deleteFinal: 'Удалить окончательно',
+    deleteSuccess: 'Аккаунт удалён',
+    deleteError: 'Не удалось удалить аккаунт',
   },
 
   pwa: {
@@ -146,12 +219,16 @@ export default {
   reports: {
     monthly: {
       title: 'Отчёт за месяц',
-      monthLabel: 'Месяц',
+      periodLabel: 'Период',
       siteLabel: 'Объект',
+      sitePlaceholder: 'Выберите объект',
       dateLabel: 'Дата',
       startTimeLabel: 'Начало',
       endTimeLabel: 'Конец',
       submit: 'Добавить запись',
+      addHint: 'Часы рассчитываются автоматически',
+      hoursHintEmpty: 'Укажите время, чтобы увидеть часы',
+      hoursHintValue: '{hours} ч',
       columnDate: 'Дата',
       columnWeekday: 'День недели',
       columnSite: 'Объект',
@@ -174,6 +251,7 @@ export default {
       placeholder:
         'Сводный отчёт по всем сотрудникам (за месяц и за год) появится после внедрения Этапа 9. Эта страница доступна только администраторам.',
     },
+    deletedEmployee: 'Удалённый сотрудник',
   },
 
   admin: {

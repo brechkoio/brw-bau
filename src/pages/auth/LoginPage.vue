@@ -21,7 +21,7 @@
           lazy-rules="ondemand"
           hide-bottom-space
           :rules="[(val) => !!val || t('validation.requiredEmail')]"
-          class="auth-input"
+          class="brw-input"
         />
       </div>
       <div class="auth-field">
@@ -37,7 +37,7 @@
           lazy-rules
           hide-bottom-space
           :rules="[(val) => !!val || t('validation.requiredPassword')]"
-          class="auth-input"
+          class="brw-input"
         >
           <template #append
             ><q-btn
@@ -61,7 +61,7 @@
         :disable="loading || !canSubmit"
         unelevated
         no-caps
-        class="auth-submit"
+        class="brw-btn-primary brw-btn-primary--cta"
       />
     </q-form>
 

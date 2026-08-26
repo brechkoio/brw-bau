@@ -42,7 +42,7 @@ async function onInstall() {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .pwa-install {
   position: fixed;
   z-index: 7000;
@@ -56,7 +56,7 @@ async function onInstall() {
   margin: 0 auto;
   padding: 12px 8px 12px 12px;
   border-radius: 12px;
-  background: #161a1d;
+  background: $dark;
   color: #fff;
 }
 .pwa-install__logo {

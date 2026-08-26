@@ -218,6 +218,7 @@ const trackingLinks: NavLink[] = [
 
 const adminLinks: NavLink[] = [
   { to: '/reports/general', icon: 'summarize', labelKey: 'layout.navGeneralReport' },
+  { to: '/reports/sites', icon: 'apartment', labelKey: 'layout.navSitesReport' },
   { to: '/admin/rates', icon: 'payments', labelKey: 'layout.navEmployeeRates' },
   { to: '/admin/sites', icon: 'location_city', labelKey: 'layout.navSites' },
 ];
@@ -406,14 +407,6 @@ watch(
   background: $secondary;
 }
 
-.brw-icon-btn:focus-visible,
-.brw-nav-item:focus-visible,
-.brw-profile-trigger:focus-visible,
-.brw-user-card__logout:focus-visible {
-  outline: 2px solid $accent;
-  outline-offset: 2px;
-}
-
 .brw-icon-btn--outlined {
   border: 1px solid $hairline;
 }
@@ -474,7 +467,7 @@ watch(
 }
 
 .brw-profile-trigger :deep(.q-icon) {
-  color: #9e9e9e;
+  color: $text-hint;
 }
 
 .brw-avatar {

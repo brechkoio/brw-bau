@@ -10,6 +10,8 @@ export default {
     edit: 'Edit',
     save: 'Save',
     add: 'Add',
+    export: 'Export',
+    exportError: 'Could not export the file',
   },
 
   validation: {

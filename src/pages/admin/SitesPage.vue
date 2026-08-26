@@ -18,6 +18,15 @@
       <q-space />
 
       <q-btn
+        unelevated
+        no-caps
+        icon="download"
+        :label="t('common.export')"
+        class="brw-btn-secondary"
+        @click="onExport"
+      />
+
+      <q-btn
         color="accent"
         text-color="black"
         icon="add"
@@ -86,6 +95,7 @@ import { useQuasar, type QTableColumn } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
+import { exportTableToCsv } from '@/utils/export-csv';
 
 interface Site {
   id: string;
@@ -109,7 +119,7 @@ const filteredSites = computed(() => {
   return sites.value.filter((s) => s.name.toLowerCase().includes(query));
 });
 
-const columns = computed<QTableColumn[]>(() => [
+const columns = computed<QTableColumn<Site>[]>(() => [
   {
     name: 'name',
     label: t('admin.sites.columnName'),
@@ -119,6 +129,13 @@ const columns = computed<QTableColumn[]>(() => [
   },
   { name: 'is_active', label: t('admin.sites.columnActive'), field: 'is_active', align: 'left' },
 ]);
+
+function onExport() {
+  const ok = exportTableToCsv('sites.csv', columns.value, filteredSites.value);
+  if (!ok) {
+    $q.notify({ type: 'negative', message: t('common.exportError') });
+  }
+}
 
 async function loadSites() {
   loading.value = true;

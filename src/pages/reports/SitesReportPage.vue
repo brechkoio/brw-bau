@@ -28,6 +28,17 @@
           </q-date>
         </q-popup-proxy>
       </q-input>
+
+      <q-space />
+
+      <q-btn
+        unelevated
+        no-caps
+        icon="download"
+        :label="t('common.export')"
+        class="brw-btn-secondary"
+        @click="onExport"
+      />
     </TableFiltersBar>
 
     <div class="brw-page-body q-pa-md">
@@ -44,7 +55,7 @@
         hide-bottom
       >
         <template #body-cell-hours="props">
-          <q-td :props="props">{{ props.value.toFixed(2) }}</q-td>
+          <q-td :props="props">{{ props.value }}</q-td>
         </template>
       </q-table>
 
@@ -61,6 +72,7 @@ import { useQuasar, type QTableColumn } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
+import { exportTableToCsv } from '@/utils/export-csv';
 
 interface EarningsRow {
   work_date: string;
@@ -131,7 +143,7 @@ const rows = computed<SiteDayRow[]>(() => {
 
 const totalHours = computed(() => rows.value.reduce((sum, r) => sum + r.hours, 0).toFixed(2));
 
-const columns = computed<QTableColumn[]>(() => [
+const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
   {
     name: 'site_name',
     label: t('reports.monthly.columnSite'),
@@ -150,10 +162,18 @@ const columns = computed<QTableColumn[]>(() => [
     name: 'hours',
     label: t('reports.monthly.columnHours'),
     field: 'hours',
+    format: (val: number) => val.toFixed(2),
     align: 'left',
     sortable: true,
   },
 ]);
+
+function onExport() {
+  const ok = exportTableToCsv('sites-report.csv', columns.value, rows.value);
+  if (!ok) {
+    $q.notify({ type: 'negative', message: t('common.exportError') });
+  }
+}
 
 async function loadRows() {
   loading.value = true;

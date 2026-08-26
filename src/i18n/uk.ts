@@ -8,6 +8,8 @@ const uk = {
     edit: 'Редагувати',
     save: 'Зберегти',
     add: 'Додати',
+    export: 'Експорт',
+    exportError: 'Не вдалося експортувати файл',
   },
 
   validation: {

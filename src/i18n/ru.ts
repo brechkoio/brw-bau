@@ -10,6 +10,8 @@ export default {
     edit: 'Редактировать',
     save: 'Сохранить',
     add: 'Добавить',
+    export: 'Экспорт',
+    exportError: 'Не удалось экспортировать файл',
   },
 
   validation: {

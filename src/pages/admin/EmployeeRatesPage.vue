@@ -18,6 +18,15 @@
       <q-space />
 
       <q-btn
+        unelevated
+        no-caps
+        icon="download"
+        :label="t('common.export')"
+        class="brw-btn-secondary"
+        @click="onExport"
+      />
+
+      <q-btn
         color="accent"
         text-color="black"
         icon="add"
@@ -42,7 +51,7 @@
         :no-data-label="t('admin.rates.noRates')"
       >
         <template #body-cell-hourly_rate="props">
-          <q-td :props="props"> {{ props.value }} {{ t('admin.rates.perHourSuffix') }} </q-td>
+          <q-td :props="props">{{ props.value }}</q-td>
         </template>
       </q-table>
     </div>
@@ -140,6 +149,7 @@ import { useQuasar, type QTableColumn, type QPopupProxy } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
+import { exportTableToCsv } from '@/utils/export-csv';
 
 interface EmployeeOption {
   label: string;
@@ -176,7 +186,7 @@ const filteredRates = computed(() => {
   return rates.value.filter((r) => r.employee_name.toLowerCase().includes(query));
 });
 
-const columns = computed<QTableColumn[]>(() => [
+const columns = computed<QTableColumn<RateRow>[]>(() => [
   {
     name: 'employee_name',
     label: t('admin.rates.columnEmployee'),
@@ -191,8 +201,21 @@ const columns = computed<QTableColumn[]>(() => [
     align: 'left',
     sortable: true,
   },
-  { name: 'hourly_rate', label: t('admin.rates.columnRate'), field: 'hourly_rate', align: 'left' },
+  {
+    name: 'hourly_rate',
+    label: t('admin.rates.columnRate'),
+    field: 'hourly_rate',
+    format: (val: number) => `${val} ${t('admin.rates.perHourSuffix')}`,
+    align: 'left',
+  },
 ]);
+
+function onExport() {
+  const ok = exportTableToCsv('employee-rates.csv', columns.value, filteredRates.value);
+  if (!ok) {
+    $q.notify({ type: 'negative', message: t('common.exportError') });
+  }
+}
 
 async function loadEmployees() {
   const { data, error } = await supabase

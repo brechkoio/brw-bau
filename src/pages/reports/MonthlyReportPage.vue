@@ -32,6 +32,15 @@
       <q-space />
 
       <q-btn
+        unelevated
+        no-caps
+        icon="download"
+        :label="t('common.export')"
+        class="brw-btn-secondary"
+        @click="onExport"
+      />
+
+      <q-btn
         v-if="!$q.screen.lt.sm"
         unelevated
         no-caps
@@ -69,17 +78,15 @@
         :row-class="rowClass"
       >
         <template #body-cell-weekday="props">
-          <q-td :props="props">{{ weekdayLabel(props.row.work_date) }}</q-td>
+          <q-td :props="props">{{ props.value }}</q-td>
         </template>
 
         <template #body-cell-time="props">
-          <q-td :props="props">
-            {{ formatTime(props.row.start_time) }}–{{ formatTime(props.row.end_time) }}
-          </q-td>
+          <q-td :props="props">{{ props.value }}</q-td>
         </template>
 
         <template #body-cell-earned="props">
-          <q-td :props="props">{{ formatMoney(props.row.earned) }}</q-td>
+          <q-td :props="props">{{ props.value }}</q-td>
         </template>
 
         <template #body-cell-actions="props">
@@ -197,6 +204,7 @@ import { supabase } from '@/boot/supabase';
 import { useAuthStore } from '@/stores/auth-store';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import AddWorkReportDialog from '@/components/AddWorkReportDialog.vue';
+import { exportTableToCsv } from '@/utils/export-csv';
 
 interface ReportRow {
   id: string;
@@ -270,15 +278,42 @@ const totalEarned = computed(() =>
   filteredRows.value.reduce((sum, r) => sum + Number(r.earned), 0),
 );
 
-const columns = computed<QTableColumn[]>(() => [
+const columns = computed<QTableColumn<ReportRow>[]>(() => [
   { name: 'work_date', label: t('reports.monthly.columnDate'), field: 'work_date', align: 'left' },
-  { name: 'weekday', label: t('reports.monthly.columnWeekday'), field: 'work_date', align: 'left' },
+  {
+    name: 'weekday',
+    label: t('reports.monthly.columnWeekday'),
+    field: 'work_date',
+    format: (val: string) => weekdayLabel(val),
+    align: 'left',
+  },
   { name: 'site_name', label: t('reports.monthly.columnSite'), field: 'site_name', align: 'left' },
-  { name: 'time', label: t('reports.monthly.columnTime'), field: 'start_time', align: 'left' },
+  {
+    name: 'time',
+    label: t('reports.monthly.columnTime'),
+    field: 'start_time',
+    format: (val: string, row) => `${formatTime(val)}–${formatTime(row.end_time)}`,
+    align: 'left',
+  },
   { name: 'hours', label: t('reports.monthly.columnHours'), field: 'hours', align: 'left' },
-  { name: 'earned', label: t('reports.monthly.columnEarned'), field: 'earned', align: 'left' },
+  {
+    name: 'earned',
+    label: t('reports.monthly.columnEarned'),
+    field: 'earned',
+    format: (val: number) => formatMoney(val),
+    align: 'left',
+  },
   { name: 'actions', label: t('reports.monthly.columnActions'), field: 'id', align: 'left' },
 ]);
+
+const exportColumns = computed(() => columns.value.filter((col) => col.name !== 'actions'));
+
+function onExport() {
+  const ok = exportTableToCsv('monthly-report.csv', exportColumns.value, filteredRows.value);
+  if (!ok) {
+    $q.notify({ type: 'negative', message: t('common.exportError') });
+  }
+}
 
 function getLocalWeekday(dateStr: string): number {
   const [y, m, d] = dateStr.split('-').map(Number) as [number, number, number];

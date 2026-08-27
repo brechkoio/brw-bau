@@ -216,6 +216,8 @@ export default {
     iosHint: 'Поделиться → На экран «Домой».',
     install: 'Установить',
     dismissAria: 'Закрыть',
+    updateAvailable: 'Доступна новая версия приложения',
+    updateAction: 'Обновить',
   },
 
   reports: {

@@ -214,6 +214,8 @@ const uk = {
     iosHint: 'Поділитися → На екран «Додому».',
     install: 'Встановити',
     dismissAria: 'Закрити',
+    updateAvailable: 'Доступна нова версія застосунку',
+    updateAction: 'Оновити',
   },
 
   reports: {

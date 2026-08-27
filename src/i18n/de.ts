@@ -219,6 +219,8 @@ export default {
     iosHint: 'Teilen → Zum Home-Bildschirm.',
     install: 'Installieren',
     dismissAria: 'Schließen',
+    updateAvailable: 'Eine neue App-Version ist verfügbar',
+    updateAction: 'Aktualisieren',
   },
 
   reports: {

@@ -1,4 +1,6 @@
 import { register } from 'register-service-worker';
+import { Notify } from 'quasar';
+import { i18n } from '@/boot/i18n';
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
@@ -27,8 +29,27 @@ register(import.meta.env.QUASAR_SERVICE_WORKER_FILE, {
     // console.log('New content is downloading.')
   },
 
-  updated(/* registration */) {
-    // console.log('New content is available; please refresh.')
+  // A new service worker has finished installing (skipWaiting/clientsClaim
+  // are on, so it's already taken over in the background) — prompt the
+  // user to reload rather than yanking the page out from under them
+  // mid-task. Anyone who ignores this and hits a stale chunk anyway is
+  // still caught by the vite:preloadError handler in src/boot/chunk-reload.
+  updated() {
+    const { t } = i18n.global;
+    Notify.create({
+      message: t('pwa.updateAvailable'),
+      color: 'dark',
+      position: 'bottom',
+      timeout: 0,
+      actions: [
+        {
+          label: t('pwa.updateAction'),
+          color: 'accent',
+          handler: () => window.location.reload(),
+        },
+        { icon: 'close', color: 'white' },
+      ],
+    });
   },
 
   offline() {

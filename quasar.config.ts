@@ -17,7 +17,7 @@ export default defineConfig((ctx) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'supabase'],
+    boot: ['i18n', 'supabase', 'chunk-reload'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
     css: ['app.scss'],
@@ -202,6 +202,15 @@ export default defineConfig((ctx) => {
     // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
     pwa: {
       workboxMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
+      // Activate a new service worker as soon as it's installed instead of
+      // waiting for every open tab to close first — paired with the
+      // `updated()` hook in register-sw.ts (prompts the user to reload)
+      // and the `vite:preloadError` handler in src/boot/chunk-reload.ts
+      // (catches anyone who navigates before reloading).
+      extendPWAGenerateSWOptions(cfg) {
+        cfg.skipWaiting = true;
+        cfg.clientsClaim = true;
+      },
       injectPWAMetaTags({ publicPath, pwaManifest }) {
         const theme = pwaManifest.theme_color ?? '#161a1d';
         const name = pwaManifest.name ?? 'BRW Bau';

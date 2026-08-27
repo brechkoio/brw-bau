@@ -217,6 +217,8 @@ export default {
     iosHint: 'Share → Add to Home Screen.',
     install: 'Install',
     dismissAria: 'Dismiss',
+    updateAvailable: 'A new app version is available',
+    updateAction: 'Update',
   },
 
   reports: {

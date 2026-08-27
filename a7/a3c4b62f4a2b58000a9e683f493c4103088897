@@ -1,0 +1,32 @@
+src/pages/reports/SitesReportPage.vue
+  s_3743930260481a::t_dc0834a6ab6ad5 209-221
+  s_3743930260481a::t_db295695faddfb 239
+  s_3743930260481a::t_7c697510a531d2 149-150,156
+  s_3743930260481a::t_efe7e6f10be880 32-34,37-54
+  s_3743930260481a::t_be0b86de53cd2a 35-36
+  s_3743930260481a::t_324c122301d81a 114-118
+src/i18n/uk.ts
+  s_3743930260481a::t_cf05f68e92b23d 227
+src/i18n/ru.ts
+  s_3743930260481a::t_29ea92d9de619a 229
+src/i18n/en-US.ts
+  s_3743930260481a::t_487b32460b2cab 230
+src/i18n/de.ts
+  s_3743930260481a::t_cd8d92eb7bba87 232
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "a7a3c4b62f4a2b58000a9e683f493c4103088897",
+  "prompts": {},
+  "sessions": {
+    "s_3743930260481a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2d839a71-14c2-4107-b9b4-8bea558e60f1",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

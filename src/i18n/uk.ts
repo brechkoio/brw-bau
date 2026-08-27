@@ -224,6 +224,7 @@ const uk = {
       periodLabel: 'Період',
       siteLabel: "Об'єкт",
       sitePlaceholder: "Виберіть об'єкт",
+      allSites: "Всі об'єкти",
       dateLabel: 'Дата',
       startTimeLabel: 'Початок',
       endTimeLabel: 'Кінець',

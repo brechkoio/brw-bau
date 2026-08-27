@@ -229,6 +229,7 @@ export default {
       periodLabel: 'Zeitraum',
       siteLabel: 'Objekt',
       sitePlaceholder: 'Objekt auswählen',
+      allSites: 'Alle Objekte',
       dateLabel: 'Datum',
       startTimeLabel: 'Beginn',
       endTimeLabel: 'Ende',

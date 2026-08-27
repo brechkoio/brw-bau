@@ -227,6 +227,7 @@ export default {
       periodLabel: 'Period',
       siteLabel: 'Site',
       sitePlaceholder: 'Select a site',
+      allSites: 'All sites',
       dateLabel: 'Date',
       startTimeLabel: 'Start',
       endTimeLabel: 'End',

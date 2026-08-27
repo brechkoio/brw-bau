@@ -29,6 +29,29 @@
         </q-popup-proxy>
       </q-input>
 
+      <q-select
+        v-model="selectedSiteId"
+        :options="siteOptions"
+        :placeholder="t('reports.monthly.allSites')"
+        :aria-label="t('reports.monthly.siteLabel')"
+        outlined
+        clearable
+        emit-value
+        map-options
+        popup-content-class="brw-select__menu"
+        class="brw-select"
+        style="min-width: 220px"
+      >
+        <template #option="scope">
+          <q-item v-bind="scope.itemProps">
+            <q-item-section>{{ scope.opt.label }}</q-item-section>
+            <q-item-section v-if="scope.selected" side>
+              <q-icon name="check" size="18px" class="brw-select__check" />
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
       <q-space />
 
       <q-btn
@@ -88,6 +111,11 @@ interface SiteDayRow {
   hours: number;
 }
 
+interface SiteOption {
+  label: string;
+  value: string;
+}
+
 const $q = useQuasar();
 const { t } = useI18n();
 
@@ -118,11 +146,14 @@ const rangeLabel = computed(
 );
 
 const rawRows = ref<EarningsRow[]>([]);
+const siteOptions = ref<SiteOption[]>([]);
+const selectedSiteId = ref<string | null>(null);
 const loading = ref(false);
 
 const rows = computed<SiteDayRow[]>(() => {
   const grouped = new Map<string, SiteDayRow>();
   for (const r of rawRows.value) {
+    if (selectedSiteId.value && r.site_id !== selectedSiteId.value) continue;
     const key = `${r.site_id}_${r.work_date}`;
     const existing = grouped.get(key);
     if (existing) {
@@ -175,6 +206,19 @@ function onExport() {
   }
 }
 
+async function loadSites() {
+  const { data, error } = await supabase
+    .from('sites')
+    .select('id, name')
+    .eq('is_active', true)
+    .order('name');
+  if (error) {
+    $q.notify({ type: 'negative', message: error.message });
+    return;
+  }
+  siteOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
+}
+
 async function loadRows() {
   loading.value = true;
   const { data, error } = await supabase
@@ -192,5 +236,6 @@ async function loadRows() {
 
 watch(dateRange, () => void loadRows());
 
+void loadSites();
 void loadRows();
 </script>

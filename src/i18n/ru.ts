@@ -226,6 +226,7 @@ export default {
       periodLabel: 'Период',
       siteLabel: 'Объект',
       sitePlaceholder: 'Выберите объект',
+      allSites: 'Все объекты',
       dateLabel: 'Дата',
       startTimeLabel: 'Начало',
       endTimeLabel: 'Конец',

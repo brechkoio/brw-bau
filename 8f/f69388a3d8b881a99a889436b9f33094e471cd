@@ -1,0 +1,38 @@
+quasar.config.ts
+  s_3743930260481a::t_6ac474cf4b203e 20
+  s_3743930260481a::t_e998e0d8b10bc2 210
+  s_3743930260481a::t_49a37e46bbd546 205-209,211-213
+src/i18n/de.ts
+  s_3743930260481a::t_8b1b288dc3b8bf 222-223
+src/boot/i18n.ts
+  s_3743930260481a::t_a3263d2d17c606 12-20,22,25
+src/boot/chunk-reload.ts
+  s_3743930260481a::t_a749daf6fdd95f 1-8,15-16,23-25
+  s_3743930260481a::t_e89bde45d4989e 9-14
+  s_3743930260481a::t_9e5bd1bc2d9831 17-22
+src/i18n/en-US.ts
+  s_3743930260481a::t_093bf992aa2a56 220-221
+src/i18n/ru.ts
+  s_3743930260481a::t_84ad3f06e12e65 219-220
+src-pwa/register-sw.ts
+  s_3743930260481a::t_fb838b3ed96146 2-3
+  s_3743930260481a::t_2fb6d5280dbf48 32-52
+src/i18n/uk.ts
+  s_3743930260481a::t_ff5f45fe9c3f4d 217-218
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "8ff69388a3d8b881a99a889436b9f33094e471cd",
+  "prompts": {},
+  "sessions": {
+    "s_3743930260481a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2d839a71-14c2-4107-b9b4-8bea558e60f1",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

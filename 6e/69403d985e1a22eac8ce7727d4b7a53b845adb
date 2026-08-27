@@ -1,0 +1,49 @@
+src/css/app.scss
+  s_08e1b3dcd68421::t_95a0878063e93d 459-461,463
+  s_08e1b3dcd68421::t_71e539cffd6828 275-293
+  s_08e1b3dcd68421::t_f9ebd28bdcfabe 458,462,464-471
+src/i18n/uk.ts
+  s_08e1b3dcd68421::t_032b4f95f2a21c 226
+  s_08e1b3dcd68421::t_b0fb7f4e16b161 7
+src/i18n/ru.ts
+  s_08e1b3dcd68421::t_df30d8961850b9 9
+  s_08e1b3dcd68421::t_8fd62c3fde921f 228
+src/i18n/de.ts
+  s_08e1b3dcd68421::t_db1208a3cd0c14 231
+  s_08e1b3dcd68421::t_47f2fefd37496a 9
+src/pages/reports/SitesReportPage.vue
+  s_08e1b3dcd68421::t_3dc759e1692c96 129,139
+  s_08e1b3dcd68421::t_66ad06886f904b 184,191
+  s_08e1b3dcd68421::t_30cbcb794c3e96 95-98
+  s_08e1b3dcd68421::t_4836ee8a2498dd 226-233,236-238
+  s_08e1b3dcd68421::t_7aece02e7d4a52 270
+  s_08e1b3dcd68421::t_a13e08c2378a63 239
+src/components/AddWorkReportDialog.vue
+  s_08e1b3dcd68421::t_5e209c2d857f3c 73
+  s_08e1b3dcd68421::t_3debeafad15969 221-222
+  s_08e1b3dcd68421::t_78caaf1018e449 87,89-93,95-122,130,132-165
+  s_08e1b3dcd68421::t_8b2b271b3beca3 94
+src/pages/reports/MonthlyReportPage.vue
+  s_08e1b3dcd68421::t_b9c7e05b0992bf 168-259
+  s_08e1b3dcd68421::t_8369edaa7585dc 458-459
+  s_08e1b3dcd68421::t_af9db60144942b 163
+src/i18n/en-US.ts
+  s_08e1b3dcd68421::t_842ef84b8b5cc7 229
+  s_08e1b3dcd68421::t_612b3d76afe5a1 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "6e69403d985e1a22eac8ce7727d4b7a53b845adb",
+  "prompts": {},
+  "sessions": {
+    "s_08e1b3dcd68421": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85d81f4b-9966-4688-95d1-4dd7561a0588",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

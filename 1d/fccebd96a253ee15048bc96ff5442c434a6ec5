@@ -1,0 +1,19 @@
+src/css/app.scss
+  s_3743930260481a::t_bd4da68aa22848 456-458,460-461
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "1dfccebd96a253ee15048bc96ff5442c434a6ec5",
+  "prompts": {},
+  "sessions": {
+    "s_3743930260481a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2d839a71-14c2-4107-b9b4-8bea558e60f1",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

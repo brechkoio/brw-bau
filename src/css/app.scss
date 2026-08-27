@@ -453,8 +453,12 @@ body {
 // plain `<a>` selectors below cover links whose class lives on a wrapper.
 // !important is required: every q-btn ships Quasar's own `.no-outline`
 // utility class (`outline: 0 !important`), which otherwise wins outright.
+// Scoped to buttons/links only — `.brw-input`/`.brw-select` already get an
+// accent-colored border on focus via `.q-field--focused` (see above), so
+// including them here stacked a second outline on top and looked broken.
 [class*='auth-']:focus-visible,
-[class*='brw-']:focus-visible,
+[class*='brw-btn']:focus-visible,
+.brw-table-icon-btn:focus-visible,
 .auth-forgot a:focus-visible,
 .auth-switch a:focus-visible {
   outline: 2px solid $accent !important;

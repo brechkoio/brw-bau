@@ -12,6 +12,7 @@ export default {
     add: 'Hinzufügen',
     export: 'Export',
     exportError: 'Datei konnte nicht exportiert werden',
+    resetFilters: 'Filter zurücksetzen',
   },
 
   validation: {
@@ -224,9 +225,18 @@ export default {
   },
 
   reports: {
+    filters: {
+      period: 'Zeitraum',
+      site: 'Objekt',
+    },
+    summary: {
+      totalHours: 'Stunden gesamt',
+    },
+    empty: {
+      filtered: 'Für den gewählten Zeitraum keine Einträge',
+    },
     monthly: {
       title: 'Monatsbericht',
-      periodLabel: 'Zeitraum',
       siteLabel: 'Objekt',
       sitePlaceholder: 'Objekt auswählen',
       allSites: 'Alle Objekte',
@@ -244,7 +254,6 @@ export default {
       columnHours: 'Stunden',
       columnEarned: 'Verdienst',
       columnActions: 'Aktionen',
-      totalHours: 'Stunden gesamt',
       totalEarned: 'Verdienst gesamt',
       noReports: 'Keine Einträge für diesen Monat',
       deleteConfirmTitle: 'Eintrag löschen?',

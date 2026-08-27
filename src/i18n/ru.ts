@@ -12,6 +12,7 @@ export default {
     add: 'Добавить',
     export: 'Экспорт',
     exportError: 'Не удалось экспортировать файл',
+    resetFilters: 'Сбросить фильтры',
   },
 
   validation: {
@@ -221,9 +222,18 @@ export default {
   },
 
   reports: {
+    filters: {
+      period: 'Период',
+      site: 'Объект',
+    },
+    summary: {
+      totalHours: 'Всего часов',
+    },
+    empty: {
+      filtered: 'Нет записей за выбранный период',
+    },
     monthly: {
       title: 'Отчёт за месяц',
-      periodLabel: 'Период',
       siteLabel: 'Объект',
       sitePlaceholder: 'Выберите объект',
       allSites: 'Все объекты',
@@ -241,7 +251,6 @@ export default {
       columnHours: 'Часы',
       columnEarned: 'Сумма',
       columnActions: 'Действия',
-      totalHours: 'Всего часов',
       totalEarned: 'Всего заработано',
       noReports: 'Нет записей за этот месяц',
       deleteConfirmTitle: 'Удалить запись?',

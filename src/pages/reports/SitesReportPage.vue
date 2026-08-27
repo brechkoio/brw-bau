@@ -1,90 +1,110 @@
 <template>
   <q-page class="column no-wrap">
     <TableFiltersBar>
-      <q-input
-        :model-value="rangeLabel"
-        :aria-label="t('reports.monthly.periodLabel')"
-        outlined
-        readonly
-        class="brw-input cursor-pointer"
-        style="min-width: 220px"
-      >
-        <template #append>
-          <q-icon name="event" />
-        </template>
-        <q-popup-proxy transition-show="scale" transition-hide="scale">
-          <q-date
-            v-model="rawDateRange"
-            mask="YYYY-MM-DD"
-            range
-            no-unset
-            today-btn
-            color="accent"
-            text-color="dark"
-          >
-            <div class="row items-center justify-end">
-              <q-btn v-close-popup flat no-caps color="dark" :label="t('common.confirm')" />
-            </div>
-          </q-date>
-        </q-popup-proxy>
-      </q-input>
+      <TableFilter v-slot="{ inputId }" :label="t('reports.filters.period')" width="280px">
+        <q-input
+          :for="inputId"
+          :model-value="rangeLabel"
+          outlined
+          readonly
+          class="brw-input brw-input--dense brw-period-input cursor-pointer"
+        >
+          <template #append>
+            <q-icon name="event" />
+          </template>
+          <q-popup-proxy transition-show="scale" transition-hide="scale">
+            <q-date
+              v-model="rawDateRange"
+              mask="YYYY-MM-DD"
+              range
+              no-unset
+              today-btn
+              color="accent"
+              text-color="dark"
+            >
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup flat no-caps color="dark" :label="t('common.confirm')" />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-input>
+      </TableFilter>
 
-      <q-select
-        v-model="selectedSiteId"
-        :options="siteOptions"
-        :placeholder="t('reports.monthly.allSites')"
-        :aria-label="t('reports.monthly.siteLabel')"
-        outlined
-        clearable
-        emit-value
-        map-options
-        popup-content-class="brw-select__menu"
-        class="brw-select"
-        style="min-width: 220px"
-      >
-        <template #option="scope">
-          <q-item v-bind="scope.itemProps">
-            <q-item-section>{{ scope.opt.label }}</q-item-section>
-            <q-item-section v-if="scope.selected" side>
-              <q-icon name="check" size="18px" class="brw-select__check" />
-            </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
+      <TableFilter v-slot="{ inputId }" :label="t('reports.filters.site')" width="300px">
+        <q-select
+          :for="inputId"
+          v-model="selectedSiteId"
+          :options="siteOptions"
+          :placeholder="t('reports.monthly.allSites')"
+          outlined
+          clearable
+          emit-value
+          map-options
+          popup-content-class="brw-select__menu"
+          class="brw-select brw-input--dense brw-site-select"
+        >
+          <template #append>
+            <div class="brw-site-select__divider" />
+          </template>
+          <template #option="scope">
+            <q-item v-bind="scope.itemProps">
+              <q-item-section>{{ scope.opt.label }}</q-item-section>
+              <q-item-section v-if="scope.selected" side>
+                <q-icon name="check" size="18px" class="brw-select__check" />
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+      </TableFilter>
 
-      <q-space />
+      <template #summary>
+        <div class="brw-summary">
+          <div class="brw-summary__label">{{ t('reports.summary.totalHours') }}</div>
+          <div class="brw-summary__value">{{ totalHours }}</div>
+        </div>
+      </template>
 
-      <q-btn
-        unelevated
-        no-caps
-        icon="download"
-        :label="t('common.export')"
-        class="brw-btn-secondary"
-        @click="onExport"
-      />
+      <template #actions>
+        <q-btn
+          unelevated
+          no-caps
+          icon="download"
+          :label="t('common.export')"
+          class="brw-btn-secondary"
+          @click="onExport"
+        />
+      </template>
     </TableFiltersBar>
 
     <div class="brw-page-body q-pa-md">
       <q-table
-        class="col brw-sticky-table"
+        class="brw-sticky-table"
         :rows="rows"
         :columns="columns"
         row-key="key"
         flat
         bordered
         :loading="loading"
-        :no-data-label="t('reports.monthly.noReports')"
         :rows-per-page-options="[0]"
         hide-bottom
       >
         <template #body-cell-hours="props">
-          <q-td :props="props">{{ props.value }}</q-td>
+          <q-td :props="props" class="brw-tabular-nums">{{ props.value }}</q-td>
+        </template>
+
+        <template #no-data>
+          <div class="brw-empty">
+            <div class="brw-empty__text">{{ t('reports.empty.filtered') }}</div>
+            <q-btn
+              flat
+              no-caps
+              class="brw-btn-ghost"
+              :label="t('common.resetFilters')"
+              @click="resetFilters"
+            />
+          </div>
         </template>
       </q-table>
-
-      <div v-if="rows.length" class="q-mt-md text-subtitle1">
-        {{ t('reports.monthly.totalHours') }}: <strong>{{ totalHours }}</strong>
-      </div>
     </div>
   </q-page>
 </template>
@@ -95,7 +115,9 @@ import { useQuasar, type QTableColumn } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
+import TableFilter from '@/components/TableFilter.vue';
 import { exportTableToCsv } from '@/utils/export-csv';
+import { formatDisplayDate } from '@/utils/format-date';
 
 interface EarningsRow {
   work_date: string;
@@ -125,11 +147,6 @@ function currentMonthRange() {
     from: new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10),
     to: new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10),
   };
-}
-
-function formatDisplayDate(iso: string): string {
-  const [y, m, d] = iso.split('-');
-  return `${d}.${m}.${y}`;
 }
 
 const dateRange = ref<{ from: string; to: string }>(currentMonthRange());
@@ -186,6 +203,7 @@ const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
     name: 'work_date',
     label: t('reports.monthly.columnDate'),
     field: 'work_date',
+    format: (val: string) => formatDisplayDate(val),
     align: 'left',
     sortable: true,
   },
@@ -194,7 +212,7 @@ const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
     label: t('reports.monthly.columnHours'),
     field: 'hours',
     format: (val: number) => val.toFixed(2),
-    align: 'left',
+    align: 'right',
     sortable: true,
   },
 ]);
@@ -204,6 +222,12 @@ function onExport() {
   if (!ok) {
     $q.notify({ type: 'negative', message: t('common.exportError') });
   }
+}
+
+function resetFilters() {
+  selectedSiteId.value = null;
+  dateRange.value = currentMonthRange();
+  rawDateRange.value = dateRange.value;
 }
 
 async function loadSites() {
@@ -239,3 +263,73 @@ watch(dateRange, () => void loadRows());
 void loadSites();
 void loadRows();
 </script>
+
+<style lang="scss" scoped>
+.brw-period-input :deep(.q-field__append) {
+  color: $text-muted;
+}
+
+.brw-site-select__divider {
+  width: 1px;
+  height: 22px;
+  background: $separator-color;
+}
+
+.brw-site-select :deep(.q-select__dropdown-icon) {
+  color: $text-muted;
+}
+
+.brw-site-select :deep(.q-field__focusable-action) {
+  color: $text-hint;
+  font-size: 18px;
+}
+
+.brw-site-select :deep(.q-field__native) {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// Same two-row grid as a filter column: a 22px label row
+// (line-height:16px + margin-bottom:6px, matching .brw-filter__label) over
+// a 44px control row. The value sits in its own height:44px flex box
+// instead of leaning on line-height to center it — a padding-bottom nudge
+// would drift under a different font/zoom and break the getBoundingClientRect
+// alignment check.
+.brw-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.brw-summary__label {
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.brw-summary__value {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: $dark;
+  font-variant-numeric: tabular-nums;
+}
+
+.brw-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 0;
+  color: $text-muted;
+  font-size: 15px;
+}
+</style>

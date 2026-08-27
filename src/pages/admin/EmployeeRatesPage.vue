@@ -1,42 +1,42 @@
 <template>
   <q-page class="column no-wrap">
     <TableFiltersBar>
-      <q-input
-        v-model="search"
-        :label="t('common.search')"
-        dense
-        clearable
-        outlined
-        bg-color="white"
-        style="min-width: 220px"
-      >
-        <template #prepend>
-          <q-icon name="search" />
-        </template>
-      </q-input>
+      <TableFilter v-slot="{ inputId }" :label="t('common.search')" width="220px">
+        <q-input
+          :for="inputId"
+          v-model="search"
+          clearable
+          outlined
+          class="brw-input brw-input--dense"
+        >
+          <template #prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </TableFilter>
 
-      <q-space />
+      <template #actions>
+        <q-btn
+          unelevated
+          no-caps
+          icon="download"
+          :label="t('common.export')"
+          class="brw-btn-secondary"
+          @click="onExport"
+        />
 
-      <q-btn
-        unelevated
-        no-caps
-        icon="download"
-        :label="t('common.export')"
-        class="brw-btn-secondary"
-        @click="onExport"
-      />
-
-      <q-btn
-        color="accent"
-        text-color="black"
-        icon="add"
-        :label="t('admin.rates.submit')"
-        unelevated
-        no-caps
-        dense
-        class="text-weight-bold"
-        @click="addDialogOpen = true"
-      />
+        <q-btn
+          color="accent"
+          text-color="black"
+          icon="add"
+          :label="t('admin.rates.submit')"
+          unelevated
+          no-caps
+          dense
+          class="text-weight-bold"
+          @click="addDialogOpen = true"
+        />
+      </template>
     </TableFiltersBar>
 
     <div class="brw-page-body q-pa-md">
@@ -149,6 +149,7 @@ import { useQuasar, type QTableColumn, type QPopupProxy } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
+import TableFilter from '@/components/TableFilter.vue';
 import { exportTableToCsv } from '@/utils/export-csv';
 
 interface EmployeeOption {

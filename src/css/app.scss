@@ -80,9 +80,26 @@ body {
 .brw-input.q-field--outlined .q-field__control:before {
   border-color: $separator-color;
 }
+// Quasar dashes the border on any readonly outlined field by default (its
+// generic "you can look but not type here" cue). Our readonly fields are
+// still fully interactive click targets (date pickers), so the dashed
+// style reads as disabled rather than clickable — keep it solid, matching
+// every other .brw-input state.
+.brw-input.q-field--readonly .q-field__control:before {
+  border-style: solid;
+}
+// Focus is an outline, not a thicker border — a colored border on its own
+// reads as a validation error (see .brw-input--error below, which is the
+// only state that still gets one). Both pseudo-elements are pinned back to
+// the resting border-color because Quasar's own outlined/highlighted focus
+// treatment would otherwise recolor them (:after in particular).
 .brw-input.q-field--focused .q-field__control:before,
 .brw-input.q-field--focused .q-field__control:after {
-  border-color: $accent;
+  border-color: $separator-color;
+}
+.brw-input.q-field--focused .q-field__control {
+  outline: 2px solid $accent;
+  outline-offset: 2px;
 }
 .brw-input input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 100px white inset;
@@ -95,6 +112,14 @@ body {
 .brw-input .q-field__append {
   padding-right: 4px;
   color: $text-secondary;
+}
+// Quasar's own left padding (12px) is only meant to separate a multi-icon
+// cluster (clear + dropdown, as in .brw-select) from the value text. A lone
+// icon — e.g. the calendar glyph on a plain q-input — has nothing to
+// separate from on its right, so the mismatched 12px/4px made it read as
+// off-center; match it to the right padding instead.
+.brw-input:not(.brw-select) .q-field__append {
+  padding-left: 4px;
 }
 .brw-input--error .q-field__control:before {
   border-color: $field-invalid !important;
@@ -156,6 +181,50 @@ body {
   }
   .brw-input--readonly {
     height: 52px;
+  }
+}
+
+// Compact size for filter bars — a filter isn't a form, so it gets its own
+// (shorter) height instead of `.brw-input`'s 48px. Geometry only: color,
+// focus, and `--error` are inherited from the rules above. Applied directly
+// via the class list (e.g. `class="brw-select brw-input--dense"`), so it
+// works on `.brw-select` too without needing `@extend`.
+//
+// `min-height`, not just `height`: QSelect (unlike QInput) always adds
+// Quasar's own `q-field--auto-height` class, which ships `min-height: 56px`
+// on `.q-field__control`. `min-height` isn't a cascade competitor with
+// `height` — the rendered box is `max(height, min-height)` regardless of
+// which rule "wins" — so without this, a dense `.brw-select` still renders
+// 56px tall no matter what `height` says.
+.brw-input--dense .q-field__control {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px 0 14px;
+}
+// Quasar's `.q-field__marginal` (the class every append/prepend wrapper div
+// carries, alongside `.q-field__append` etc.) ships its own unconditional
+// `height: 56px`. That's a sibling of `.q-field__control`, not a descendant,
+// so fixing the control's height above doesn't touch it — left alone, the
+// append content (icons, our divider) stays vertically anchored to a 56px
+// box and renders top-aligned inside the now-shorter 44px control.
+.brw-input--dense .q-field__marginal {
+  height: 44px;
+}
+.brw-input--dense .q-field__native {
+  font-size: 14px;
+}
+.brw-input--dense .q-field__append .q-icon {
+  font-size: 20px;
+}
+@media (max-width: 599px) {
+  // 48px, not the 52px `.brw-input` uses — a filter bar is tapped less often
+  // than a form, so it stays closer to the desktop size.
+  .brw-input--dense .q-field__control {
+    height: 48px;
+    min-height: 48px;
+  }
+  .brw-input--dense .q-field__marginal {
+    height: 48px;
   }
 }
 
@@ -492,21 +561,30 @@ h4 {
   border-color: $accent;
 }
 
-// Table fills whatever height its flex parent gives it (see
-// .brw-page-body below) with a sticky header, per Quasar's own
-// "Sticky header" example — https://quasar.dev/vue-components/table
+// Grows with its content instead of stretching to fill whatever height
+// `.brw-page-body` gives it (that's what made a 2-row table leave a tall
+// empty card) — `max-height` still caps it at the flex parent's available
+// space so long tables (40+ rows) get an internal scroll area with the
+// header staying sticky within it, per Quasar's own "Sticky header" example
+// — https://quasar.dev/vue-components/table
 .brw-sticky-table {
-  height: 100%;
+  max-height: 100%;
+  min-height: 240px;
+
+  thead tr th {
+    position: sticky;
+    z-index: 1;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $text-secondary;
+  }
 
   .q-table__top,
   .q-table__bottom,
   thead tr:first-child th {
     background-color: white;
-  }
-
-  thead tr th {
-    position: sticky;
-    z-index: 1;
   }
 
   thead tr:first-child th {
@@ -520,6 +598,12 @@ h4 {
   tbody {
     scroll-margin-top: 48px;
   }
+}
+
+// Numeric table columns (hours, money) — digits line up on their place
+// value instead of jittering between rows.
+.brw-tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 // Wraps a page's content below TableFiltersBar so the table can grow to

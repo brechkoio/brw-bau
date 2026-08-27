@@ -1,54 +1,55 @@
 <template>
   <q-page class="column no-wrap">
     <TableFiltersBar>
-      <q-input
-        :model-value="rangeLabel"
-        :aria-label="t('reports.monthly.periodLabel')"
-        outlined
-        readonly
-        class="brw-input cursor-pointer"
-        style="min-width: 220px"
-      >
-        <template #append>
-          <q-icon name="event" />
-        </template>
-        <q-popup-proxy transition-show="scale" transition-hide="scale">
-          <q-date
-            v-model="rawDateRange"
-            mask="YYYY-MM-DD"
-            range
-            no-unset
-            today-btn
-            color="accent"
-            text-color="dark"
-          >
-            <div class="row items-center justify-end">
-              <q-btn v-close-popup flat no-caps color="dark" :label="t('common.confirm')" />
-            </div>
-          </q-date>
-        </q-popup-proxy>
-      </q-input>
+      <TableFilter v-slot="{ inputId }" :label="t('reports.filters.period')" width="320px">
+        <q-input
+          :for="inputId"
+          :model-value="rangeLabel"
+          outlined
+          readonly
+          class="brw-input brw-input--dense cursor-pointer"
+        >
+          <template #append>
+            <q-icon name="event" />
+          </template>
+          <q-popup-proxy transition-show="scale" transition-hide="scale">
+            <q-date
+              v-model="rawDateRange"
+              mask="YYYY-MM-DD"
+              range
+              no-unset
+              today-btn
+              color="accent"
+              text-color="dark"
+            >
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup flat no-caps color="dark" :label="t('common.confirm')" />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-input>
+      </TableFilter>
 
-      <q-space />
+      <template #actions>
+        <q-btn
+          unelevated
+          no-caps
+          icon="download"
+          :label="t('common.export')"
+          class="brw-btn-secondary"
+          @click="onExport"
+        />
 
-      <q-btn
-        unelevated
-        no-caps
-        icon="download"
-        :label="t('common.export')"
-        class="brw-btn-secondary"
-        @click="onExport"
-      />
-
-      <q-btn
-        v-if="!$q.screen.lt.sm"
-        unelevated
-        no-caps
-        icon="add"
-        :label="t('reports.monthly.submit')"
-        class="brw-btn-primary"
-        @click="openAdd"
-      />
+        <q-btn
+          v-if="!$q.screen.lt.sm"
+          unelevated
+          no-caps
+          icon="add"
+          :label="t('reports.monthly.submit')"
+          class="brw-btn-primary"
+          @click="openAdd"
+        />
+      </template>
     </TableFiltersBar>
 
     <q-page-sticky v-if="$q.screen.lt.sm" position="bottom-right" :offset="[16, 24]">
@@ -104,7 +105,7 @@
 
       <div v-if="filteredRows.length" class="row q-col-gutter-xl q-mt-md text-subtitle1">
         <div>
-          {{ t('reports.monthly.totalHours') }}: <strong>{{ totalHours }}</strong>
+          {{ t('reports.summary.totalHours') }}: <strong>{{ totalHours }}</strong>
         </div>
         <div>
           {{ t('reports.monthly.totalEarned') }}: <strong>{{ formatMoney(totalEarned) }}</strong>
@@ -203,8 +204,10 @@ import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import { useAuthStore } from '@/stores/auth-store';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
+import TableFilter from '@/components/TableFilter.vue';
 import AddWorkReportDialog from '@/components/AddWorkReportDialog.vue';
 import { exportTableToCsv } from '@/utils/export-csv';
+import { formatDisplayDate } from '@/utils/format-date';
 
 interface ReportRow {
   id: string;
@@ -233,11 +236,6 @@ function currentMonthRange() {
     from: new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10),
     to: new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10),
   };
-}
-
-function formatDisplayDate(iso: string): string {
-  const [y, m, d] = iso.split('-');
-  return `${d}.${m}.${y}`;
 }
 
 const dateRange = ref<{ from: string; to: string }>(currentMonthRange());
@@ -279,7 +277,13 @@ const totalEarned = computed(() =>
 );
 
 const columns = computed<QTableColumn<ReportRow>[]>(() => [
-  { name: 'work_date', label: t('reports.monthly.columnDate'), field: 'work_date', align: 'left' },
+  {
+    name: 'work_date',
+    label: t('reports.monthly.columnDate'),
+    field: 'work_date',
+    format: (val: string) => formatDisplayDate(val),
+    align: 'left',
+  },
   {
     name: 'weekday',
     label: t('reports.monthly.columnWeekday'),

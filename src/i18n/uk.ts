@@ -10,6 +10,7 @@ const uk = {
     add: 'Додати',
     export: 'Експорт',
     exportError: 'Не вдалося експортувати файл',
+    resetFilters: 'Скинути фільтри',
   },
 
   validation: {
@@ -219,9 +220,18 @@ const uk = {
   },
 
   reports: {
+    filters: {
+      period: 'Період',
+      site: "Об'єкт",
+    },
+    summary: {
+      totalHours: 'Разом годин',
+    },
+    empty: {
+      filtered: 'За вибраний період записів немає',
+    },
     monthly: {
       title: 'Звіт за місяць',
-      periodLabel: 'Період',
       siteLabel: "Об'єкт",
       sitePlaceholder: "Виберіть об'єкт",
       allSites: "Всі об'єкти",
@@ -239,7 +249,6 @@ const uk = {
       columnHours: 'Години',
       columnEarned: 'Сума',
       columnActions: 'Дії',
-      totalHours: 'Разом годин',
       totalEarned: 'Разом зароблено',
       noReports: 'Немає записів за цей місяць',
       deleteConfirmTitle: 'Видалити запис?',

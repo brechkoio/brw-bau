@@ -12,6 +12,7 @@ export default {
     add: 'Add',
     export: 'Export',
     exportError: 'Could not export the file',
+    resetFilters: 'Reset filters',
   },
 
   validation: {
@@ -222,9 +223,18 @@ export default {
   },
 
   reports: {
+    filters: {
+      period: 'Period',
+      site: 'Site',
+    },
+    summary: {
+      totalHours: 'Total hours',
+    },
+    empty: {
+      filtered: 'No entries for the selected period',
+    },
     monthly: {
       title: 'Monthly report',
-      periodLabel: 'Period',
       siteLabel: 'Site',
       sitePlaceholder: 'Select a site',
       allSites: 'All sites',
@@ -242,7 +252,6 @@ export default {
       columnHours: 'Hours',
       columnEarned: 'Earned',
       columnActions: 'Actions',
-      totalHours: 'Total hours',
       totalEarned: 'Total earned',
       noReports: 'No entries for this month',
       deleteConfirmTitle: 'Delete this entry?',

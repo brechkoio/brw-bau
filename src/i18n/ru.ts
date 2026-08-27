@@ -93,6 +93,8 @@ export default {
     navMonthlyReport: 'Отчёт за месяц',
     navGeneralReport: 'Общий отчёт',
     navSitesReport: 'Отчёт по объектам',
+    navSitesReportDaily: 'Детально (по дням)',
+    navSitesReportMonthly: 'Итог (по месяцам)',
     navEmployeeRates: 'Ставки сотрудников',
     navSites: 'Объекты',
   },
@@ -104,6 +106,7 @@ export default {
       monthlyReport: 'Отчёт за месяц',
       generalReport: 'Общий отчёт',
       sitesReport: 'Отчёт по объектам',
+      sitesSummaryReport: 'Итог по объектам',
       employeeRates: 'Ставки сотрудников',
       sites: 'Объекты',
       fallback: 'BRW Bau',
@@ -229,6 +232,7 @@ export default {
     },
     summary: {
       totalHours: 'Всего часов',
+      totalEarned: 'Общая сумма',
     },
     empty: {
       filtered: 'Нет записей за выбранный период',

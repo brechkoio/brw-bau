@@ -93,6 +93,8 @@ export default {
     navMonthlyReport: 'Monatsbericht',
     navGeneralReport: 'Gesamtbericht',
     navSitesReport: 'Objektbericht',
+    navSitesReportDaily: 'Detailliert (nach Tagen)',
+    navSitesReportMonthly: 'Zusammenfassung (pro Monat)',
     navEmployeeRates: 'Mitarbeiterlöhne',
     navSites: 'Objekte',
   },
@@ -104,6 +106,7 @@ export default {
       monthlyReport: 'Monatsbericht',
       generalReport: 'Gesamtbericht',
       sitesReport: 'Objektbericht',
+      sitesSummaryReport: 'Objektzusammenfassung',
       employeeRates: 'Mitarbeiterlöhne',
       sites: 'Objekte',
       fallback: 'BRW Bau',
@@ -232,6 +235,7 @@ export default {
     },
     summary: {
       totalHours: 'Stunden gesamt',
+      totalEarned: 'Betrag gesamt',
     },
     empty: {
       filtered: 'Für den gewählten Zeitraum keine Einträge',

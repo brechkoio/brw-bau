@@ -91,6 +91,8 @@ const uk = {
     navMonthlyReport: 'Звіт за місяць',
     navGeneralReport: 'Загальний звіт',
     navSitesReport: "Звіт по об'єктах",
+    navSitesReportDaily: 'Детальний (по днях)',
+    navSitesReportMonthly: 'Підсумковий (за місяць)',
     navEmployeeRates: 'Ставки співробітників',
     navSites: "Об'єкти",
   },
@@ -102,6 +104,7 @@ const uk = {
       monthlyReport: 'Звіт за місяць',
       generalReport: 'Загальний звіт',
       sitesReport: "Звіт по об'єктах",
+      sitesSummaryReport: "Підсумок по об'єктах",
       employeeRates: 'Ставки співробітників',
       sites: "Об'єкти",
       fallback: 'BRW Bau',
@@ -227,6 +230,7 @@ const uk = {
     },
     summary: {
       totalHours: 'Разом годин',
+      totalEarned: 'Разом сума',
     },
     empty: {
       filtered: 'За вибраний період записів немає',

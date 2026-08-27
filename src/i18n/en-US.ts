@@ -93,6 +93,8 @@ export default {
     navMonthlyReport: 'Monthly report',
     navGeneralReport: 'General report',
     navSitesReport: 'Sites report',
+    navSitesReportDaily: 'Detailed (by day)',
+    navSitesReportMonthly: 'Summary (by month)',
     navEmployeeRates: 'Employee rates',
     navSites: 'Sites',
   },
@@ -104,6 +106,7 @@ export default {
       monthlyReport: 'Monthly report',
       generalReport: 'General report',
       sitesReport: 'Sites report',
+      sitesSummaryReport: 'Sites summary',
       employeeRates: 'Employee rates',
       sites: 'Sites',
       fallback: 'BRW Bau',
@@ -230,6 +233,7 @@ export default {
     },
     summary: {
       totalHours: 'Total hours',
+      totalEarned: 'Total amount',
     },
     empty: {
       filtered: 'No entries for the selected period',

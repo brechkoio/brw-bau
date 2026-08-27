@@ -55,6 +55,11 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAdmin: true, title: 'meta.title.sitesReport' },
       },
       {
+        path: 'reports/sites-summary',
+        component: () => import('@/pages/reports/SitesReportSummaryPage.vue'),
+        meta: { requiresAdmin: true, title: 'meta.title.sitesSummaryReport' },
+      },
+      {
         path: 'admin/rates',
         component: () => import('@/pages/admin/EmployeeRatesPage.vue'),
         meta: { requiresAdmin: true, title: 'meta.title.employeeRates' },

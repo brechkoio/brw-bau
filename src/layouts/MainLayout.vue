@@ -121,7 +121,81 @@
           <template v-if="auth.isAdmin">
             <div v-if="!isMini" class="brw-nav-group">{{ t('layout.groupAdmin') }}</div>
             <q-item
-              v-for="item in adminLinks"
+              v-for="item in adminLinksTop"
+              :key="item.to"
+              :to="item.to"
+              clickable
+              class="brw-nav-item"
+              active-class="brw-nav-item--active"
+              :aria-current="isLinkActive(item) ? 'page' : undefined"
+            >
+              <q-item-section avatar>
+                <q-icon :name="item.icon" size="22px" />
+              </q-item-section>
+              <q-item-section class="brw-nav-label">{{ t(item.labelKey) }}</q-item-section>
+              <q-tooltip v-if="isMini" anchor="center right" self="center left" :offset="[8, 0]">
+                {{ t(item.labelKey) }}
+              </q-tooltip>
+            </q-item>
+
+            <!-- "Звіт по об'єктах" — one group, two sub-pages (Детальний /
+            Підсумковий), each its own route. A collapsible sub-menu instead
+            of two flat sibling links, so they read as one report with two
+            views rather than two unrelated pages. Collapsed to a single
+            icon-link (opens the daily view) in mini mode, since there's no
+            room to show a submenu on an icon rail. -->
+            <q-expansion-item
+              v-if="!isMini"
+              v-model="siteReportGroupExpanded"
+              :header-class="[
+                'brw-nav-item',
+                'brw-nav-group-header',
+                { 'brw-nav-item--active': siteReportGroupActive },
+              ]"
+            >
+              <template #header>
+                <q-item-section avatar>
+                  <q-icon :name="siteReportGroup.icon" size="22px" />
+                </q-item-section>
+                <q-item-section class="brw-nav-label">{{
+                  t(siteReportGroup.labelKey)
+                }}</q-item-section>
+              </template>
+
+              <q-item
+                v-for="child in siteReportGroup.children"
+                :key="child.to"
+                :to="child.to"
+                clickable
+                class="brw-nav-item brw-nav-item--sub"
+                active-class="brw-nav-item--active"
+                :aria-current="isLinkActive(child) ? 'page' : undefined"
+              >
+                <q-item-section avatar>
+                  <q-icon :name="child.icon" size="18px" />
+                </q-item-section>
+                <q-item-section class="brw-nav-label">{{ t(child.labelKey) }}</q-item-section>
+              </q-item>
+            </q-expansion-item>
+
+            <q-item
+              v-else
+              :to="siteReportGroup.children[0]!.to"
+              clickable
+              class="brw-nav-item"
+              active-class="brw-nav-item--active"
+              :aria-current="siteReportGroupActive ? 'page' : undefined"
+            >
+              <q-item-section avatar>
+                <q-icon :name="siteReportGroup.icon" size="22px" />
+              </q-item-section>
+              <q-tooltip anchor="center right" self="center left" :offset="[8, 0]">
+                {{ t(siteReportGroup.labelKey) }}
+              </q-tooltip>
+            </q-item>
+
+            <q-item
+              v-for="item in adminLinksBottom"
               :key="item.to"
               :to="item.to"
               clickable
@@ -216,9 +290,20 @@ const trackingLinks: NavLink[] = [
   { to: '/reports/monthly', icon: 'calendar_month', labelKey: 'layout.navMonthlyReport' },
 ];
 
-const adminLinks: NavLink[] = [
+const adminLinksTop: NavLink[] = [
   { to: '/reports/general', icon: 'summarize', labelKey: 'layout.navGeneralReport' },
-  { to: '/reports/sites', icon: 'apartment', labelKey: 'layout.navSitesReport' },
+];
+
+const siteReportGroup: { icon: string; labelKey: string; children: NavLink[] } = {
+  icon: 'apartment',
+  labelKey: 'layout.navSitesReport',
+  children: [
+    { to: '/reports/sites', icon: 'view_list', labelKey: 'layout.navSitesReportDaily' },
+    { to: '/reports/sites-summary', icon: 'donut_large', labelKey: 'layout.navSitesReportMonthly' },
+  ],
+};
+
+const adminLinksBottom: NavLink[] = [
   { to: '/admin/rates', icon: 'payments', labelKey: 'layout.navEmployeeRates' },
   { to: '/admin/sites', icon: 'location_city', labelKey: 'layout.navSites' },
 ];
@@ -322,6 +407,19 @@ function isLinkActive(item: NavLink): boolean {
   if (item.exact) return route.path === item.to;
   return route.path === item.to || route.path.startsWith(`${item.to}/`);
 }
+
+const siteReportGroupActive = computed(() =>
+  siteReportGroup.children.some((child) => isLinkActive(child)),
+);
+
+// Independent of siteReportGroupActive so the user can collapse the group
+// while still on one of its pages — but landing on a child route (direct
+// link, refresh, back button) always opens it, so the active page isn't
+// hidden inside a collapsed submenu.
+const siteReportGroupExpanded = ref(siteReportGroupActive.value);
+watch(siteReportGroupActive, (active) => {
+  if (active) siteReportGroupExpanded.value = true;
+});
 
 function onBurgerClick() {
   if (isDesktop.value) {
@@ -593,6 +691,27 @@ watch(
   border-radius: 0 3px 3px 0;
   background: $accent;
   transform: translateY(-50%);
+}
+
+// "Звіт по об'єктах" submenu header — same row as a flat .brw-nav-item,
+// plus Quasar's own expand arrow at the end (colored via the muted token
+// so it doesn't compete with the icon/label).
+.brw-nav-group-header :deep(.q-item__section--side .q-icon) {
+  color: $drawer-muted;
+}
+
+// Sub-links (Детальний / Підсумковий) — shorter and indented under the
+// group header so the hierarchy reads at a glance, not just from the
+// expand/collapse state.
+.brw-nav-item--sub {
+  min-height: 40px;
+  height: 40px;
+  padding-left: 30px;
+}
+
+.brw-nav-item--sub :deep(.q-item__section--avatar) {
+  min-width: 18px;
+  padding-right: 10px;
 }
 
 .brw-drawer__footer {

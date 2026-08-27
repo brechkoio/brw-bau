@@ -1,0 +1,43 @@
+src/i18n/uk.ts
+  s_08e1b3dcd68421::t_b3d8eb3b3ada08 94-95
+  s_08e1b3dcd68421::t_4ffc28c30ee57b 107
+  s_08e1b3dcd68421::t_2a090a359513e6 233
+src/router/routes.ts
+  s_08e1b3dcd68421::t_e5f93f0248c59f 58-61
+  s_08e1b3dcd68421::t_63b374a742ab35 57
+src/i18n/en-US.ts
+  s_08e1b3dcd68421::t_adee2da310bd23 96-97
+  s_08e1b3dcd68421::t_bd620c61254b1d 236
+  s_08e1b3dcd68421::t_86f6ab1efe77f6 109
+src/pages/reports/SitesReportSummaryPage.vue
+  s_08e1b3dcd68421::t_6a984b768bc12d 1-372
+src/i18n/de.ts
+  s_08e1b3dcd68421::t_e2b9a1e5a9097a 238
+  s_08e1b3dcd68421::t_ea72bc2c5094a6 96-97
+  s_08e1b3dcd68421::t_809469113648d0 109
+src/i18n/ru.ts
+  s_08e1b3dcd68421::t_259a5004596972 235
+  s_08e1b3dcd68421::t_36a3165aa2d0e3 109
+  s_08e1b3dcd68421::t_c423e9079bd716 96-97
+src/layouts/MainLayout.vue
+  s_08e1b3dcd68421::t_02e18a5012c3f0 124-198
+  s_08e1b3dcd68421::t_72ccec88f5b068 696-716
+  s_08e1b3dcd68421::t_235cd0d28d9cb1 293,295-306
+  s_08e1b3dcd68421::t_0d73ed24c28ff0 411-423
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "ed4a2b6494b440d73342acfffd2df973486ae926",
+  "prompts": {},
+  "sessions": {
+    "s_08e1b3dcd68421": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85d81f4b-9966-4688-95d1-4dd7561a0588",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

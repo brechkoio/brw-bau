@@ -160,22 +160,103 @@
                   today-btn
                   color="accent"
                   text-color="dark"
+                  class="brw-picker"
                   @update:model-value="() => editWorkDateProxy?.hide()"
                 />
               </q-popup-proxy>
             </q-input>
-            <q-input
-              v-model="editForm.startTime"
-              type="time"
-              :label="t('reports.monthly.startTimeLabel')"
-              outlined
-            />
-            <q-input
-              v-model="editForm.endTime"
-              type="time"
-              :label="t('reports.monthly.endTimeLabel')"
-              outlined
-            />
+            <div class="brw-field">
+              <label for="edit-report-start">{{ t('reports.monthly.startTimeLabel') }}</label>
+              <q-input
+                for="edit-report-start"
+                v-model="editForm.startTime"
+                outlined
+                readonly
+                class="brw-input cursor-pointer"
+              >
+                <template #append>
+                  <q-icon name="schedule" />
+                </template>
+                <q-popup-proxy
+                  ref="editStartTimeProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time
+                    v-model="editForm.startTime"
+                    mask="HH:mm"
+                    format24h
+                    :minute-options="[0, 15, 30, 45]"
+                    color="accent"
+                    text-color="dark"
+                    class="brw-picker"
+                  >
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn
+                        v-close-popup
+                        flat
+                        no-caps
+                        class="brw-btn-ghost"
+                        :label="t('common.cancel')"
+                      />
+                      <q-btn
+                        v-close-popup
+                        unelevated
+                        no-caps
+                        class="brw-btn-dark"
+                        :label="t('common.done')"
+                      />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-input>
+            </div>
+            <div class="brw-field">
+              <label for="edit-report-end">{{ t('reports.monthly.endTimeLabel') }}</label>
+              <q-input
+                for="edit-report-end"
+                v-model="editForm.endTime"
+                outlined
+                readonly
+                class="brw-input cursor-pointer"
+              >
+                <template #append>
+                  <q-icon name="schedule" />
+                </template>
+                <q-popup-proxy
+                  ref="editEndTimeProxy"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time
+                    v-model="editForm.endTime"
+                    mask="HH:mm"
+                    format24h
+                    :minute-options="[0, 15, 30, 45]"
+                    color="accent"
+                    text-color="dark"
+                    class="brw-picker"
+                  >
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn
+                        v-close-popup
+                        flat
+                        no-caps
+                        class="brw-btn-ghost"
+                        :label="t('common.cancel')"
+                      />
+                      <q-btn
+                        v-close-popup
+                        unelevated
+                        no-caps
+                        class="brw-btn-dark"
+                        :label="t('common.done')"
+                      />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-input>
+            </div>
           </q-card-section>
           <q-card-actions align="right">
             <q-btn flat :label="t('common.cancel')" v-close-popup />
@@ -374,6 +455,8 @@ async function loadReports() {
 const editDialogOpen = ref(false);
 const editingId = ref<string | null>(null);
 const editWorkDateProxy = ref<QPopupProxy | null>(null);
+const editStartTimeProxy = ref<QPopupProxy | null>(null);
+const editEndTimeProxy = ref<QPopupProxy | null>(null);
 const editForm = ref({
   siteId: null as string | null,
   workDate: '',

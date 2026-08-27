@@ -6,6 +6,7 @@ export default {
     search: 'Поиск',
     cancel: 'Отмена',
     confirm: 'Подтвердить',
+    done: 'Готово',
     delete: 'Удалить',
     edit: 'Редактировать',
     save: 'Сохранить',
@@ -224,7 +225,7 @@ export default {
   reports: {
     filters: {
       period: 'Период',
-      site: 'Объект',
+      site: 'Объект (адрес)',
     },
     summary: {
       totalHours: 'Всего часов',

@@ -4,6 +4,7 @@ const uk = {
     search: 'Пошук',
     cancel: 'Скасувати',
     confirm: 'Підтвердити',
+    done: 'Готово',
     delete: 'Видалити',
     edit: 'Редагувати',
     save: 'Зберегти',
@@ -222,7 +223,7 @@ const uk = {
   reports: {
     filters: {
       period: 'Період',
-      site: "Об'єкт",
+      site: "Об'єкт (адреса)",
     },
     summary: {
       totalHours: 'Разом годин',

@@ -92,6 +92,10 @@
           <q-td :props="props" class="brw-tabular-nums">{{ props.value }}</q-td>
         </template>
 
+        <template #body-cell-earned="props">
+          <q-td :props="props" class="brw-tabular-nums">{{ props.value }}</q-td>
+        </template>
+
         <template #no-data>
           <div class="brw-empty">
             <div class="brw-empty__text">{{ t('reports.empty.filtered') }}</div>
@@ -122,6 +126,7 @@ import { formatDisplayDate } from '@/utils/format-date';
 interface EarningsRow {
   work_date: string;
   hours: number;
+  earned: number;
   site_id: string;
   site_name: string;
 }
@@ -131,6 +136,7 @@ interface SiteDayRow {
   site_name: string;
   work_date: string;
   hours: number;
+  earned: number;
 }
 
 interface SiteOption {
@@ -175,12 +181,14 @@ const rows = computed<SiteDayRow[]>(() => {
     const existing = grouped.get(key);
     if (existing) {
       existing.hours += Number(r.hours);
+      existing.earned += Number(r.earned);
     } else {
       grouped.set(key, {
         key,
         site_name: r.site_name,
         work_date: r.work_date,
         hours: Number(r.hours),
+        earned: Number(r.earned),
       });
     }
   }
@@ -215,7 +223,19 @@ const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
     align: 'right',
     sortable: true,
   },
+  {
+    name: 'earned',
+    label: t('reports.monthly.columnEarned'),
+    field: 'earned',
+    format: (val: number) => formatMoney(val),
+    align: 'right',
+    sortable: true,
+  },
 ]);
+
+function formatMoney(value: number) {
+  return `${value.toFixed(2)} ${t('common.currency')}`;
+}
 
 function onExport() {
   const ok = exportTableToCsv('sites-report.csv', columns.value, rows.value);
@@ -247,7 +267,7 @@ async function loadRows() {
   loading.value = true;
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('work_date, hours, site_id, site_name')
+    .select('work_date, hours, earned, site_id, site_name')
     .gte('work_date', dateRange.value.from)
     .lte('work_date', dateRange.value.to);
   loading.value = false;

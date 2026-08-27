@@ -6,6 +6,7 @@ export default {
     search: 'Search',
     cancel: 'Cancel',
     confirm: 'Confirm',
+    done: 'Done',
     delete: 'Delete',
     edit: 'Edit',
     save: 'Save',
@@ -225,7 +226,7 @@ export default {
   reports: {
     filters: {
       period: 'Period',
-      site: 'Site',
+      site: 'Site (address)',
     },
     summary: {
       totalHours: 'Total hours',

@@ -70,6 +70,7 @@
                   today-btn
                   color="accent"
                   text-color="dark"
+                  class="brw-picker"
                   @update:model-value="() => workDateProxy?.hide()"
                 />
               </q-popup-proxy>
@@ -82,22 +83,86 @@
               <q-input
                 for="report-start"
                 v-model="form.startTime"
-                type="time"
                 outlined
+                readonly
                 hide-bottom-space
-                class="brw-input"
-              />
+                class="brw-input cursor-pointer"
+              >
+                <template #append>
+                  <q-icon name="schedule" />
+                </template>
+                <q-popup-proxy ref="startTimeProxy" transition-show="scale" transition-hide="scale">
+                  <q-time
+                    v-model="form.startTime"
+                    mask="HH:mm"
+                    format24h
+                    :minute-options="[0, 15, 30, 45]"
+                    color="accent"
+                    text-color="dark"
+                    class="brw-picker"
+                  >
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn
+                        v-close-popup
+                        flat
+                        no-caps
+                        class="brw-btn-ghost"
+                        :label="t('common.cancel')"
+                      />
+                      <q-btn
+                        v-close-popup
+                        unelevated
+                        no-caps
+                        class="brw-btn-dark"
+                        :label="t('common.done')"
+                      />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-input>
             </div>
             <div class="brw-field">
               <label for="report-end">{{ t('reports.monthly.endTimeLabel') }}</label>
               <q-input
                 for="report-end"
                 v-model="form.endTime"
-                type="time"
                 outlined
+                readonly
                 hide-bottom-space
-                :class="['brw-input', { 'brw-input--error': isRangeInverted }]"
-              />
+                :class="['brw-input', 'cursor-pointer', { 'brw-input--error': isRangeInverted }]"
+              >
+                <template #append>
+                  <q-icon name="schedule" />
+                </template>
+                <q-popup-proxy ref="endTimeProxy" transition-show="scale" transition-hide="scale">
+                  <q-time
+                    v-model="form.endTime"
+                    mask="HH:mm"
+                    format24h
+                    :minute-options="[0, 15, 30, 45]"
+                    color="accent"
+                    text-color="dark"
+                    class="brw-picker"
+                  >
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn
+                        v-close-popup
+                        flat
+                        no-caps
+                        class="brw-btn-ghost"
+                        :label="t('common.cancel')"
+                      />
+                      <q-btn
+                        v-close-popup
+                        unelevated
+                        no-caps
+                        class="brw-btn-dark"
+                        :label="t('common.done')"
+                      />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-input>
             </div>
           </div>
 
@@ -153,6 +218,8 @@ const auth = useAuthStore();
 const siteOptions = ref<SiteOption[]>([]);
 const saving = ref(false);
 const workDateProxy = ref<QPopupProxy | null>(null);
+const startTimeProxy = ref<QPopupProxy | null>(null);
+const endTimeProxy = ref<QPopupProxy | null>(null);
 
 function blankForm() {
   return {

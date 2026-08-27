@@ -272,6 +272,25 @@ body {
   }
 }
 
+// Popups QDate / QTime. Color comes from props (`color="accent"
+// text-color="dark"`), this is only geometry and shadow, so the popup reads
+// as part of the card rather than a separate browser window.
+.brw-picker {
+  border-radius: 14px;
+  box-shadow: 0 18px 44px rgba(22, 26, 29, 0.22);
+  font-family: inherit;
+
+  .q-time__header,
+  .q-date__header {
+    border-radius: 14px 14px 0 0;
+  }
+
+  // Button row in the popup's slot.
+  .row.justify-end {
+    padding: 0 12px 12px;
+  }
+}
+
 // Primary yellow CTA — hover/active feedback and fill are shared everywhere
 // (toolbar trigger, dialog save, mobile FAB); the default sizing here is the
 // 40px toolbar/CTA variant, with size modifiers for the other two spots.
@@ -434,6 +453,20 @@ body {
     background: $negative;
     color: #fff;
   }
+}
+
+// Confirming action inside a popup (not a form) — dark, so it doesn't
+// compete with the yellow `.brw-btn-primary` in a dialog's footer. Height
+// matches `.brw-btn-ghost` (44px), which sits right next to it in the same
+// popup row — the ТЗ's original 34px left the pair visibly mismatched.
+.brw-btn-dark {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9px;
+  background: $dark;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 // Row-level icon action in tables (edit/delete).

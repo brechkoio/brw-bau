@@ -6,6 +6,7 @@ export default {
     search: 'Suche',
     cancel: 'Abbrechen',
     confirm: 'Bestätigen',
+    done: 'Fertig',
     delete: 'Löschen',
     edit: 'Bearbeiten',
     save: 'Speichern',
@@ -227,7 +228,7 @@ export default {
   reports: {
     filters: {
       period: 'Zeitraum',
-      site: 'Objekt',
+      site: 'Objekt (Adresse)',
     },
     summary: {
       totalHours: 'Stunden gesamt',

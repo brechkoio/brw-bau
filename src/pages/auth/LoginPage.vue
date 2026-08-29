@@ -103,7 +103,7 @@ async function onSubmit() {
   error.value = '';
   notice.value = '';
   try {
-    await auth.signIn(email.value, password.value);
+    await auth.signIn(email.value.trim(), password.value.trim());
     await router.push('/');
   } catch (err) {
     error.value = err instanceof Error ? err.message : t('auth.login.errorFallback');

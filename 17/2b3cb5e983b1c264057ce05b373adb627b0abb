@@ -1,0 +1,19 @@
+src/pages/auth/LoginPage.vue
+  s_b8c28d9d9370be::t_c5715b44927dca 106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "172b3cb5e983b1c264057ce05b373adb627b0abb",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

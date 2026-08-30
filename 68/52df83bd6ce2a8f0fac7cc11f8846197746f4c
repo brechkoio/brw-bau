@@ -1,0 +1,56 @@
+supabase/migrations/20260830130000_add_site_address.sql
+  s_b8c28d9d9370be::t_5e60a7481f5f77 1-13
+src/i18n/ru.ts
+  s_b8c28d9d9370be::t_faaf9c61a3bc1b 330-333
+  s_b8c28d9d9370be::t_ed223d34ba8f59 32-34
+src/pages/reports/MonthlyReportPage.vue
+  s_b8c28d9d9370be::t_2d3a53e4278fb2 19
+  s_b8c28d9d9370be::t_06874e4a591ee8 311-314
+src/pages/reports/SitesReportPage.vue
+  s_b8c28d9d9370be::t_4b497a4ff1a069 172-175
+  s_b8c28d9d9370be::t_1c5e9b63d5c1b1 19
+src/pages/reports/SitesReportSummaryPage.vue
+  s_b8c28d9d9370be::t_9e8cd6b8151e44 19
+  s_b8c28d9d9370be::t_053dbb0c0877c6 177-180
+src/i18n/de.ts
+  s_b8c28d9d9370be::t_a0adaf10084fe6 333-336
+  s_b8c28d9d9370be::t_7ca1e29976f22e 32-34
+src/pages/admin/SitesPage.vue
+  s_b8c28d9d9370be::t_94e71b3aa2dcbf 99-100,122-143
+  s_b8c28d9d9370be::t_489463ef718758 72,80-98
+  s_b8c28d9d9370be::t_d562e9f15151e6 241,248
+  s_b8c28d9d9370be::t_8663a9fe2d249b 315-321
+  s_b8c28d9d9370be::t_e21a218545abf5 357-358,361-366,369-371
+  s_b8c28d9d9370be::t_3285154cf29454 203-205,214-216,225-231
+  s_b8c28d9d9370be::t_9007013d3978aa 256-260,264-270,280-286
+  s_b8c28d9d9370be::t_30cf36dcb9dfad 50-53
+  s_b8c28d9d9370be::t_4063227ec7ec5d 346
+src/i18n/uk.ts
+  s_b8c28d9d9370be::t_9ba771c5266eba 30-32
+  s_b8c28d9d9370be::t_3439abce8b7ab7 328-331
+src/pages/HomePage.vue
+  s_b8c28d9d9370be::t_6079358d5742ce 104,144-166
+  s_b8c28d9d9370be::t_9fa5320a4b81a4 174
+  s_b8c28d9d9370be::t_00c6ded648c47e 181
+  s_b8c28d9d9370be::t_266a5e37b9957c 364
+  s_b8c28d9d9370be::t_b36e0e8f9cc799 167
+src/i18n/en-US.ts
+  s_b8c28d9d9370be::t_ca151edd000aa2 330-333
+  s_b8c28d9d9370be::t_f681a1a9f3aff4 32-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "6852df83bd6ce2a8f0fac7cc11f8846197746f4c",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,93 @@
+public/CNAME
+  s_b8c28d9d9370be::t_ab99ae4d790ee5 1
+src/utils/geolocation.ts
+  s_b8c28d9d9370be::t_94d1c15c29da58 1-21
+src/pages/HomePage.vue
+  s_b8c28d9d9370be::t_27db77d26fbee0 78-80
+  s_b8c28d9d9370be::t_67bef9b145ebb7 540
+  s_b8c28d9d9370be::t_fb8bce2e762b5b 490-508
+  s_b8c28d9d9370be::t_f23451bc1624ca 607-618,620-624,635-659,663-718
+  s_b8c28d9d9370be::t_9551eacc9a59cd 725-727,730,732-735
+  s_b8c28d9d9370be::t_05be09e415fd81 15,22,33,39
+  s_b8c28d9d9370be::t_12ba56f6a3c7c1 427-429
+  s_b8c28d9d9370be::t_5b7f5b6a69ab2f 625-634
+  s_b8c28d9d9370be::t_cc672ad8d14b65 4-14,16-21,26-28,30,35-38,40-56,60-63,65,67,93,95-101,104,142-163
+  s_b8c28d9d9370be::t_f571f2283171d3 314,320-323
+  s_b8c28d9d9370be::t_17193efbca234b 210
+  s_b8c28d9d9370be::t_095dfafe2897e3 390,396
+  s_b8c28d9d9370be::t_9700bd9b1ecbd0 267
+  s_b8c28d9d9370be::t_75eb0087903c33 215
+  s_b8c28d9d9370be::t_afc5a2432fc085 216
+  s_b8c28d9d9370be::t_97b9d0f4415c66 164-165
+src/i18n/ru.ts
+  s_b8c28d9d9370be::t_e23392cfbcd410 302-303,305
+  s_b8c28d9d9370be::t_8e6d510733b864 132
+  s_b8c28d9d9370be::t_e8ba8a63bf0f46 135-138
+  s_b8c28d9d9370be::t_8671f64a9e542f 306
+  s_b8c28d9d9370be::t_68207786083806 307-312
+  s_b8c28d9d9370be::t_1c3643f73f7611 264
+src/pages/admin/SitesPage.vue
+  s_b8c28d9d9370be::t_f6b87e507f3687 256-257,259
+  s_b8c28d9d9370be::t_c00b9544fa1b73 160-161,172,175-178,197-229
+  s_b8c28d9d9370be::t_65c0cdde30087f 154
+  s_b8c28d9d9370be::t_cce0ff443f4646 173,179-196
+  s_b8c28d9d9370be::t_b40b5caa54eeeb 246-252
+  s_b8c28d9d9370be::t_0624d6466b72ec 253
+  s_b8c28d9d9370be::t_9cc56a0c0f396f 267-270
+  s_b8c28d9d9370be::t_20b54662bdb009 58-63,95-101,127-137
+  s_b8c28d9d9370be::t_824c4db2a8fb7f 102-126
+  s_b8c28d9d9370be::t_069940be8735ea 138-140
+  s_b8c28d9d9370be::t_c4aa7db8f84bc2 141-142
+supabase/migrations/20260830110000_add_site_coordinates.sql
+  s_b8c28d9d9370be::t_9a0cddc63824b6 1-9
+src/pages/reports/MonthlyReportPage.vue
+  s_b8c28d9d9370be::t_590c218e5af0cf 514-517
+  s_b8c28d9d9370be::t_7505c0e0a1f20b 84-91,94-99
+  s_b8c28d9d9370be::t_c8d58cb094b255 93
+  s_b8c28d9d9370be::t_229324fe19622f 277,286
+  s_b8c28d9d9370be::t_44c03bcb9bb34f 423
+  s_b8c28d9d9370be::t_d34a300cbf3323 334-336
+supabase/migrations/20260830100000_drop_avatars_list_policy.sql
+  s_b8c28d9d9370be::t_8eb48cc36f566b 1-6
+src/i18n/uk.ts
+  s_b8c28d9d9370be::t_d364938247b331 305-310
+  s_b8c28d9d9370be::t_028cba580c2420 130
+  s_b8c28d9d9370be::t_c5f84b4b02be2c 262
+  s_b8c28d9d9370be::t_8671f64a9e542f 304
+  s_b8c28d9d9370be::t_df6607e96081ca 133-136
+  s_b8c28d9d9370be::t_e4493d497b5c5d 300-301,303
+src/i18n/en-US.ts
+  s_b8c28d9d9370be::t_2e28b4f8b5dc24 135-138
+  s_b8c28d9d9370be::t_418099f0271859 132
+  s_b8c28d9d9370be::t_4c7b7345a6f068 308-312
+  s_b8c28d9d9370be::t_f5f53a916afd96 303-304,306
+  s_b8c28d9d9370be::t_71763070ffc8fa 265
+  s_b8c28d9d9370be::t_8671f64a9e542f 307
+src/i18n/de.ts
+  s_b8c28d9d9370be::t_7ae19f27b65dce 310-315
+  s_b8c28d9d9370be::t_49c1b6a6ae3c5c 132
+  s_b8c28d9d9370be::t_7cba5c9fc955c3 135-138
+  s_b8c28d9d9370be::t_7781753162eb2e 267
+  s_b8c28d9d9370be::t_d38f368e6eab56 305-306,308-309
+quasar.config.ts
+  s_b8c28d9d9370be::t_aa7dcfe39a8dea 61-63
+src/utils/work-hours.ts
+  s_b8c28d9d9370be::t_c2492352af906d 1-40,47-55
+  s_b8c28d9d9370be::t_8b5193bf836a05 41-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "d22b9521c2f3f1d1e785b4b53ebbf07119c58a9e",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

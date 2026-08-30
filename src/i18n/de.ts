@@ -272,6 +272,7 @@ export default {
     summary: {
       totalHours: 'Stunden gesamt',
       totalEarned: 'Betrag gesamt',
+      totalPeople: 'Personen gesamt',
     },
     empty: {
       filtered: 'Für den gewählten Zeitraum keine Einträge',
@@ -304,6 +305,7 @@ export default {
       title: 'Gesamtbericht',
       placeholder:
         'Ein zusammenfassender Bericht über alle Mitarbeiter (Monat und Jahr) erscheint nach Umsetzung von Stufe 9. Diese Seite ist nur für Administratoren.',
+      columnPeople: 'Personen',
     },
     deletedEmployee: 'Gelöschter Mitarbeiter',
   },

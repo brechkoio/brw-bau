@@ -68,6 +68,10 @@
             <div class="brw-summary__label">{{ t('reports.summary.totalEarned') }}</div>
             <div class="brw-summary__value">{{ formatMoney(totalEarned) }}</div>
           </div>
+          <div class="brw-summary">
+            <div class="brw-summary__label">{{ t('reports.summary.totalPeople') }}</div>
+            <div class="brw-summary__value">{{ totalPeople }}</div>
+          </div>
         </div>
       </template>
 
@@ -100,6 +104,10 @@
         </template>
 
         <template #body-cell-earned="props">
+          <q-td :props="props" class="brw-tabular-nums">{{ props.value }}</q-td>
+        </template>
+
+        <template #body-cell-people="props">
           <q-td :props="props" class="brw-tabular-nums">{{ props.value }}</q-td>
         </template>
 
@@ -137,6 +145,7 @@ interface EarningsRow {
   earned: number;
   site_id: string;
   site_name: string;
+  user_id: string;
 }
 
 interface SiteMonthRow {
@@ -145,6 +154,7 @@ interface SiteMonthRow {
   month: string;
   hours: number;
   earned: number;
+  people: number;
 }
 
 interface SiteOption {
@@ -182,7 +192,10 @@ const selectedSiteId = ref<string | null>(null);
 const loading = ref(false);
 
 const rows = computed<SiteMonthRow[]>(() => {
-  const grouped = new Map<string, SiteMonthRow>();
+  const grouped = new Map<
+    string,
+    { site_name: string; month: string; hours: number; earned: number; users: Set<string> }
+  >();
   for (const r of rawRows.value) {
     if (selectedSiteId.value && r.site_id !== selectedSiteId.value) continue;
     const month = r.work_date.slice(0, 7); // YYYY-MM
@@ -191,19 +204,27 @@ const rows = computed<SiteMonthRow[]>(() => {
     if (existing) {
       existing.hours += Number(r.hours);
       existing.earned += Number(r.earned);
+      existing.users.add(r.user_id);
     } else {
       grouped.set(key, {
-        key,
         site_name: r.site_name,
         month,
         hours: Number(r.hours),
         earned: Number(r.earned),
+        users: new Set([r.user_id]),
       });
     }
   }
-  return Array.from(grouped.values()).sort(
-    (a, b) => a.site_name.localeCompare(b.site_name) || a.month.localeCompare(b.month),
-  );
+  return Array.from(grouped.entries())
+    .map(([key, g]) => ({
+      key,
+      site_name: g.site_name,
+      month: g.month,
+      hours: g.hours,
+      earned: g.earned,
+      people: g.users.size,
+    }))
+    .sort((a, b) => a.site_name.localeCompare(b.site_name) || a.month.localeCompare(b.month));
 });
 
 const totalHours = computed(() =>
@@ -213,6 +234,14 @@ const totalHours = computed(() =>
   ),
 );
 const totalEarned = computed(() => rows.value.reduce((sum, r) => sum + r.earned, 0));
+const totalPeople = computed(() => {
+  const ids = new Set<string>();
+  for (const r of rawRows.value) {
+    if (selectedSiteId.value && r.site_id !== selectedSiteId.value) continue;
+    ids.add(r.user_id);
+  }
+  return ids.size;
+});
 
 function formatMonthYear(yearMonth: string): string {
   const [y, m] = yearMonth.split('-');
@@ -255,6 +284,13 @@ const columns = computed<QTableColumn<SiteMonthRow>[]>(() => [
     align: 'right',
     sortable: true,
   },
+  {
+    name: 'people',
+    label: t('reports.general.columnPeople'),
+    field: 'people',
+    align: 'right',
+    sortable: true,
+  },
 ]);
 
 function onExport() {
@@ -287,7 +323,7 @@ async function loadRows() {
   loading.value = true;
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('work_date, hours, earned, site_id, site_name')
+    .select('work_date, hours, earned, site_id, site_name, user_id')
     .gte('work_date', dateRange.value.from)
     .lte('work_date', dateRange.value.to);
   loading.value = false;

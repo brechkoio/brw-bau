@@ -696,9 +696,57 @@ watch(
 
 // "Звіт по об'єктах" submenu header — same row as a flat .brw-nav-item,
 // plus Quasar's own expand arrow at the end (colored via the muted token
-// so it doesn't compete with the icon/label).
-.brw-nav-group-header :deep(.q-item__section--side .q-icon) {
-  color: $drawer-muted;
+// so it doesn't compete with the icon/label). Passed to q-expansion-item
+// via `header-class`, so the q-item it lands on is created inside Quasar's
+// own component render, not in this file's <template> — it never gets
+// this SFC's scoped data-v attribute, so the plain `.brw-nav-item` /
+// `.brw-nav-item--active` rules above silently don't match it (that's why
+// it was rendering at Quasar's default item padding instead of lining up
+// with the other rows). `:deep()` on the whole selector drops that
+// requirement so these rules actually reach it.
+:deep(.brw-nav-group-header) {
+  position: relative;
+  min-height: 46px;
+  height: 46px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: $drawer-text;
+
+  .q-icon {
+    color: inherit;
+  }
+
+  .q-item__section--avatar {
+    min-width: 22px;
+    padding-right: 14px;
+  }
+
+  .q-item__section--side .q-icon {
+    color: $drawer-muted;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+  }
+
+  &.brw-nav-item--active {
+    background: rgba(255, 207, 0, 0.12);
+    color: $accent;
+    font-weight: 500;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      width: 3px;
+      height: 22px;
+      border-radius: 0 3px 3px 0;
+      background: $accent;
+      transform: translateY(-50%);
+    }
+  }
 }
 
 // Sub-links (Детальний / Підсумковий) — shorter and indented under the

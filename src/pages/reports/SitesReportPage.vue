@@ -58,9 +58,15 @@
       </TableFilter>
 
       <template #summary>
-        <div class="brw-summary">
-          <div class="brw-summary__label">{{ t('reports.summary.totalHours') }}</div>
-          <div class="brw-summary__value">{{ totalHours }}</div>
+        <div class="brw-summary-group">
+          <div class="brw-summary">
+            <div class="brw-summary__label">{{ t('reports.summary.totalHours') }}</div>
+            <div class="brw-summary__value">{{ totalHours }}</div>
+          </div>
+          <div class="brw-summary">
+            <div class="brw-summary__label">{{ t('reports.summary.totalPeople') }}</div>
+            <div class="brw-summary__value">{{ totalPeople }}</div>
+          </div>
         </div>
       </template>
 
@@ -93,6 +99,10 @@
         </template>
 
         <template #body-cell-earned="props">
+          <q-td :props="props" class="brw-tabular-nums">{{ props.value }}</q-td>
+        </template>
+
+        <template #body-cell-people="props">
           <q-td :props="props" class="brw-tabular-nums">{{ props.value }}</q-td>
         </template>
 
@@ -130,6 +140,7 @@ interface EarningsRow {
   earned: number;
   site_id: string;
   site_name: string;
+  user_id: string;
 }
 
 interface SiteDayRow {
@@ -138,6 +149,7 @@ interface SiteDayRow {
   work_date: string;
   hours: number;
   earned: number;
+  people: number;
 }
 
 interface SiteOption {
@@ -175,7 +187,10 @@ const selectedSiteId = ref<string | null>(null);
 const loading = ref(false);
 
 const rows = computed<SiteDayRow[]>(() => {
-  const grouped = new Map<string, SiteDayRow>();
+  const grouped = new Map<
+    string,
+    { site_name: string; work_date: string; hours: number; earned: number; users: Set<string> }
+  >();
   for (const r of rawRows.value) {
     if (selectedSiteId.value && r.site_id !== selectedSiteId.value) continue;
     const key = `${r.site_id}_${r.work_date}`;
@@ -183,19 +198,29 @@ const rows = computed<SiteDayRow[]>(() => {
     if (existing) {
       existing.hours += Number(r.hours);
       existing.earned += Number(r.earned);
+      existing.users.add(r.user_id);
     } else {
       grouped.set(key, {
-        key,
         site_name: r.site_name,
         work_date: r.work_date,
         hours: Number(r.hours),
         earned: Number(r.earned),
+        users: new Set([r.user_id]),
       });
     }
   }
-  return Array.from(grouped.values()).sort(
-    (a, b) => a.site_name.localeCompare(b.site_name) || a.work_date.localeCompare(b.work_date),
-  );
+  return Array.from(grouped.entries())
+    .map(([key, g]) => ({
+      key,
+      site_name: g.site_name,
+      work_date: g.work_date,
+      hours: g.hours,
+      earned: g.earned,
+      people: g.users.size,
+    }))
+    .sort(
+      (a, b) => a.site_name.localeCompare(b.site_name) || a.work_date.localeCompare(b.work_date),
+    );
 });
 
 const totalHours = computed(() =>
@@ -204,6 +229,15 @@ const totalHours = computed(() =>
     t,
   ),
 );
+
+const totalPeople = computed(() => {
+  const ids = new Set<string>();
+  for (const r of rawRows.value) {
+    if (selectedSiteId.value && r.site_id !== selectedSiteId.value) continue;
+    ids.add(r.user_id);
+  }
+  return ids.size;
+});
 
 const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
   {
@@ -234,6 +268,13 @@ const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
     label: t('reports.monthly.columnEarned'),
     field: 'earned',
     format: (val: number) => formatMoney(val),
+    align: 'right',
+    sortable: true,
+  },
+  {
+    name: 'people',
+    label: t('reports.general.columnPeople'),
+    field: 'people',
     align: 'right',
     sortable: true,
   },
@@ -273,7 +314,7 @@ async function loadRows() {
   loading.value = true;
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('work_date, hours, earned, site_id, site_name')
+    .select('work_date, hours, earned, site_id, site_name, user_id')
     .gte('work_date', dateRange.value.from)
     .lte('work_date', dateRange.value.to);
   loading.value = false;
@@ -314,6 +355,12 @@ void loadRows();
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.brw-summary-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
 }
 
 // Same two-row grid as a filter column: a 22px label row

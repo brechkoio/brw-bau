@@ -269,6 +269,7 @@ export default {
     summary: {
       totalHours: 'Total hours',
       totalEarned: 'Total amount',
+      totalPeople: 'Total people',
     },
     empty: {
       filtered: 'No entries for the selected period',
@@ -301,6 +302,7 @@ export default {
       title: 'General report',
       placeholder:
         'A summary report across all employees (monthly and yearly) will appear once Stage 9 is implemented. This page is admin-only.',
+      columnPeople: 'People',
     },
     deletedEmployee: 'Deleted employee',
   },

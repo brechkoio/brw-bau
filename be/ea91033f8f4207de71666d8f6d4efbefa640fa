@@ -1,0 +1,42 @@
+src/i18n/en-US.ts
+  s_b8c28d9d9370be::t_5900b23f094789 17
+  s_b8c28d9d9370be::t_0f2960b2914965 134-139
+src/i18n/ru.ts
+  s_b8c28d9d9370be::t_f34be802ec9230 17
+  s_b8c28d9d9370be::t_bd90eddd2c0965 134-139
+src/pages/reports/MonthlyReportPage.vue
+  s_b8c28d9d9370be::t_1c3a849ccc6ccc 349-350
+  s_b8c28d9d9370be::t_6a0f6ee03973f7 388-389
+  s_b8c28d9d9370be::t_dfb14c42da2042 272-274
+  s_b8c28d9d9370be::t_ec0c2974837b76 458
+supabase/migrations/20260830090000_add_open_shift_support.sql
+  s_b8c28d9d9370be::t_f49ca492bbb8c7 1-42
+src/i18n/de.ts
+  s_b8c28d9d9370be::t_3e18cc66731e36 134-139
+  s_b8c28d9d9370be::t_5786466dd0b61a 17
+src/i18n/uk.ts
+  s_b8c28d9d9370be::t_8d48a518b362ac 15
+  s_b8c28d9d9370be::t_194069c28b7c51 132-137
+src/pages/HomePage.vue
+  s_b8c28d9d9370be::t_dcfe3427560208 486-488
+  s_b8c28d9d9370be::t_9a8eba41a7b98a 582-589
+  s_b8c28d9d9370be::t_dbbac3c2a05784 449-451,461-485,489-556,562-563
+  s_b8c28d9d9370be::t_4e28e14a0f82fc 191,200-202,206-217
+  s_b8c28d9d9370be::t_6f94fbe315cef6 5-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "beea91033f8f4207de71666d8f6d4efbefa640fa",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

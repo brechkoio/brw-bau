@@ -33,8 +33,11 @@ describe('hoursToParts', () => {
 });
 
 describe('formatHoursLabel', () => {
-  const t = (key: string, params?: Record<string, unknown>) =>
-    key === 'common.hoursOnly' ? `${params?.h}h` : `${params?.h}h ${params?.m}m`;
+  const t = (key: string, params?: Record<string, unknown>) => {
+    const h = Number(params?.h);
+    const m = Number(params?.m);
+    return key === 'common.hoursOnly' ? `${h}h` : `${h}h ${m}m`;
+  };
 
   it('omits the minutes phrase when there are none', () => {
     expect(formatHoursLabel(3, t)).toBe('3h');

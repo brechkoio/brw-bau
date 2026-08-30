@@ -88,18 +88,25 @@ body {
 .brw-input.q-field--readonly .q-field__control:before {
   border-style: solid;
 }
-// Focus is an outline, not a thicker border — a colored border on its own
-// reads as a validation error (see .brw-input--error below, which is the
-// only state that still gets one). Both pseudo-elements are pinned back to
-// the resting border-color because Quasar's own outlined/highlighted focus
-// treatment would otherwise recolor them (:after in particular).
+// Quasar draws an outlined field's border as two stacked, separately
+// animated pseudo-elements (:before always-on gray, :after a scale3d-
+// transitioned accent ring) — recoloring them, as the global rule above
+// tries to, still leaves two independently-sized shapes that don't quite
+// overlap at the corners, showing a sliver of the wrong one. Simplest
+// robust fix: make both fully invisible on focus and draw one ring
+// ourselves. inset (not outset) box-shadow adds zero layout size (unlike a
+// real border) and always hugs the control's own border-radius exactly, so
+// there's no scale-transform mismatch to fight.
 .brw-input.q-field--focused .q-field__control:before,
 .brw-input.q-field--focused .q-field__control:after {
-  border-color: $separator-color;
+  border-color: transparent;
+}
+.brw-input.q-field--focused .q-field__control,
+.brw-input.q-field--focused .q-field__native:focus {
+  outline: none;
 }
 .brw-input.q-field--focused .q-field__control {
-  outline: 2px solid $accent;
-  outline-offset: 2px;
+  box-shadow: inset 0 0 0 2px $accent;
 }
 .brw-input input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 100px white inset;

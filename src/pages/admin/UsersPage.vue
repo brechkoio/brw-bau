@@ -49,7 +49,8 @@ import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
-import { exportTableToCsv } from '@/utils/export-csv';
+import { exportTableToXlsx } from '@/utils/export-xlsx';
+import { toLocalIsoDate } from '@/utils/format-date';
 
 interface UserRow {
   id: string;
@@ -108,8 +109,12 @@ const columns = computed<QTableColumn<UserRow>[]>(() => [
   },
 ]);
 
-function onExport() {
-  const ok = exportTableToCsv('users.csv', columns.value, filteredUsers.value);
+async function onExport() {
+  const ok = await exportTableToXlsx(
+    `users-${toLocalIsoDate(new Date()).slice(0, 7)}.xlsx`,
+    columns.value,
+    filteredUsers.value,
+  );
   if (!ok) {
     $q.notify({ type: 'negative', message: t('common.exportError') });
   }

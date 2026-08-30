@@ -448,6 +448,7 @@ import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import { useAuthStore } from '@/stores/auth-store';
 import { usePwaInstall } from '@/composables/use-pwa-install';
+import { toLocalIsoDate } from '@/utils/format-date';
 
 type TabId = 'profile' | 'security' | 'app';
 
@@ -579,7 +580,7 @@ async function loadCurrentRate() {
     .from('employee_rates')
     .select('hourly_rate')
     .eq('user_id', auth.user.id)
-    .lte('effective_from', new Date().toISOString().slice(0, 10))
+    .lte('effective_from', toLocalIsoDate(new Date()))
     .order('effective_from', { ascending: false })
     .limit(1)
     .maybeSingle();

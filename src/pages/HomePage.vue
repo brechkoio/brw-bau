@@ -179,6 +179,7 @@ import { supabase } from '@/boot/supabase';
 import { aggregateCreditedHours } from '@/utils/work-hours';
 import { getCurrentCoords } from '@/utils/geolocation';
 import { formatHoursLabel } from '@/utils/format-hours';
+import { toLocalIsoDate } from '@/utils/format-date';
 
 interface EarningsRow {
   id: string;
@@ -206,10 +207,10 @@ const auth = useAuthStore();
 const i18n = useI18n();
 const { t } = i18n;
 
-const today = new Date().toISOString().slice(0, 10);
+const today = toLocalIsoDate(new Date());
 
 function toIsoDate(d: Date) {
-  return d.toISOString().slice(0, 10);
+  return toLocalIsoDate(d);
 }
 
 function parseLocalDate(dateStr: string): Date {

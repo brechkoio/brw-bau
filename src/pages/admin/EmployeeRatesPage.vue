@@ -93,6 +93,7 @@
               min="0.01"
               :label="t('admin.rates.rateLabel')"
               outlined
+              class="brw-input"
               :rules="[(val) => (val && val > 0) || t('validation.requiredAmount')]"
               lazy-rules
             />
@@ -150,7 +151,8 @@ import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
-import { exportTableToCsv } from '@/utils/export-csv';
+import { exportTableToXlsx } from '@/utils/export-xlsx';
+import { toLocalIsoDate } from '@/utils/format-date';
 
 interface EmployeeOption {
   label: string;
@@ -178,7 +180,7 @@ const effectiveFromProxy = ref<QPopupProxy | null>(null);
 const form = ref({
   employeeId: null as string | null,
   hourlyRate: null as number | null,
-  effectiveFrom: new Date().toISOString().slice(0, 10),
+  effectiveFrom: toLocalIsoDate(new Date()),
 });
 
 const filteredRates = computed(() => {
@@ -211,8 +213,12 @@ const columns = computed<QTableColumn<RateRow>[]>(() => [
   },
 ]);
 
-function onExport() {
-  const ok = exportTableToCsv('employee-rates.csv', columns.value, filteredRates.value);
+async function onExport() {
+  const ok = await exportTableToXlsx(
+    `employee-rates-${toLocalIsoDate(new Date()).slice(0, 7)}.xlsx`,
+    columns.value,
+    filteredRates.value,
+  );
   if (!ok) {
     $q.notify({ type: 'negative', message: t('common.exportError') });
   }
@@ -270,7 +276,7 @@ async function onSave() {
     form.value = {
       employeeId: null,
       hourlyRate: null,
-      effectiveFrom: new Date().toISOString().slice(0, 10),
+      effectiveFrom: toLocalIsoDate(new Date()),
     };
     await loadRates();
   } catch (err) {

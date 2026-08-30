@@ -314,9 +314,10 @@ export default {
     },
     general: {
       title: 'General report',
-      placeholder:
-        'A summary report across all employees (monthly and yearly) will appear once Stage 9 is implemented. This page is admin-only.',
       columnPeople: 'People',
+      longShiftsHint:
+        'Shifts longer than {hours}h — review before running payroll. This also catches shifts closed automatically (when a worker forgot to tap "End").',
+      noResults: 'No shifts over the threshold for this period',
     },
     deletedEmployee: 'Deleted employee',
   },

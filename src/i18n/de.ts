@@ -317,9 +317,10 @@ export default {
     },
     general: {
       title: 'Gesamtbericht',
-      placeholder:
-        'Ein zusammenfassender Bericht über alle Mitarbeiter (Monat und Jahr) erscheint nach Umsetzung von Stufe 9. Diese Seite ist nur für Administratoren.',
       columnPeople: 'Personen',
+      longShiftsHint:
+        'Schichten länger als {hours} Std. — vor der Lohnabrechnung prüfen. Hier erscheinen auch automatisch geschlossene Schichten (wenn ein Mitarbeiter „Beenden“ vergessen hat).',
+      noResults: 'Keine Schichten über dem Grenzwert für diesen Zeitraum',
     },
     deletedEmployee: 'Gelöschter Mitarbeiter',
   },

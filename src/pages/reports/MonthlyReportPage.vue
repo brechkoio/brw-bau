@@ -1,37 +1,34 @@
 <template>
   <q-page class="column no-wrap">
     <TableFiltersBar>
-      <TableFilter v-slot="{ inputId }" :label="t('reports.filters.period')" width="320px">
-        <q-input
-          :for="inputId"
-          :model-value="rangeLabel"
-          outlined
-          readonly
-          class="brw-input brw-input--dense cursor-pointer"
-        >
-          <template #append>
-            <q-icon name="event" />
-          </template>
-          <q-popup-proxy transition-show="scale" transition-hide="scale">
-            <q-date
-              v-model="rawDateRange"
-              mask="YYYY-MM-DD"
-              :default-year-month="defaultYearMonth"
-              range
-              no-unset
-              today-btn
-              color="accent"
-              text-color="dark"
-            >
-              <div class="row items-center justify-end">
-                <q-btn v-close-popup flat no-caps color="dark" :label="t('common.confirm')" />
-              </div>
-            </q-date>
-          </q-popup-proxy>
-        </q-input>
-      </TableFilter>
+      <PeriodFilter v-model="dateRange" width="320px" :disable="!auth.isAdmin" />
 
       <template #actions>
+        <div v-if="activeShift" class="brw-shift-status">
+          <q-icon name="schedule" size="18px" />
+          <span class="ellipsis">{{ activeShift.site_name }} · {{ elapsedLabel }}</span>
+        </div>
+
+        <q-btn
+          v-if="!activeShift"
+          unelevated
+          no-caps
+          icon="play_arrow"
+          :label="t('home.startShift')"
+          class="brw-btn-primary"
+          @click="startShiftDialogOpen = true"
+        />
+        <q-btn
+          v-else
+          unelevated
+          no-caps
+          icon="stop_circle"
+          :label="t('home.endShift')"
+          class="brw-btn-primary"
+          :loading="shiftBusy"
+          @click="endShift"
+        />
+
         <q-btn
           unelevated
           no-caps
@@ -42,6 +39,49 @@
         />
       </template>
     </TableFiltersBar>
+
+    <q-dialog v-model="startShiftDialogOpen">
+      <q-card style="min-width: 320px">
+        <q-card-section class="text-h6">{{ t('home.startShiftTitle') }}</q-card-section>
+        <q-card-section>
+          <div class="brw-field">
+            <label for="start-shift-site">{{ t('reports.monthly.siteLabel') }}</label>
+            <q-select
+              for="start-shift-site"
+              v-model="selectedSiteId"
+              :options="siteOptions"
+              :placeholder="t('reports.monthly.sitePlaceholder')"
+              outlined
+              emit-value
+              map-options
+              popup-content-class="brw-select__menu"
+              class="brw-select"
+            >
+              <template #option="scope">
+                <q-item v-bind="scope.itemProps">
+                  <q-item-section>{{ scope.opt.label }}</q-item-section>
+                  <q-item-section v-if="scope.selected" side>
+                    <q-icon name="check" size="18px" class="brw-select__check" />
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+          </div>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat :label="t('common.cancel')" v-close-popup />
+          <q-btn
+            unelevated
+            no-caps
+            class="brw-btn-primary"
+            :label="t('home.startShift')"
+            :disable="!selectedSiteId"
+            :loading="shiftBusy"
+            @click="startShift"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
     <div class="brw-page-body q-pa-md">
       <q-table
@@ -133,7 +173,7 @@
               :label="t('reports.monthly.dateLabel')"
               outlined
               readonly
-              class="cursor-pointer"
+              class="brw-input cursor-pointer"
             >
               <template #append>
                 <q-icon name="event" />
@@ -266,17 +306,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useQuasar, type QTableColumn, type QPopupProxy } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import { useAuthStore } from '@/stores/auth-store';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
-import TableFilter from '@/components/TableFilter.vue';
-import { exportTableToCsv } from '@/utils/export-csv';
-import { formatDisplayDate } from '@/utils/format-date';
+import PeriodFilter from '@/components/PeriodFilter.vue';
+import { exportTableToXlsx } from '@/utils/export-xlsx';
+import { formatDisplayDate, toLocalIsoDate } from '@/utils/format-date';
+import { currentMonthRange } from '@/utils/date-range';
 import { aggregateCreditedHours } from '@/utils/work-hours';
 import { formatHoursLabel } from '@/utils/format-hours';
+import { getCurrentCoords } from '@/utils/geolocation';
 
 interface ReportRow {
   id: string;
@@ -295,35 +337,18 @@ interface SiteOption {
   value: string;
 }
 
+interface ActiveShift {
+  id: string;
+  site_name: string;
+  start_time: string;
+}
+
 const $q = useQuasar();
 const i18n = useI18n();
 const { t } = i18n;
 const auth = useAuthStore();
 
-function currentMonthRange() {
-  const now = new Date();
-  return {
-    from: new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10),
-    to: new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10),
-  };
-}
-
-// Guarantees the popup calendar opens on the current month even before any
-// selection exists to derive it from.
-const defaultYearMonth = new Date().toISOString().slice(0, 7).replace('-', '/');
-
 const dateRange = ref<{ from: string; to: string }>(currentMonthRange());
-// q-date's range model collapses to a plain date string when both ends of
-// the range land on the same day (e.g. clicking one day twice) instead of
-// { from, to } — normalize it back into an object either way.
-const rawDateRange = ref<string | { from: string; to: string }>(dateRange.value);
-watch(rawDateRange, (val) => {
-  dateRange.value = typeof val === 'string' ? { from: val, to: val } : val;
-});
-
-const rangeLabel = computed(
-  () => `${formatDisplayDate(dateRange.value.from)} – ${formatDisplayDate(dateRange.value.to)}`,
-);
 
 const rows = ref<ReportRow[]>([]);
 const siteOptions = ref<SiteOption[]>([]);
@@ -405,8 +430,12 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => {
 
 const exportColumns = computed(() => columns.value.filter((col) => col.name !== 'actions'));
 
-function onExport() {
-  const ok = exportTableToCsv('monthly-report.csv', exportColumns.value, filteredRows.value);
+async function onExport() {
+  const ok = await exportTableToXlsx(
+    `monthly-report-${dateRange.value.from.slice(0, 7)}.xlsx`,
+    exportColumns.value,
+    filteredRows.value,
+  );
   if (!ok) {
     $q.notify({ type: 'negative', message: t('common.exportError') });
   }
@@ -446,6 +475,96 @@ async function loadSites() {
     return;
   }
   siteOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
+}
+
+// ---- Clock-in / clock-out (duplicated from HomePage.vue) ----
+
+const selectedSiteId = ref<string | null>(null);
+const activeShift = ref<ActiveShift | null>(null);
+const shiftBusy = ref(false);
+const startShiftDialogOpen = ref(false);
+
+const elapsedNow = ref(Date.now());
+let elapsedTick: ReturnType<typeof setInterval> | undefined;
+
+onMounted(() => {
+  elapsedTick = setInterval(() => (elapsedNow.value = Date.now()), 60_000);
+});
+onUnmounted(() => clearInterval(elapsedTick));
+
+const elapsedLabel = computed(() => {
+  if (!activeShift.value) return '';
+  const [h, m] = activeShift.value.start_time.split(':').map(Number);
+  const start = new Date(elapsedNow.value);
+  start.setHours(h ?? 0, m ?? 0, 0, 0);
+  const mins = Math.max(0, Math.round((elapsedNow.value - start.getTime()) / 60_000));
+  return `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`;
+});
+
+function nowTime() {
+  return new Date().toTimeString().slice(0, 8);
+}
+
+async function loadActiveShift() {
+  if (!auth.user) return;
+  const { data } = await supabase
+    .from('work_report_earnings')
+    .select('id, site_name, start_time')
+    .eq('user_id', auth.user.id)
+    .is('end_time', null)
+    .maybeSingle();
+  activeShift.value = data
+    ? { id: data.id, site_name: data.site_name, start_time: data.start_time }
+    : null;
+}
+
+async function startShift() {
+  if (!auth.user || !selectedSiteId.value) return;
+  shiftBusy.value = true;
+  try {
+    const geo = await getCurrentCoords();
+    const { error } = await supabase.from('work_reports').insert({
+      user_id: auth.user.id,
+      site_id: selectedSiteId.value,
+      work_date: toLocalIsoDate(new Date()),
+      start_time: nowTime(),
+      start_lat: geo?.lat ?? null,
+      start_lng: geo?.lng ?? null,
+    });
+    if (error) throw error;
+    $q.notify({ type: 'positive', message: t('home.shiftStarted') });
+    selectedSiteId.value = null;
+    startShiftDialogOpen.value = false;
+    await Promise.all([loadActiveShift(), loadReports()]);
+  } catch (err) {
+    $q.notify({
+      type: 'negative',
+      message: err instanceof Error ? err.message : t('home.errorFallback'),
+    });
+  } finally {
+    shiftBusy.value = false;
+  }
+}
+
+async function endShift() {
+  if (!activeShift.value) return;
+  shiftBusy.value = true;
+  try {
+    const { error } = await supabase
+      .from('work_reports')
+      .update({ end_time: nowTime() })
+      .eq('id', activeShift.value.id);
+    if (error) throw error;
+    $q.notify({ type: 'positive', message: t('home.shiftEnded') });
+    await Promise.all([loadActiveShift(), loadReports()]);
+  } catch (err) {
+    $q.notify({
+      type: 'negative',
+      message: err instanceof Error ? err.message : t('home.errorFallback'),
+    });
+  } finally {
+    shiftBusy.value = false;
+  }
 }
 
 async function loadReports() {
@@ -535,6 +654,7 @@ async function onDelete(row: ReportRow) {
 
 void loadSites();
 void loadReports();
+void loadActiveShift();
 </script>
 
 <style lang="scss" scoped>
@@ -547,5 +667,14 @@ void loadReports();
 
 .brw-break-caption {
   color: $text-muted;
+}
+
+.brw-shift-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $text-secondary;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
 }
 </style>

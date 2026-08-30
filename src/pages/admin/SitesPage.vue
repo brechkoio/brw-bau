@@ -74,6 +74,7 @@
               v-model="newSiteName"
               :label="t('admin.sites.nameLabel')"
               outlined
+              class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredSiteName')]"
               lazy-rules
             />
@@ -81,6 +82,7 @@
               v-model="newSiteCity"
               :label="t('admin.sites.cityLabel')"
               outlined
+              class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredCity')]"
               lazy-rules
             />
@@ -88,6 +90,7 @@
               v-model="newSiteStreet"
               :label="t('admin.sites.streetLabel')"
               outlined
+              class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredStreet')]"
               lazy-rules
             />
@@ -95,6 +98,7 @@
               v-model="newSiteHouseNumber"
               :label="t('admin.sites.houseNumberLabel')"
               outlined
+              class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredHouseNumber')]"
               lazy-rules
             />
@@ -123,6 +127,7 @@
               v-model="editForm.city"
               :label="t('admin.sites.cityLabel')"
               outlined
+              class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredCity')]"
               lazy-rules
             />
@@ -130,6 +135,7 @@
               v-model="editForm.street"
               :label="t('admin.sites.streetLabel')"
               outlined
+              class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredStreet')]"
               lazy-rules
             />
@@ -137,6 +143,7 @@
               v-model="editForm.houseNumber"
               :label="t('admin.sites.houseNumberLabel')"
               outlined
+              class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredHouseNumber')]"
               lazy-rules
             />
@@ -191,8 +198,9 @@ import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
-import { exportTableToCsv } from '@/utils/export-csv';
+import { exportTableToXlsx } from '@/utils/export-xlsx';
 import { getCurrentCoords } from '@/utils/geolocation';
+import { toLocalIsoDate } from '@/utils/format-date';
 
 interface Site {
   id: string;
@@ -332,8 +340,12 @@ const columns = computed<QTableColumn<Site>[]>(() => [
 
 const exportColumns = computed(() => columns.value.filter((col) => col.name !== 'actions'));
 
-function onExport() {
-  const ok = exportTableToCsv('sites.csv', exportColumns.value, filteredSites.value);
+async function onExport() {
+  const ok = await exportTableToXlsx(
+    `sites-${toLocalIsoDate(new Date()).slice(0, 7)}.xlsx`,
+    exportColumns.value,
+    filteredSites.value,
+  );
   if (!ok) {
     $q.notify({ type: 'negative', message: t('common.exportError') });
   }

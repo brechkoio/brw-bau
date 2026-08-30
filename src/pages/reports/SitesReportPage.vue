@@ -1,35 +1,7 @@
 <template>
   <q-page class="column no-wrap">
     <TableFiltersBar>
-      <TableFilter v-slot="{ inputId }" :label="t('reports.filters.period')" width="280px">
-        <q-input
-          :for="inputId"
-          :model-value="rangeLabel"
-          outlined
-          readonly
-          class="brw-input brw-input--dense brw-period-input cursor-pointer"
-        >
-          <template #append>
-            <q-icon name="event" />
-          </template>
-          <q-popup-proxy transition-show="scale" transition-hide="scale">
-            <q-date
-              v-model="rawDateRange"
-              mask="YYYY-MM-DD"
-              :default-year-month="defaultYearMonth"
-              range
-              no-unset
-              today-btn
-              color="accent"
-              text-color="dark"
-            >
-              <div class="row items-center justify-end">
-                <q-btn v-close-popup flat no-caps color="dark" :label="t('common.confirm')" />
-              </div>
-            </q-date>
-          </q-popup-proxy>
-        </q-input>
-      </TableFilter>
+      <PeriodFilter v-model="dateRange" />
 
       <TableFilter v-slot="{ inputId }" :label="t('reports.filters.site')" width="300px">
         <q-select
@@ -131,8 +103,10 @@ import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
-import { exportTableToCsv } from '@/utils/export-csv';
+import PeriodFilter from '@/components/PeriodFilter.vue';
+import { exportTableToXlsx } from '@/utils/export-xlsx';
 import { formatDisplayDate } from '@/utils/format-date';
+import { currentMonthRange } from '@/utils/date-range';
 import { formatHoursLabel } from '@/utils/format-hours';
 
 interface EarningsRow {
@@ -161,30 +135,7 @@ interface SiteOption {
 const $q = useQuasar();
 const { t } = useI18n();
 
-function currentMonthRange() {
-  const now = new Date();
-  return {
-    from: new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10),
-    to: new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10),
-  };
-}
-
-// Guarantees the popup calendar opens on the current month even before any
-// selection exists to derive it from.
-const defaultYearMonth = new Date().toISOString().slice(0, 7).replace('-', '/');
-
 const dateRange = ref<{ from: string; to: string }>(currentMonthRange());
-// q-date's range model collapses to a plain date string when both ends of
-// the range land on the same day (e.g. clicking one day twice) instead of
-// { from, to } — normalize it back into an object either way.
-const rawDateRange = ref<string | { from: string; to: string }>(dateRange.value);
-watch(rawDateRange, (val) => {
-  dateRange.value = typeof val === 'string' ? { from: val, to: val } : val;
-});
-
-const rangeLabel = computed(
-  () => `${formatDisplayDate(dateRange.value.from)} – ${formatDisplayDate(dateRange.value.to)}`,
-);
 
 const rawRows = ref<EarningsRow[]>([]);
 const siteOptions = ref<SiteOption[]>([]);
@@ -289,8 +240,12 @@ function formatMoney(value: number) {
   return `${value.toFixed(2)} ${t('common.currency')}`;
 }
 
-function onExport() {
-  const ok = exportTableToCsv('sites-report.csv', columns.value, rows.value);
+async function onExport() {
+  const ok = await exportTableToXlsx(
+    `sites-report-${dateRange.value.from.slice(0, 7)}.xlsx`,
+    columns.value,
+    rows.value,
+  );
   if (!ok) {
     $q.notify({ type: 'negative', message: t('common.exportError') });
   }
@@ -299,7 +254,6 @@ function onExport() {
 function resetFilters() {
   selectedSiteId.value = null;
   dateRange.value = currentMonthRange();
-  rawDateRange.value = dateRange.value;
 }
 
 async function loadSites() {
@@ -337,10 +291,6 @@ void loadRows();
 </script>
 
 <style lang="scss" scoped>
-.brw-period-input :deep(.q-field__append) {
-  color: $text-muted;
-}
-
 .brw-site-select__divider {
   width: 1px;
   height: 22px;

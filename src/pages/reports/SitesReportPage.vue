@@ -31,14 +31,24 @@
       </TableFilter>
 
       <template #summary>
-        <div class="brw-summary-group">
-          <div class="brw-summary">
-            <div class="brw-summary__label">{{ t('reports.summary.totalHours') }}</div>
-            <div class="brw-summary__value">{{ totalHours }}</div>
+        <div class="column items-end">
+          <div class="brw-summary-group">
+            <div class="brw-summary">
+              <div class="brw-summary__label">{{ t('reports.summary.totalHours') }}</div>
+              <div class="brw-summary__value">{{ totalHours }}</div>
+            </div>
+            <div class="brw-summary">
+              <div class="brw-summary__label">{{ t('reports.summary.totalPeople') }}</div>
+              <div class="brw-summary__value">{{ totalPeople }}</div>
+            </div>
           </div>
-          <div class="brw-summary">
-            <div class="brw-summary__label">{{ t('reports.summary.totalPeople') }}</div>
-            <div class="brw-summary__value">{{ totalPeople }}</div>
+          <div v-if="creditedTotals.breakMinutes > 0" class="text-caption brw-break-caption">
+            {{
+              t('reports.monthly.breakDeductedCaption', {
+                raw: formatHoursLabel(creditedTotals.rawHours, t),
+                minutes: creditedTotals.breakMinutes,
+              })
+            }}
           </div>
         </div>
       </template>
@@ -108,11 +118,13 @@ import { exportTableToXlsx } from '@/utils/export-xlsx';
 import { formatDisplayDate } from '@/utils/format-date';
 import { currentMonthRange } from '@/utils/date-range';
 import { formatHoursLabel } from '@/utils/format-hours';
+import { aggregateCreditedHours } from '@/utils/work-hours';
 
 interface EarningsRow {
   work_date: string;
   hours: number;
   earned: number;
+  hourly_rate: number | null;
   site_id: string;
   site_name: string;
   user_id: string;
@@ -179,12 +191,18 @@ const rows = computed<SiteDayRow[]>(() => {
     );
 });
 
-const totalHours = computed(() =>
-  formatHoursLabel(
-    rows.value.reduce((sum, r) => sum + r.hours, 0),
-    t,
-  ),
-);
+// The row-level table stays raw (each row is exactly what was clocked) —
+// only the summary total applies the lunch-break credit, grouped by
+// (user, day) since this report spans multiple workers. This is the same
+// number "Звіт за місяць" and HomePage show for the same worker/period —
+// it's meant to be the one figure payroll actually uses.
+const creditedTotals = computed(() => {
+  const filtered = rawRows.value.filter(
+    (r) => !selectedSiteId.value || r.site_id === selectedSiteId.value,
+  );
+  return aggregateCreditedHours(filtered);
+});
+const totalHours = computed(() => formatHoursLabel(creditedTotals.value.creditedHours, t));
 
 const totalPeople = computed(() => {
   const ids = new Set<string>();
@@ -273,7 +291,7 @@ async function loadRows() {
   loading.value = true;
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('work_date, hours, earned, site_id, site_name, user_id')
+    .select('work_date, hours, earned, hourly_rate, site_id, site_name, user_id')
     .gte('work_date', dateRange.value.from)
     .lte('work_date', dateRange.value.to);
   loading.value = false;
@@ -359,5 +377,10 @@ void loadRows();
   padding: 32px 0;
   color: $text-muted;
   font-size: 15px;
+}
+
+.brw-break-caption {
+  margin-top: 4px;
+  color: $text-muted;
 }
 </style>

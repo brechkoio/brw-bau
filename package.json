@@ -14,6 +14,9 @@
     "build": "quasar build",
     "build:pwa": "quasar build -m pwa",
     "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:db": "supabase test db --local supabase/tests",
     "postinstall": "quasar prepare --silent"
   },
   "dependencies": {
@@ -42,6 +45,7 @@
     "supabase": "^2.114.0",
     "typescript": "^6.0.0",
     "vite-plugin-checker": "^0.14.5",
+    "vitest": "^4.1.11",
     "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.3.3"
   },

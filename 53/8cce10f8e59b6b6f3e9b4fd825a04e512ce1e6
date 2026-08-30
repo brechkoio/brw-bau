@@ -1,0 +1,19 @@
+supabase/migrations/20260830230000_reset_bypass_flag_after_close.sql
+  s_b8c28d9d9370be::t_0d31209989a003 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "538cce10f8e59b6b6f3e9b4fd825a04e512ce1e6",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+supabase/config.toml
+  s_b8c28d9d9370be::t_518601022362b8 260
+supabase/templates/confirmation.html
+  s_b8c28d9d9370be::t_a67fe1f6ead343 392
+  s_b8c28d9d9370be::t_403766356134a0 215,228-229
+  s_b8c28d9d9370be::t_877c3afe3b8352 91
+  s_b8c28d9d9370be::t_4e3e92620c97d8 10,20
+  s_b8c28d9d9370be::t_838647d940678e 269
+  s_b8c28d9d9370be::t_2d87cdb0710a5c 291
+  s_b8c28d9d9370be::t_c10bc78bd80f58 356
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "e054769843a757c7b8ed46a11c1683c5b635cad6",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

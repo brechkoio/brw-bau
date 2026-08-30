@@ -14,6 +14,7 @@ export default {
     export: 'Export',
     exportError: 'Datei konnte nicht exportiert werden',
     resetFilters: 'Filter zurücksetzen',
+    inProgress: 'In Bearbeitung',
   },
 
   validation: {
@@ -118,7 +119,6 @@ export default {
     daysApprox: '≈ {days} Tage (8-Std.-Tag)',
     expectedSalaryLabel: 'Erwartetes Gehalt diesen Monat',
     currentRateLabel: 'Lohn {rate} €/Std.',
-    addTodayEntry: 'Heutige Stunden erfassen',
     lastEntryDaysAgo: 'letzter Eintrag vor {days} Tagen',
     noEntriesYet: 'noch keine Einträge',
     monthlyNormLabel: 'Fortschritt zum Monatsziel',
@@ -131,6 +131,12 @@ export default {
     noRecentEntries: 'Noch keine Einträge',
     pauseLabel: 'Pause, Min.',
     creditedHours: 'Wird angerechnet',
+    startShift: 'Arbeitstag beginnen',
+    endShift: 'Arbeitstag beenden',
+    shiftActiveSince: '{site} · seit {time}',
+    shiftStarted: 'Arbeitstag begonnen',
+    shiftEnded: 'Arbeitstag beendet',
+    errorFallback: 'Änderungen konnten nicht gespeichert werden',
   },
 
   settings: {
@@ -248,10 +254,6 @@ export default {
       dateLabel: 'Datum',
       startTimeLabel: 'Beginn',
       endTimeLabel: 'Ende',
-      submit: 'Eintrag hinzufügen',
-      addHint: 'Stunden werden automatisch berechnet',
-      hoursHintEmpty: 'Uhrzeit eingeben, um die Stunden zu sehen',
-      hoursHintValue: '{hours} Std.',
       columnDate: 'Datum',
       columnWeekday: 'Wochentag',
       columnSite: 'Objekt',
@@ -263,7 +265,6 @@ export default {
       noReports: 'Keine Einträge für diesen Monat',
       deleteConfirmTitle: 'Eintrag löschen?',
       deleteConfirmMessage: 'Dies kann nicht rückgängig gemacht werden.',
-      successAdded: 'Eintrag hinzugefügt',
       successUpdated: 'Eintrag aktualisiert',
       successDeleted: 'Eintrag gelöscht',
       errorFallback: 'Eintrag konnte nicht gespeichert werden',

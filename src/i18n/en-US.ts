@@ -14,6 +14,7 @@ export default {
     export: 'Export',
     exportError: 'Could not export the file',
     resetFilters: 'Reset filters',
+    inProgress: 'In progress',
   },
 
   validation: {
@@ -118,7 +119,6 @@ export default {
     daysApprox: '≈ {days} days (8h/day)',
     expectedSalaryLabel: 'Expected salary this month',
     currentRateLabel: 'rate {rate} €/hour',
-    addTodayEntry: "Log today's hours",
     lastEntryDaysAgo: 'last entry {days} days ago',
     noEntriesYet: 'no entries yet',
     monthlyNormLabel: 'Progress toward monthly norm',
@@ -131,6 +131,12 @@ export default {
     noRecentEntries: 'No entries yet',
     pauseLabel: 'Break, min',
     creditedHours: 'To be credited',
+    startShift: 'Start work day',
+    endShift: 'End work day',
+    shiftActiveSince: '{site} · since {time}',
+    shiftStarted: 'Work day started',
+    shiftEnded: 'Work day ended',
+    errorFallback: 'Could not save changes',
   },
 
   settings: {
@@ -246,10 +252,6 @@ export default {
       dateLabel: 'Date',
       startTimeLabel: 'Start',
       endTimeLabel: 'End',
-      submit: 'Add entry',
-      addHint: 'Hours are calculated automatically',
-      hoursHintEmpty: 'Enter the time to see the hours',
-      hoursHintValue: '{hours} h',
       columnDate: 'Date',
       columnWeekday: 'Weekday',
       columnSite: 'Site',
@@ -261,7 +263,6 @@ export default {
       noReports: 'No entries for this month',
       deleteConfirmTitle: 'Delete this entry?',
       deleteConfirmMessage: 'This cannot be undone.',
-      successAdded: 'Entry added',
       successUpdated: 'Entry updated',
       successDeleted: 'Entry deleted',
       errorFallback: 'Could not save the entry',

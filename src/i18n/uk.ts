@@ -12,6 +12,7 @@ const uk = {
     export: 'Експорт',
     exportError: 'Не вдалося експортувати файл',
     resetFilters: 'Скинути фільтри',
+    inProgress: 'У процесі',
   },
 
   validation: {
@@ -116,7 +117,6 @@ const uk = {
     daysApprox: '≈ {days} дн. (при 8-год дні)',
     expectedSalaryLabel: 'Очікувана зарплата за місяць',
     currentRateLabel: 'ставка {rate} €/год',
-    addTodayEntry: 'Внести години за сьогодні',
     lastEntryDaysAgo: 'останній запис {days} дн. тому',
     noEntriesYet: 'ще немає записів',
     monthlyNormLabel: 'Прогрес до норми місяця',
@@ -129,6 +129,12 @@ const uk = {
     noRecentEntries: 'Ще немає записів',
     pauseLabel: 'Перерва, хв',
     creditedHours: 'До зарахування',
+    startShift: 'Почати робочий день',
+    endShift: 'Закінчити робочий день',
+    shiftActiveSince: '{site} · з {time}',
+    shiftStarted: 'Робочий день розпочато',
+    shiftEnded: 'Робочий день завершено',
+    errorFallback: 'Не вдалося зберегти зміни',
   },
 
   settings: {
@@ -243,10 +249,6 @@ const uk = {
       dateLabel: 'Дата',
       startTimeLabel: 'Початок',
       endTimeLabel: 'Кінець',
-      submit: 'Додати запис',
-      addHint: 'Годин буде розраховано автоматично',
-      hoursHintEmpty: 'Вкажіть час, щоб побачити годин',
-      hoursHintValue: '{hours} год',
       columnDate: 'Дата',
       columnWeekday: 'День тижня',
       columnSite: "Об'єкт",
@@ -258,7 +260,6 @@ const uk = {
       noReports: 'Немає записів за цей місяць',
       deleteConfirmTitle: 'Видалити запис?',
       deleteConfirmMessage: 'Цю дію не можна скасувати.',
-      successAdded: 'Запис додано',
       successUpdated: 'Запис оновлено',
       successDeleted: 'Запис видалено',
       errorFallback: 'Не вдалося зберегти запис',

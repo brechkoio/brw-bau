@@ -14,6 +14,7 @@ export default {
     export: 'Экспорт',
     exportError: 'Не удалось экспортировать файл',
     resetFilters: 'Сбросить фильтры',
+    inProgress: 'В процессе',
   },
 
   validation: {
@@ -118,7 +119,6 @@ export default {
     daysApprox: '≈ {days} дн. (при 8-час дне)',
     expectedSalaryLabel: 'Ожидаемая зарплата за месяц',
     currentRateLabel: 'ставка {rate} €/час',
-    addTodayEntry: 'Внести часы за сегодня',
     lastEntryDaysAgo: 'последняя запись {days} дн. назад',
     noEntriesYet: 'ещё нет записей',
     monthlyNormLabel: 'Прогресс к норме месяца',
@@ -131,6 +131,12 @@ export default {
     noRecentEntries: 'Пока нет записей',
     pauseLabel: 'Перерыв, мин',
     creditedHours: 'К зачислению',
+    startShift: 'Начать рабочий день',
+    endShift: 'Закончить рабочий день',
+    shiftActiveSince: '{site} · с {time}',
+    shiftStarted: 'Рабочий день начат',
+    shiftEnded: 'Рабочий день завершён',
+    errorFallback: 'Не удалось сохранить изменения',
   },
 
   settings: {
@@ -245,10 +251,6 @@ export default {
       dateLabel: 'Дата',
       startTimeLabel: 'Начало',
       endTimeLabel: 'Конец',
-      submit: 'Добавить запись',
-      addHint: 'Часы рассчитываются автоматически',
-      hoursHintEmpty: 'Укажите время, чтобы увидеть часы',
-      hoursHintValue: '{hours} ч',
       columnDate: 'Дата',
       columnWeekday: 'День недели',
       columnSite: 'Объект',
@@ -260,7 +262,6 @@ export default {
       noReports: 'Нет записей за этот месяц',
       deleteConfirmTitle: 'Удалить запись?',
       deleteConfirmMessage: 'Это действие нельзя отменить.',
-      successAdded: 'Запись добавлена',
       successUpdated: 'Запись обновлена',
       successDeleted: 'Запись удалена',
       errorFallback: 'Не удалось сохранить запись',

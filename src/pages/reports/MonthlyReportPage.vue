@@ -39,30 +39,8 @@
           class="brw-btn-secondary"
           @click="onExport"
         />
-
-        <q-btn
-          v-if="!$q.screen.lt.sm"
-          unelevated
-          no-caps
-          icon="add"
-          :label="t('reports.monthly.submit')"
-          class="brw-btn-primary"
-          @click="openAdd"
-        />
       </template>
     </TableFiltersBar>
-
-    <q-page-sticky v-if="$q.screen.lt.sm" position="bottom-right" :offset="[16, 24]">
-      <q-btn
-        rounded
-        unelevated
-        no-caps
-        icon="add"
-        :label="t('common.add')"
-        class="brw-btn-primary brw-btn-primary--fab"
-        @click="openAdd"
-      />
-    </q-page-sticky>
 
     <div class="brw-page-body q-pa-md">
       <q-table
@@ -272,8 +250,6 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-
-      <AddWorkReportDialog v-model="addDialogOpen" @saved="loadReports" />
     </div>
   </q-page>
 </template>
@@ -286,7 +262,6 @@ import { supabase } from '@/boot/supabase';
 import { useAuthStore } from '@/stores/auth-store';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
-import AddWorkReportDialog from '@/components/AddWorkReportDialog.vue';
 import { exportTableToCsv } from '@/utils/export-csv';
 import { formatDisplayDate } from '@/utils/format-date';
 
@@ -294,9 +269,9 @@ interface ReportRow {
   id: string;
   work_date: string;
   start_time: string;
-  end_time: string;
-  hours: number;
-  earned: number;
+  end_time: string | null;
+  hours: number | null;
+  earned: number | null;
   site_id: string;
   site_name: string;
 }
@@ -337,12 +312,6 @@ const siteOptions = ref<SiteOption[]>([]);
 const loading = ref(false);
 const saving = ref(false);
 
-const addDialogOpen = ref(false);
-
-function openAdd() {
-  addDialogOpen.value = true;
-}
-
 const filteredRows = computed(() => {
   const { from, to } = dateRange.value;
   return rows.value
@@ -377,7 +346,8 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => [
     name: 'time',
     label: t('reports.monthly.columnTime'),
     field: 'start_time',
-    format: (val: string, row) => `${formatTime(val)}–${formatTime(row.end_time)}`,
+    format: (val: string, row) =>
+      `${formatTime(val)}–${row.end_time ? formatTime(row.end_time) : t('common.inProgress')}`,
     align: 'left',
   },
   { name: 'hours', label: t('reports.monthly.columnHours'), field: 'hours', align: 'left' },
@@ -415,8 +385,8 @@ function rowClass(row: ReportRow) {
   return day === 0 || day === 6 ? 'bg-grey-2' : '';
 }
 
-function formatTime(value: string) {
-  return value.slice(0, 5);
+function formatTime(value: string | null) {
+  return value ? value.slice(0, 5) : '';
 }
 
 function formatMoney(value: number) {
@@ -485,7 +455,7 @@ async function onSaveEdit() {
         site_id: editForm.value.siteId,
         work_date: editForm.value.workDate,
         start_time: editForm.value.startTime,
-        end_time: editForm.value.endTime,
+        end_time: editForm.value.endTime || null,
       })
       .eq('id', editingId.value);
     if (error) throw error;

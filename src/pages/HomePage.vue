@@ -2,16 +2,53 @@
   <q-page class="brw-home-page">
     <div class="brw-home-container">
       <!-- CTA row -->
-      <div class="row items-center brw-cta-row">
-        <q-btn
-          unelevated
-          no-caps
-          icon="add"
-          :label="t('home.addTodayEntry')"
-          class="brw-btn-primary"
-          @click="addDialogOpen = true"
-        />
-        <div class="text-body2 brw-muted">
+      <div class="column brw-cta-row">
+        <div class="row items-center q-gutter-sm">
+          <template v-if="!activeShift">
+            <q-select
+              v-model="selectedSiteId"
+              :options="siteOptions"
+              :label="t('reports.monthly.siteLabel')"
+              :placeholder="t('reports.monthly.sitePlaceholder')"
+              outlined
+              dense
+              emit-value
+              map-options
+              hide-bottom-space
+              class="brw-shift-site-select"
+            />
+            <q-btn
+              unelevated
+              no-caps
+              icon="play_arrow"
+              :label="t('home.startShift')"
+              class="brw-btn-primary"
+              :disable="!selectedSiteId"
+              :loading="shiftBusy"
+              @click="startShift"
+            />
+          </template>
+          <template v-else>
+            <q-btn
+              unelevated
+              no-caps
+              icon="stop"
+              :label="t('home.endShift')"
+              class="brw-btn-primary"
+              :loading="shiftBusy"
+              @click="endShift"
+            />
+            <div class="text-body2 brw-muted">
+              {{
+                t('home.shiftActiveSince', {
+                  site: activeShift.site_name,
+                  time: formatTime(activeShift.start_time),
+                })
+              }}
+            </div>
+          </template>
+        </div>
+        <div class="text-body2 brw-muted q-mt-sm">
           {{ currentMonthLabel }} ·
           {{
             lastEntryDaysAgo === null
@@ -146,34 +183,43 @@
         </q-card>
       </div>
     </div>
-
-    <AddWorkReportDialog v-model="addDialogOpen" :work-date="today" @saved="onSaved" />
   </q-page>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
+import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
 import { supabase } from '@/boot/supabase';
-import AddWorkReportDialog from '@/components/AddWorkReportDialog.vue';
 
 interface EarningsRow {
   id: string;
   work_date: string;
   start_time: string;
-  end_time: string;
-  hours: number;
-  earned: number;
+  end_time: string | null;
+  hours: number | null;
+  earned: number | null;
   site_name: string;
 }
 
+interface SiteOption {
+  label: string;
+  value: string;
+}
+
+interface ActiveShift {
+  id: string;
+  site_name: string;
+  start_time: string;
+}
+
+const $q = useQuasar();
 const auth = useAuthStore();
 const i18n = useI18n();
 const { t } = i18n;
 
 const today = new Date().toISOString().slice(0, 10);
-const addDialogOpen = ref(false);
 
 function toIsoDate(d: Date) {
   return d.toISOString().slice(0, 10);
@@ -400,7 +446,9 @@ async function loadRecentEntries() {
     dayNum: parseLocalDate(r.work_date).getDate(),
     weekdayLabel: names[getLocalWeekday(r.work_date)] ?? '',
     site_name: r.site_name,
-    timeRange: `${formatTime(r.start_time)}–${formatTime(r.end_time)}`,
+    timeRange: r.end_time
+      ? `${formatTime(r.start_time)}–${formatTime(r.end_time)}`
+      : `${formatTime(r.start_time)}–${t('common.inProgress')}`,
     hours: Number(r.hours),
     earned: Number(r.earned),
   }));
@@ -410,11 +458,109 @@ async function onSaved() {
   await Promise.all([loadMonthSummary(), loadWeek(), loadRecentEntries(), loadLastEntry()]);
 }
 
+// ---- Clock-in / clock-out ----
+
+const siteOptions = ref<SiteOption[]>([]);
+const selectedSiteId = ref<string | null>(null);
+const activeShift = ref<ActiveShift | null>(null);
+const shiftBusy = ref(false);
+
+async function loadSites() {
+  const { data, error } = await supabase
+    .from('sites')
+    .select('id, name')
+    .eq('is_active', true)
+    .order('name');
+  if (error) return;
+  siteOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
+}
+
+async function loadActiveShift() {
+  if (!auth.user) return;
+  const { data } = await supabase
+    .from('work_report_earnings')
+    .select('id, site_name, start_time')
+    .eq('user_id', auth.user.id)
+    .is('end_time', null)
+    .maybeSingle();
+  activeShift.value = data
+    ? { id: data.id, site_name: data.site_name, start_time: data.start_time }
+    : null;
+}
+
+function nowTime() {
+  return new Date().toTimeString().slice(0, 8);
+}
+
+function getGeolocation(): Promise<{ lat: number; lng: number } | null> {
+  return new Promise((resolve) => {
+    if (!navigator.geolocation) {
+      resolve(null);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => resolve(null),
+      { timeout: 8000 },
+    );
+  });
+}
+
+async function startShift() {
+  if (!auth.user || !selectedSiteId.value) return;
+  shiftBusy.value = true;
+  try {
+    const geo = await getGeolocation();
+    const { error } = await supabase.from('work_reports').insert({
+      user_id: auth.user.id,
+      site_id: selectedSiteId.value,
+      work_date: today,
+      start_time: nowTime(),
+      start_lat: geo?.lat ?? null,
+      start_lng: geo?.lng ?? null,
+    });
+    if (error) throw error;
+    $q.notify({ type: 'positive', message: t('home.shiftStarted') });
+    selectedSiteId.value = null;
+    await Promise.all([loadActiveShift(), loadRecentEntries(), loadLastEntry()]);
+  } catch (err) {
+    $q.notify({
+      type: 'negative',
+      message: err instanceof Error ? err.message : t('home.errorFallback'),
+    });
+  } finally {
+    shiftBusy.value = false;
+  }
+}
+
+async function endShift() {
+  if (!activeShift.value) return;
+  shiftBusy.value = true;
+  try {
+    const { error } = await supabase
+      .from('work_reports')
+      .update({ end_time: nowTime() })
+      .eq('id', activeShift.value.id);
+    if (error) throw error;
+    $q.notify({ type: 'positive', message: t('home.shiftEnded') });
+    await Promise.all([loadActiveShift(), onSaved()]);
+  } catch (err) {
+    $q.notify({
+      type: 'negative',
+      message: err instanceof Error ? err.message : t('home.errorFallback'),
+    });
+  } finally {
+    shiftBusy.value = false;
+  }
+}
+
 void loadMonthSummary();
 void loadCurrentRate();
 void loadLastEntry();
 void loadWeek();
 void loadRecentEntries();
+void loadSites();
+void loadActiveShift();
 </script>
 
 <style lang="scss" scoped>
@@ -432,8 +578,15 @@ void loadRecentEntries();
 }
 
 .brw-cta-row {
-  flex-wrap: wrap;
   gap: 16px;
+
+  .row {
+    flex-wrap: wrap;
+  }
+}
+
+.brw-shift-site-select {
+  min-width: 220px;
 }
 
 .brw-muted {

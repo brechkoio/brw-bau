@@ -46,8 +46,18 @@ export const useAuthStore = defineStore('auth', () => {
       const { data } = await supabase.auth.getSession();
       await applySession(data.session);
 
-      supabase.auth.onAuthStateChange((_event, newSession) => {
+      supabase.auth.onAuthStateChange((event, newSession) => {
         void applySession(newSession);
+        // The recovery link's redirectTo points at the plain app root (the
+        // only URL guaranteed to already be on Supabase's redirect
+        // allow-list — a version with a `#/reset-password` suffix isn't
+        // necessarily whitelisted and Supabase would silently fall back to
+        // the default site URL instead of erroring). So instead of relying
+        // on the link landing on a specific route, react to the recovery
+        // session itself and navigate there client-side.
+        if (event === 'PASSWORD_RECOVERY') {
+          window.location.hash = '#/reset-password';
+        }
       });
 
       ready.value = true;
@@ -103,7 +113,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function requestPasswordReset(email: string) {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}${window.location.pathname}#/reset-password`,
+      redirectTo: `${window.location.origin}${window.location.pathname}`,
     });
     if (error) throw error;
   }

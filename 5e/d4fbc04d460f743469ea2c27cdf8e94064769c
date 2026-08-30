@@ -1,0 +1,22 @@
+src/pages/admin/SitesPage.vue
+  s_b8c28d9d9370be::t_7a4fa6f1a66d54 83
+  s_b8c28d9d9370be::t_257ee6824fdd53 109
+  s_b8c28d9d9370be::t_114a2406cc32a7 129
+  s_b8c28d9d9370be::t_36a884b51d3b93 31-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "5ed4fbc04d460f743469ea2c27cdf8e94064769c",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

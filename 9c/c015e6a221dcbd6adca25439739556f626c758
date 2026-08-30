@@ -1,0 +1,69 @@
+src/pages/reports/SitesReportPage.vue
+  s_b8c28d9d9370be::t_3be58a1457ff39 294
+  s_b8c28d9d9370be::t_855e4c5b396040 121,127
+  s_b8c28d9d9370be::t_a036d9a29cfef8 34-43,45-51
+  s_b8c28d9d9370be::t_c5917982b1846e 381-385
+  s_b8c28d9d9370be::t_8033ee69f117e4 194-205
+vitest.config.ts
+  s_b8c28d9d9370be::t_c9fbbb69b85a68 1-14
+package.json
+  s_b8c28d9d9370be::t_49afa817161407 19
+  s_b8c28d9d9370be::t_336eba7b9c15d1 48
+  s_b8c28d9d9370be::t_72b86fc73a2285 17-18
+src/utils/work-hours.spec.ts
+  s_b8c28d9d9370be::t_9dfea333c42303 1-140
+supabase/tests/work_reports_lockdown.test.sql
+  s_b8c28d9d9370be::t_b9db4182b27f9e 8-10,12-15
+  s_b8c28d9d9370be::t_12a11581258627 1-7,11,16-45,52-65
+  s_b8c28d9d9370be::t_8bd57295ce4dfa 46-51
+src/utils/format-hours.spec.ts
+  s_b8c28d9d9370be::t_fea3989aa82c7c 1-50,52-53
+  s_b8c28d9d9370be::t_24f185b33c3a6f 51
+supabase/migrations/20260830220000_fix_close_forgotten_shifts_trigger_clobber.sql
+  s_b8c28d9d9370be::t_8556f9f5c3dc0c 15-37
+  s_b8c28d9d9370be::t_2a892fcd996029 1-14,38-72,74-76
+  s_b8c28d9d9370be::t_6b0cb041bd6d04 73
+src/utils/date-range.spec.ts
+  s_b8c28d9d9370be::t_c4acd5fa7e7505 1-35
+src/utils/format-date.spec.ts
+  s_b8c28d9d9370be::t_68afe62fa23541 1-45
+src/pages/reports/SitesReportSummaryPage.vue
+  s_b8c28d9d9370be::t_d9cd4a5251202d 196-208
+  s_b8c28d9d9370be::t_80862738ff2cdf 124,130
+  s_b8c28d9d9370be::t_e7fc2c6710d457 34-47,49-55
+  s_b8c28d9d9370be::t_25a46e859b7673 301
+  s_b8c28d9d9370be::t_dbd5794b7d7be1 385-389
+supabase/tests/server_clock_stamping.test.sql
+  s_b8c28d9d9370be::t_67a5c8cfd3ddb2 1-75
+supabase/tests/close_forgotten_shifts.test.sql
+  s_b8c28d9d9370be::t_5a4259073f842f 1-9,24-26,29-33,35-39,41,43-45,53-81
+  s_b8c28d9d9370be::t_650a896fc21872 14,18-19
+  s_b8c28d9d9370be::t_6fb1d910df51d9 10-13,15,20-21,40
+  s_b8c28d9d9370be::t_c160a0be8b8003 16-17,22-23,27-28,34,42,46-52
+supabase/tests/work_report_earnings.test.sql
+  s_b8c28d9d9370be::t_c07630fdfb8d8f 1-6,14,21-31,54-91
+  s_b8c28d9d9370be::t_6389b7442b4a67 7-11,15-18
+  s_b8c28d9d9370be::t_400e95a8674881 12-13,19-20,41-42
+  s_b8c28d9d9370be::t_4e819bc36cbe5f 36,38-40,43-44,46-48,50-52
+  s_b8c28d9d9370be::t_075dcff692ce45 32-35,37,45,49,53
+supabase/migrations/20260830210000_server_clock_for_shift_times.sql
+  s_b8c28d9d9370be::t_da93ad32c6e38a 1-62
+bun.lock
+  s_b8c28d9d9370be::t_5c37188ffd898a 33,223-224,255-256,261-262,301-314,367-368,419-420,441-442,495-496,523,531-532,769-770,937-938,951-952,955-956,977-980,983-984,1037-1038,1057-1058,1093-1096
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "9cc015e6a221dcbd6adca25439739556f626c758",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

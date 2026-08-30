@@ -62,6 +62,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
+import { authErrorMessage } from '@/utils/auth-errors';
 
 const auth = useAuthStore();
 const { t } = useI18n();
@@ -78,7 +79,7 @@ async function onSubmit() {
     await auth.requestPasswordReset(email.value.trim());
     submitted.value = true;
   } catch (err) {
-    error.value = err instanceof Error ? err.message : t('auth.forgotPassword.errorFallback');
+    error.value = authErrorMessage(err, t, 'auth.forgotPassword.errorFallback');
   } finally {
     loading.value = false;
   }

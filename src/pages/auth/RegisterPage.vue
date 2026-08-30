@@ -154,6 +154,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useQuasar } from 'quasar';
 import { useAuthStore } from '@/stores/auth-store';
+import { authErrorMessage } from '@/utils/auth-errors';
 
 const auth = useAuthStore();
 const { t } = useI18n();
@@ -186,7 +187,7 @@ async function onSubmit() {
     });
     submitted.value = true;
   } catch (err) {
-    error.value = err instanceof Error ? err.message : t('auth.register.errorFallback');
+    error.value = authErrorMessage(err, t, 'auth.register.errorFallback');
   } finally {
     loading.value = false;
   }
@@ -199,7 +200,7 @@ async function onGoogleSignIn() {
   try {
     await auth.signInWithGoogle();
   } catch (err) {
-    error.value = err instanceof Error ? err.message : t('auth.googleErrorFallback');
+    error.value = authErrorMessage(err, t, 'auth.googleErrorFallback');
     googleLoading.value = false;
   }
 }

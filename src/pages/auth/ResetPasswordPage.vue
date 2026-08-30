@@ -84,6 +84,7 @@ import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useQuasar } from 'quasar';
 import { useAuthStore } from '@/stores/auth-store';
+import { authErrorMessage } from '@/utils/auth-errors';
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -109,7 +110,7 @@ async function onSubmit() {
     $q.notify({ type: 'positive', message: t('auth.resetPassword.successMessage') });
     await router.push('/');
   } catch (err) {
-    error.value = err instanceof Error ? err.message : t('auth.resetPassword.errorFallback');
+    error.value = authErrorMessage(err, t, 'auth.resetPassword.errorFallback');
   } finally {
     loading.value = false;
   }

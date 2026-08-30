@@ -1,0 +1,125 @@
+supabase/migrations/20260830160000_close_forgotten_shifts_berlin_tz.sql
+  s_b8c28d9d9370be::t_8d3c2791365381 1-29
+src/pages/admin/UsersPage.vue
+  s_b8c28d9d9370be::t_11c848758ca61f 112
+  s_b8c28d9d9370be::t_d7aabbd9e83c05 53
+  s_b8c28d9d9370be::t_f1933691b1efe1 52
+  s_b8c28d9d9370be::t_641eaaeae13484 113-117
+supabase/migrations/20260830170000_close_forgotten_shifts_daily.sql
+  s_b8c28d9d9370be::t_81fee3bad214be 1-14
+src/pages/admin/SitesPage.vue
+  s_b8c28d9d9370be::t_6c7d4830cecb96 201
+  s_b8c28d9d9370be::t_ae355c0aa2b3b9 130,138,146
+  s_b8c28d9d9370be::t_f5d75ced0e7d16 203
+  s_b8c28d9d9370be::t_4d1fb0dfe445d0 77,85,93,101
+  s_b8c28d9d9370be::t_91bfece737e21c 343
+  s_b8c28d9d9370be::t_0bf0175021e8d0 344-348
+src/pages/reports/MonthlyReportPage.vue
+  s_b8c28d9d9370be::t_2999d784b23104 316
+  s_b8c28d9d9370be::t_e854f6c3d9d20f 485
+  s_b8c28d9d9370be::t_a78989d820bd16 672-674,676-678
+  s_b8c28d9d9370be::t_1f4073346ff055 8-18,20-31
+  s_b8c28d9d9370be::t_23852be3c49b39 309,321,340-343
+  s_b8c28d9d9370be::t_3061598be620cd 4
+  s_b8c28d9d9370be::t_852e434491d2a4 435
+  s_b8c28d9d9370be::t_5b314e5a27e116 657
+  s_b8c28d9d9370be::t_9d8d5f33a2debc 317
+  s_b8c28d9d9370be::t_1e1aa669845dc4 537
+  s_b8c28d9d9370be::t_a1deb20e88542e 344,671,675,679
+  s_b8c28d9d9370be::t_b6e0b44b924c56 176
+  s_b8c28d9d9370be::t_d43ecc0a32306a 7,19,43-84
+  s_b8c28d9d9370be::t_c746b048a3ad81 529
+  s_b8c28d9d9370be::t_728495a733f3f1 315,318
+  s_b8c28d9d9370be::t_f1a71ed82e0b2c 433-434,436-438
+  s_b8c28d9d9370be::t_a4ad4f485c4d32 480-484,486-528,530-536,538-569
+  s_b8c28d9d9370be::t_005f882af69710 85
+  s_b8c28d9d9370be::t_6c15cbd2d30bbd 345
+supabase/migrations/20260830140000_auto_close_forgotten_shifts.sql
+  s_b8c28d9d9370be::t_5f23ecde204882 1-45
+src/pages/reports/SitesReportPage.vue
+  s_b8c28d9d9370be::t_25e2380794770d 107
+  s_b8c28d9d9370be::t_31085d27a60906 243
+  s_b8c28d9d9370be::t_1c2dedc0b4ebaf 4
+  s_b8c28d9d9370be::t_57d73d9b8fe8a7 106,109
+  s_b8c28d9d9370be::t_bb8bb78d89fce2 244-248
+supabase/migrations/20260830150000_close_forgotten_shifts_at_end_of_day.sql
+  s_b8c28d9d9370be::t_459e0d566142b7 1-27
+supabase/migrations/20260830180000_admin_manage_any_report.sql
+  s_b8c28d9d9370be::t_122256029af7ab 1-20
+src/i18n/en-US.ts
+  s_b8c28d9d9370be::t_a8c467c77b438b 318-320
+src/css/app.scss
+  s_b8c28d9d9370be::t_f1c2ba68b74692 105-106
+  s_b8c28d9d9370be::t_6042a4bc28f3d0 91-99,102-103,109
+  s_b8c28d9d9370be::t_3272b26f0bf463 104
+src/pages/reports/GeneralReportPage.vue
+  s_b8c28d9d9370be::t_f4be8e424514a7 2-7,11-28,30-120,126-135,150-177,192-210,216,218-239,241-246,248-318,321-324,328-358,362-433,436-437,439-482
+  s_b8c28d9d9370be::t_81638fa9500e5c 215
+  s_b8c28d9d9370be::t_052d253c4f8c90 319-320,325-327
+  s_b8c28d9d9370be::t_d9907803200916 8-10,121-125,136-149,178-191,359-361
+  s_b8c28d9d9370be::t_fbeac4b6a6154c 434-435
+supabase/migrations/20260830200000_fix_end_time_only_grant.sql
+  s_b8c28d9d9370be::t_0b72f01bf8688a 1-45
+src/i18n/ru.ts
+  s_b8c28d9d9370be::t_93cd6a8577c3ee 318-320
+supabase/migrations/20260830190000_lock_down_self_edit_work_reports.sql
+  s_b8c28d9d9370be::t_09ef50a501f1b4 1-23
+src/utils/export-xlsx.ts
+  s_b8c28d9d9370be::t_1bd1d16e1e707a 45-49
+  s_b8c28d9d9370be::t_d20feb6a3943c6 1-4,12-44,50-65
+  s_b8c28d9d9370be::t_0070ffac3c04d1 5-11
+src/pages/HomePage.vue
+  s_b8c28d9d9370be::t_13d84d3be53e1e 182
+  s_b8c28d9d9370be::t_bbd5436f89de18 210,213
+src/components/PeriodFilter.vue
+  s_b8c28d9d9370be::t_2778c2f0288811 8-9,14
+  s_b8c28d9d9370be::t_e7c4c9bf551909 1-7,10-13,15-38,40-46,48,50-74,76-82
+  s_b8c28d9d9370be::t_9a984657a5932a 39
+  s_b8c28d9d9370be::t_a99a893eefc6f6 47,49
+  s_b8c28d9d9370be::t_11d18ccebc16ac 75
+src/utils/date-range.ts
+  s_b8c28d9d9370be::t_6142262f9556e9 1-2,11-12
+  s_b8c28d9d9370be::t_dc8023558df743 3-10,13-14
+src/pages/SettingsPage.vue
+  s_b8c28d9d9370be::t_b73afdc133ecc5 583
+  s_b8c28d9d9370be::t_28eec6e2064e85 451
+src/utils/format-date.ts
+  s_b8c28d9d9370be::t_7093bbcbbebe3b 5-17
+package.json
+  s_b8c28d9d9370be::t_6278b39d185e73 23
+src/i18n/uk.ts
+  s_b8c28d9d9370be::t_c6545ef5db43c9 316-318
+src/pages/admin/EmployeeRatesPage.vue
+  s_b8c28d9d9370be::t_074af9b5d6d9b9 96
+  s_b8c28d9d9370be::t_8ee9ecc1ff9f02 154
+  s_b8c28d9d9370be::t_0c900945fc62d2 183,279
+  s_b8c28d9d9370be::t_8a472ff61d7a08 216
+  s_b8c28d9d9370be::t_74bca6d0afb4a5 155
+  s_b8c28d9d9370be::t_b642626a37bec0 217-221
+src/i18n/de.ts
+  s_b8c28d9d9370be::t_88aa5d84808256 321-323
+src/pages/reports/SitesReportSummaryPage.vue
+  s_b8c28d9d9370be::t_b760f4186e39a3 110,112
+  s_b8c28d9d9370be::t_7ecf728c67fbc5 251-255
+  s_b8c28d9d9370be::t_5e9fd45389e46c 4
+  s_b8c28d9d9370be::t_891942c85c80a2 111
+  s_b8c28d9d9370be::t_5bfb212b21c53d 250
+bun.lock
+  s_b8c28d9d9370be::t_11c05f82b321ff 11,78-81,340-343,350-351,356-357,360-363,366-369,378-381,384-387,396-397,410-413,416-421,428-429,452-453,464-465,500-501,504-505,544-545,548-549,552-555,572-573,576-577,582-583,602-603,626-627,634-635,638-639,664-665,670-695,712-713,730-731,740-741,750-751,762-763,794-795,812-815,826-827,836-837,880-881,894-895,918-919,932-933,940-941,946-947,976-977,984-985,1014-1015,1020-1021,1026-1027,1036-1039,1044-1045,1048-1049,1052-1057,1068-1071,1076-1077,1082-1083,1086-1087,1089-1104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "718de2ff2de4f138ef8e55c10df26c90cfbf2b08",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

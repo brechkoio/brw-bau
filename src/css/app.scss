@@ -517,6 +517,40 @@ body {
   color: $accent-ink;
   font-size: 13px;
 }
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: $text-muted;
+  font-size: 12px;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: $separator-color;
+  }
+}
+.brw-btn-google {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  border: 1px solid $separator-color;
+  border-radius: 12px;
+  background: #fff;
+  color: $dark;
+  font-size: 14px;
+  font-weight: 500;
+
+  &:hover {
+    background: $secondary;
+  }
+}
 .auth-name-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -306,6 +306,7 @@ const siteReportGroup: { icon: string; labelKey: string; children: NavLink[] } =
 const adminLinksBottom: NavLink[] = [
   { to: '/admin/rates', icon: 'payments', labelKey: 'layout.navEmployeeRates' },
   { to: '/admin/sites', icon: 'location_city', labelKey: 'layout.navSites' },
+  { to: '/admin/users', icon: 'group', labelKey: 'layout.navUsers' },
 ];
 
 const $q = useQuasar();

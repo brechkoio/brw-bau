@@ -120,16 +120,14 @@
           <div class="brw-chart">
             <div v-for="day in weekDays" :key="day.date" class="brw-chart-col">
               <div class="brw-chart-hours" :class="{ 'brw-chart-hours--empty': day.hours <= 0 }">
-                {{ day.hours > 0 ? day.hours.toFixed(1) : '—' }}
+                {{ day.hours > 0 ? formatHoursClock(day.hours) : '—' }}
               </div>
               <div
                 class="brw-bar"
                 :class="day.hours > 8 ? 'bg-dark' : day.hours > 0 ? 'bg-accent' : 'brw-bar--empty'"
                 :style="{ height: barHeight(day.hours) + 'px' }"
               >
-                <q-tooltip v-if="day.hours > 0"
-                  >{{ day.hours.toFixed(2) }} {{ t('reports.monthly.columnHours') }}</q-tooltip
-                >
+                <q-tooltip v-if="day.hours > 0">{{ formatHoursLabel(day.hours, t) }}</q-tooltip>
               </div>
               <div class="brw-chart-weekday">{{ day.weekdayLabel }}</div>
               <div class="brw-chart-daynum" :class="{ 'brw-chart-daynum--today': day.isToday }">
@@ -188,7 +186,7 @@
               </q-item-section>
               <q-item-section side top>
                 <div class="text-weight-bold">
-                  {{ entry.hours.toFixed(2) }} {{ t('reports.monthly.columnHours') }}
+                  {{ formatHoursLabel(entry.hours, t) }}
                 </div>
                 <div class="brw-stat-caption">
                   {{ entry.earned.toFixed(2) }} {{ t('common.currency') }}
@@ -214,6 +212,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import { supabase } from '@/boot/supabase';
 import { aggregateCreditedHours } from '@/utils/work-hours';
 import { getCurrentCoords } from '@/utils/geolocation';
+import { formatHoursLabel, formatHoursClock } from '@/utils/format-hours';
 
 interface EarningsRow {
   id: string;
@@ -269,7 +268,7 @@ const currentRate = ref<number | null>(null);
 const lastEntryDaysAgo = ref<number | null>(null);
 
 const WORKDAY_HOURS = 8;
-const formattedHours = computed(() => totalHours.value.toFixed(2));
+const formattedHours = computed(() => formatHoursLabel(totalHours.value, t));
 const daysApprox = computed(() => (totalHours.value / WORKDAY_HOURS).toFixed(1));
 const formattedSalary = computed(() => `${totalEarned.value.toFixed(2)} ${t('common.currency')}`);
 
@@ -293,7 +292,7 @@ const normProgressRatio = computed(() =>
 );
 const normProgressPercent = computed(() => Math.round(normProgressRatio.value * 100));
 const remainingHours = computed(() =>
-  Math.max(0, monthlyNormHours.value - totalHours.value).toFixed(2),
+  formatHoursLabel(Math.max(0, monthlyNormHours.value - totalHours.value), t),
 );
 const remainingWorkdays = computed(() => {
   const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
@@ -425,7 +424,7 @@ const weekDays = computed(() => {
 });
 
 const weekCredited = computed(() => aggregateCreditedHours(weekRows.value));
-const weekTotalHours = computed(() => weekCredited.value.creditedHours.toFixed(2));
+const weekTotalHours = computed(() => formatHoursLabel(weekCredited.value.creditedHours, t));
 const weekTotalEarned = computed(() => weekCredited.value.creditedEarned.toFixed(2));
 
 function barHeight(hours: number): number {

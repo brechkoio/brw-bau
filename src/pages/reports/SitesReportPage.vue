@@ -122,6 +122,7 @@ import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
 import { exportTableToCsv } from '@/utils/export-csv';
 import { formatDisplayDate } from '@/utils/format-date';
+import { formatHoursLabel } from '@/utils/format-hours';
 
 interface EarningsRow {
   work_date: string;
@@ -197,7 +198,12 @@ const rows = computed<SiteDayRow[]>(() => {
   );
 });
 
-const totalHours = computed(() => rows.value.reduce((sum, r) => sum + r.hours, 0).toFixed(2));
+const totalHours = computed(() =>
+  formatHoursLabel(
+    rows.value.reduce((sum, r) => sum + r.hours, 0),
+    t,
+  ),
+);
 
 const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
   {
@@ -219,7 +225,7 @@ const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
     name: 'hours',
     label: t('reports.monthly.columnHours'),
     field: 'hours',
-    format: (val: number) => val.toFixed(2),
+    format: (val: number) => formatHoursLabel(val, t),
     align: 'right',
     sortable: true,
   },

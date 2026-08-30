@@ -12,7 +12,7 @@
           </header>
 
           <q-card class="auth-card" flat>
-            <nav class="auth-tabs" :aria-label="t('auth.tabsAria')">
+            <nav v-if="showTabs" class="auth-tabs" :aria-label="t('auth.tabsAria')">
               <q-btn
                 to="/login"
                 no-caps
@@ -43,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import logo from '@/assets/logo.png';
@@ -50,6 +51,7 @@ import LocaleSwitcher from '@/components/LocaleSwitcher.vue';
 
 const route = useRoute();
 const { t } = useI18n();
+const showTabs = computed(() => route.path === '/login' || route.path === '/register');
 </script>
 
 <style scoped lang="scss">

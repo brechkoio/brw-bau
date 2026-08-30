@@ -13,6 +13,8 @@ const uk = {
     exportError: 'Не вдалося експортувати файл',
     resetFilters: 'Скинути фільтри',
     inProgress: 'У процесі',
+    hoursMinutes: '{h} год {m} хв',
+    hoursOnly: '{h} год',
   },
 
   validation: {
@@ -43,6 +45,9 @@ const uk = {
     tabRegister: 'Реєстрація',
     footerNote: 'Облік робочих годин · BRW Bau',
     passwordToggleAria: 'Показати або приховати пароль',
+    googleButton: 'Продовжити через Google',
+    googleDivider: 'або',
+    googleErrorFallback: 'Не вдалося увійти через Google',
     login: {
       title: 'Увійти',
       subtitle: 'Вкажіть дані, щоб продовжити облік годин',
@@ -52,7 +57,6 @@ const uk = {
       noAccount: 'Немає акаунту?',
       registerLink: 'Зареєструватися',
       forgotPassword: 'Забули пароль?',
-      forgotPasswordNotice: 'Відновлення пароля буде доступне незабаром.',
       errorFallback: 'Не вдалося увійти',
     },
     register: {
@@ -71,6 +75,28 @@ const uk = {
         'Лист із підтвердженням надіслано на {email}. Перейдіть за посиланням у листі, щоб активувати акаунт.',
       backToLogin: 'До входу',
       successTitle: 'Перевірте пошту',
+    },
+    forgotPassword: {
+      title: 'Відновлення пароля',
+      subtitle: 'Вкажіть email — ми надішлемо посилання для скидання пароля',
+      emailLabel: 'Email',
+      submit: 'Надіслати посилання',
+      backToLogin: 'До входу',
+      successTitle: 'Перевірте пошту',
+      confirmationSent:
+        'Якщо акаунт з {email} існує, ми надіслали на нього посилання для відновлення пароля.',
+      errorFallback: 'Не вдалося надіслати посилання',
+    },
+    resetPassword: {
+      title: 'Новий пароль',
+      subtitle: 'Введіть новий пароль для входу',
+      passwordLabel: 'Новий пароль',
+      confirmPasswordLabel: 'Підтвердіть пароль',
+      submit: 'Зберегти пароль',
+      successMessage: 'Пароль оновлено',
+      errorFallback: 'Не вдалося оновити пароль',
+      invalidLink: 'Посилання недійсне або застаріле. Запросіть нове.',
+      requestNewLink: 'Запросити нове посилання',
     },
   },
 
@@ -96,6 +122,7 @@ const uk = {
     navSitesReportMonthly: 'Підсумковий (за місяць)',
     navEmployeeRates: 'Ставки співробітників',
     navSites: "Об'єкти",
+    navUsers: 'Користувачі',
   },
 
   meta: {
@@ -108,6 +135,7 @@ const uk = {
       sitesSummaryReport: "Підсумок по об'єктах",
       employeeRates: 'Ставки співробітників',
       sites: "Об'єкти",
+      users: 'Користувачі',
       fallback: 'BRW Bau',
     },
   },
@@ -121,9 +149,9 @@ const uk = {
     noEntriesYet: 'ще немає записів',
     monthlyNormLabel: 'Прогрес до норми місяця',
     monthlyNormFraction: '{hours} / {norm} год',
-    remainingLabel: 'Залишилось {hours} год • {days} робочих дні(в)',
+    remainingLabel: 'Залишилось {hours} • {days} робочих дні(в)',
     weekLabel: 'Тиждень {from}–{to} {month}',
-    weekTotal: 'Разом {hours} год • {earned} €',
+    weekTotal: 'Разом {hours} • {earned} €',
     recentEntries: 'Останні записи',
     viewMonthlyReport: 'Звіт за місяць',
     noRecentEntries: 'Ще немає записів',
@@ -259,7 +287,7 @@ const uk = {
       columnEarned: 'Сума',
       columnActions: 'Дії',
       totalEarned: 'Разом зароблено',
-      breakDeductedCaption: 'Відпрацьовано {raw} год · вирахувано {minutes} хв на обід',
+      breakDeductedCaption: 'Відпрацьовано {raw} · вирахувано {minutes} хв на обід',
       noReports: 'Немає записів за цей місяць',
       deleteConfirmTitle: 'Видалити запис?',
       deleteConfirmMessage: 'Цю дію не можна скасувати.',
@@ -308,6 +336,15 @@ const uk = {
       clearCoords: 'Прибрати координати',
       locationErrorFallback:
         'Не вдалося визначити місцезнаходження. Перевірте дозвіл на геолокацію в браузері',
+    },
+    users: {
+      title: 'Користувачі',
+      columnName: "Ім'я",
+      columnEmail: 'Email',
+      columnRole: 'Роль',
+      columnRegistered: 'Дата реєстрації',
+      noUsers: 'Немає користувачів',
+      errorFallback: 'Не вдалося завантажити користувачів',
     },
   },
 

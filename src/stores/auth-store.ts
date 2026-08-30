@@ -61,6 +61,16 @@ export const useAuthStore = defineStore('auth', () => {
     if (error) throw error;
   }
 
+  async function signInWithGoogle() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}${window.location.pathname}`,
+      },
+    });
+    if (error) throw error;
+  }
+
   async function signUp(params: {
     email: string;
     password: string;
@@ -88,6 +98,18 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function signOutEverywhere() {
     const { error } = await supabase.auth.signOut({ scope: 'global' });
+    if (error) throw error;
+  }
+
+  async function requestPasswordReset(email: string) {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}${window.location.pathname}#/reset-password`,
+    });
+    if (error) throw error;
+  }
+
+  async function confirmPasswordReset(newPassword: string) {
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
     if (error) throw error;
   }
 
@@ -151,6 +173,9 @@ export const useAuthStore = defineStore('auth', () => {
     isAdmin,
     init,
     signIn,
+    signInWithGoogle,
+    requestPasswordReset,
+    confirmPasswordReset,
     signUp,
     signOut,
     signOutEverywhere,

@@ -15,6 +15,8 @@ export default {
     exportError: 'Не удалось экспортировать файл',
     resetFilters: 'Сбросить фильтры',
     inProgress: 'В процессе',
+    hoursMinutes: '{h} ч {m} мин',
+    hoursOnly: '{h} ч',
   },
 
   validation: {
@@ -45,6 +47,9 @@ export default {
     tabRegister: 'Регистрация',
     footerNote: 'Учёт рабочих часов · BRW Bau',
     passwordToggleAria: 'Показать или скрыть пароль',
+    googleButton: 'Продолжить через Google',
+    googleDivider: 'или',
+    googleErrorFallback: 'Не удалось войти через Google',
     login: {
       title: 'Войти',
       subtitle: 'Введите данные, чтобы продолжить учёт часов',
@@ -54,7 +59,6 @@ export default {
       noAccount: 'Нет аккаунта?',
       registerLink: 'Зарегистрироваться',
       forgotPassword: 'Забыли пароль?',
-      forgotPasswordNotice: 'Восстановление пароля скоро будет доступно.',
       errorFallback: 'Не удалось войти',
     },
     register: {
@@ -73,6 +77,28 @@ export default {
         'Письмо с подтверждением отправлено на {email}. Перейдите по ссылке в письме, чтобы активировать аккаунт.',
       backToLogin: 'Ко входу',
       successTitle: 'Проверьте почту',
+    },
+    forgotPassword: {
+      title: 'Восстановление пароля',
+      subtitle: 'Укажите email — мы отправим ссылку для сброса пароля',
+      emailLabel: 'Email',
+      submit: 'Отправить ссылку',
+      backToLogin: 'Ко входу',
+      successTitle: 'Проверьте почту',
+      confirmationSent:
+        'Если аккаунт с {email} существует, мы отправили на него ссылку для сброса пароля.',
+      errorFallback: 'Не удалось отправить ссылку',
+    },
+    resetPassword: {
+      title: 'Новый пароль',
+      subtitle: 'Введите новый пароль для входа',
+      passwordLabel: 'Новый пароль',
+      confirmPasswordLabel: 'Подтвердите пароль',
+      submit: 'Сохранить пароль',
+      successMessage: 'Пароль обновлён',
+      errorFallback: 'Не удалось обновить пароль',
+      invalidLink: 'Ссылка недействительна или устарела. Запросите новую.',
+      requestNewLink: 'Запросить новую ссылку',
     },
   },
 
@@ -98,6 +124,7 @@ export default {
     navSitesReportMonthly: 'Итог (по месяцам)',
     navEmployeeRates: 'Ставки сотрудников',
     navSites: 'Объекты',
+    navUsers: 'Пользователи',
   },
 
   meta: {
@@ -110,6 +137,7 @@ export default {
       sitesSummaryReport: 'Итог по объектам',
       employeeRates: 'Ставки сотрудников',
       sites: 'Объекты',
+      users: 'Пользователи',
       fallback: 'BRW Bau',
     },
   },
@@ -123,9 +151,9 @@ export default {
     noEntriesYet: 'ещё нет записей',
     monthlyNormLabel: 'Прогресс к норме месяца',
     monthlyNormFraction: '{hours} / {norm} ч',
-    remainingLabel: 'Осталось {hours} ч • {days} рабочих дн(я/ей)',
+    remainingLabel: 'Осталось {hours} • {days} рабочих дн(я/ей)',
     weekLabel: 'Неделя {from}–{to} {month}',
-    weekTotal: 'Всего {hours} ч • {earned} €',
+    weekTotal: 'Всего {hours} • {earned} €',
     recentEntries: 'Последние записи',
     viewMonthlyReport: 'Отчёт за месяц',
     noRecentEntries: 'Пока нет записей',
@@ -261,7 +289,7 @@ export default {
       columnEarned: 'Сумма',
       columnActions: 'Действия',
       totalEarned: 'Всего заработано',
-      breakDeductedCaption: 'Отработано {raw} ч · вычтено {minutes} мин на обед',
+      breakDeductedCaption: 'Отработано {raw} · вычтено {minutes} мин на обед',
       noReports: 'Нет записей за этот месяц',
       deleteConfirmTitle: 'Удалить запись?',
       deleteConfirmMessage: 'Это действие нельзя отменить.',
@@ -310,6 +338,15 @@ export default {
       clearCoords: 'Убрать координаты',
       locationErrorFallback:
         'Не удалось определить местоположение. Проверьте разрешение на геолокацию в браузере',
+    },
+    users: {
+      title: 'Пользователи',
+      columnName: 'Имя',
+      columnEmail: 'Email',
+      columnRole: 'Роль',
+      columnRegistered: 'Дата регистрации',
+      noUsers: 'Нет пользователей',
+      errorFallback: 'Не удалось загрузить пользователей',
     },
   },
 

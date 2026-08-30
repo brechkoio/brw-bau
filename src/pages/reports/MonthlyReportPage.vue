@@ -93,7 +93,7 @@
         <div v-if="creditedTotals.breakMinutes > 0" class="text-caption brw-break-caption q-mt-xs">
           {{
             t('reports.monthly.breakDeductedCaption', {
-              raw: creditedTotals.rawHours.toFixed(2),
+              raw: formatHoursLabel(creditedTotals.rawHours, t),
               minutes: creditedTotals.breakMinutes,
             })
           }}
@@ -275,6 +275,7 @@ import TableFilter from '@/components/TableFilter.vue';
 import { exportTableToCsv } from '@/utils/export-csv';
 import { formatDisplayDate } from '@/utils/format-date';
 import { aggregateCreditedHours } from '@/utils/work-hours';
+import { formatHoursLabel } from '@/utils/format-hours';
 
 interface ReportRow {
   id: string;
@@ -332,43 +333,70 @@ const filteredRows = computed(() => {
 });
 
 const creditedTotals = computed(() => aggregateCreditedHours(filteredRows.value));
-const totalHours = computed(() => creditedTotals.value.creditedHours.toFixed(2));
+const totalHours = computed(() => formatHoursLabel(creditedTotals.value.creditedHours, t));
 const totalEarned = computed(() => creditedTotals.value.creditedEarned);
 
-const columns = computed<QTableColumn<ReportRow>[]>(() => [
-  {
-    name: 'work_date',
-    label: t('reports.monthly.columnDate'),
-    field: 'work_date',
-    format: (val: string) => formatDisplayDate(val),
-    align: 'left',
-  },
-  {
-    name: 'weekday',
-    label: t('reports.monthly.columnWeekday'),
-    field: 'work_date',
-    format: (val: string) => weekdayLabel(val),
-    align: 'left',
-  },
-  { name: 'site_name', label: t('reports.monthly.columnSite'), field: 'site_name', align: 'left' },
-  {
-    name: 'time',
-    label: t('reports.monthly.columnTime'),
-    field: 'start_time',
-    format: (val: string, row) =>
-      `${formatTime(val)}–${row.end_time ? formatTime(row.end_time) : t('common.inProgress')}`,
-    align: 'left',
-  },
-  { name: 'hours', label: t('reports.monthly.columnHours'), field: 'hours', align: 'left' },
-  {
-    name: 'earned',
-    label: t('reports.monthly.columnEarned'),
-    field: 'earned',
-    format: (val: number) => formatMoney(val),
-    align: 'left',
-  },
-  { name: 'actions', label: t('reports.monthly.columnActions'), field: 'id', align: 'left' },
-]);
+const columns = computed<QTableColumn<ReportRow>[]>(() => {
+  const cols: QTableColumn<ReportRow>[] = [
+    {
+      name: 'work_date',
+      label: t('reports.monthly.columnDate'),
+      field: 'work_date',
+      format: (val: string) => formatDisplayDate(val),
+      align: 'left',
+      sortable: true,
+    },
+    {
+      name: 'weekday',
+      label: t('reports.monthly.columnWeekday'),
+      field: 'work_date',
+      format: (val: string) => weekdayLabel(val),
+      align: 'left',
+      sortable: true,
+    },
+    {
+      name: 'site_name',
+      label: t('reports.monthly.columnSite'),
+      field: 'site_name',
+      align: 'left',
+      sortable: true,
+    },
+    {
+      name: 'time',
+      label: t('reports.monthly.columnTime'),
+      field: 'start_time',
+      format: (val: string, row) =>
+        `${formatTime(val)}–${row.end_time ? formatTime(row.end_time) : t('common.inProgress')}`,
+      align: 'left',
+      sortable: true,
+    },
+    {
+      name: 'hours',
+      label: t('reports.monthly.columnHours'),
+      field: 'hours',
+      format: (val: number | null) => formatHoursLabel(val ?? 0, t),
+      align: 'left',
+      sortable: true,
+    },
+    {
+      name: 'earned',
+      label: t('reports.monthly.columnEarned'),
+      field: 'earned',
+      format: (val: number) => formatMoney(val),
+      align: 'left',
+      sortable: true,
+    },
+  ];
+  if (auth.isAdmin) {
+    cols.push({
+      name: 'actions',
+      label: t('reports.monthly.columnActions'),
+      field: 'id',
+      align: 'left',
+    });
+  }
+  return cols;
+});
 
 const exportColumns = computed(() => columns.value.filter((col) => col.name !== 'actions'));
 

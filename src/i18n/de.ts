@@ -15,6 +15,8 @@ export default {
     exportError: 'Datei konnte nicht exportiert werden',
     resetFilters: 'Filter zurücksetzen',
     inProgress: 'In Bearbeitung',
+    hoursMinutes: '{h} Std {m} Min',
+    hoursOnly: '{h} Std',
   },
 
   validation: {
@@ -45,6 +47,9 @@ export default {
     tabRegister: 'Registrieren',
     footerNote: 'Arbeitszeiterfassung · BRW Bau',
     passwordToggleAria: 'Passwort anzeigen oder verbergen',
+    googleButton: 'Weiter mit Google',
+    googleDivider: 'oder',
+    googleErrorFallback: 'Anmeldung mit Google fehlgeschlagen',
     login: {
       title: 'Anmelden',
       subtitle: 'Geben Sie Ihre Daten ein, um die Zeiterfassung fortzusetzen',
@@ -54,7 +59,6 @@ export default {
       noAccount: 'Noch kein Konto?',
       registerLink: 'Registrieren',
       forgotPassword: 'Passwort vergessen?',
-      forgotPasswordNotice: 'Die Passwortwiederherstellung wird bald verfügbar sein.',
       errorFallback: 'Anmeldung fehlgeschlagen',
     },
     register: {
@@ -73,6 +77,28 @@ export default {
         'Eine Bestätigungs-E-Mail wurde an {email} gesendet. Folgen Sie dem Link in der E-Mail, um Ihr Konto zu aktivieren.',
       backToLogin: 'Zurück zur Anmeldung',
       successTitle: 'E-Mail prüfen',
+    },
+    forgotPassword: {
+      title: 'Passwort zurücksetzen',
+      subtitle: 'Geben Sie Ihre E-Mail ein — wir senden einen Link zum Zurücksetzen',
+      emailLabel: 'E-Mail',
+      submit: 'Link senden',
+      backToLogin: 'Zurück zur Anmeldung',
+      successTitle: 'E-Mail prüfen',
+      confirmationSent:
+        'Falls ein Konto für {email} existiert, haben wir einen Link zum Zurücksetzen gesendet.',
+      errorFallback: 'Der Link konnte nicht gesendet werden',
+    },
+    resetPassword: {
+      title: 'Neues Passwort',
+      subtitle: 'Geben Sie ein neues Passwort für die Anmeldung ein',
+      passwordLabel: 'Neues Passwort',
+      confirmPasswordLabel: 'Passwort bestätigen',
+      submit: 'Passwort speichern',
+      successMessage: 'Passwort aktualisiert',
+      errorFallback: 'Das Passwort konnte nicht aktualisiert werden',
+      invalidLink: 'Der Link ist ungültig oder abgelaufen. Fordern Sie einen neuen an.',
+      requestNewLink: 'Neuen Link anfordern',
     },
   },
 
@@ -98,6 +124,7 @@ export default {
     navSitesReportMonthly: 'Zusammenfassung (pro Monat)',
     navEmployeeRates: 'Mitarbeiterlöhne',
     navSites: 'Objekte',
+    navUsers: 'Benutzer',
   },
 
   meta: {
@@ -110,6 +137,7 @@ export default {
       sitesSummaryReport: 'Objektzusammenfassung',
       employeeRates: 'Mitarbeiterlöhne',
       sites: 'Objekte',
+      users: 'Benutzer',
       fallback: 'BRW Bau',
     },
   },
@@ -123,9 +151,9 @@ export default {
     noEntriesYet: 'noch keine Einträge',
     monthlyNormLabel: 'Fortschritt zum Monatsziel',
     monthlyNormFraction: '{hours} / {norm} Std.',
-    remainingLabel: 'Noch {hours} Std. • {days} Arbeitstage übrig',
+    remainingLabel: 'Noch {hours} • {days} Arbeitstage übrig',
     weekLabel: 'Woche {from}–{to} {month}',
-    weekTotal: 'Gesamt {hours} Std. • {earned} €',
+    weekTotal: 'Gesamt {hours} • {earned} €',
     recentEntries: 'Letzte Einträge',
     viewMonthlyReport: 'Monatsbericht',
     noRecentEntries: 'Noch keine Einträge',
@@ -264,7 +292,7 @@ export default {
       columnEarned: 'Verdienst',
       columnActions: 'Aktionen',
       totalEarned: 'Verdienst gesamt',
-      breakDeductedCaption: '{raw} Std. gearbeitet · {minutes} Min. Mittagspause abgezogen',
+      breakDeductedCaption: '{raw} gearbeitet · {minutes} Min. Mittagspause abgezogen',
       noReports: 'Keine Einträge für diesen Monat',
       deleteConfirmTitle: 'Eintrag löschen?',
       deleteConfirmMessage: 'Dies kann nicht rückgängig gemacht werden.',
@@ -313,6 +341,15 @@ export default {
       clearCoords: 'Koordinaten entfernen',
       locationErrorFallback:
         'Standort konnte nicht ermittelt werden. Prüfen Sie die Standortberechtigung im Browser',
+    },
+    users: {
+      title: 'Benutzer',
+      columnName: 'Name',
+      columnEmail: 'E-Mail',
+      columnRole: 'Rolle',
+      columnRegistered: 'Registriert am',
+      noUsers: 'Keine Benutzer',
+      errorFallback: 'Benutzer konnten nicht geladen werden',
     },
   },
 

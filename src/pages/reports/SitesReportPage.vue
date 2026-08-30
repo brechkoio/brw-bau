@@ -16,6 +16,7 @@
             <q-date
               v-model="rawDateRange"
               mask="YYYY-MM-DD"
+              :default-year-month="defaultYearMonth"
               range
               no-unset
               today-btn
@@ -167,6 +168,10 @@ function currentMonthRange() {
     to: new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10),
   };
 }
+
+// Guarantees the popup calendar opens on the current month even before any
+// selection exists to derive it from.
+const defaultYearMonth = new Date().toISOString().slice(0, 7).replace('-', '/');
 
 const dateRange = ref<{ from: string; to: string }>(currentMonthRange());
 // q-date's range model collapses to a plain date string when both ends of

@@ -101,66 +101,8 @@
         }}
       </div>
 
-      <!-- Weekly chart + monthly-norm progress + recent entries -->
+      <!-- Recent entries + monthly-norm progress -->
       <div class="brw-two-col">
-        <q-card class="brw-card brw-panel" flat bordered>
-          <div class="row items-center justify-between brw-panel-header">
-            <div>
-              <div class="text-subtitle1 text-weight-bold">{{ weekTitle }}</div>
-              <div class="brw-stat-caption">
-                {{ t('home.weekTotal', { hours: weekTotalHours, earned: weekTotalEarned }) }}
-              </div>
-            </div>
-            <div>
-              <q-btn flat dense round icon="chevron_left" @click="weekOffset -= 1" />
-              <q-btn flat dense round icon="chevron_right" @click="weekOffset += 1" />
-            </div>
-          </div>
-
-          <div class="brw-chart">
-            <div v-for="day in weekDays" :key="day.date" class="brw-chart-col">
-              <div class="brw-chart-hours" :class="{ 'brw-chart-hours--empty': day.hours <= 0 }">
-                {{ day.hours > 0 ? formatHoursClock(day.hours) : '—' }}
-              </div>
-              <div
-                class="brw-bar"
-                :class="day.hours > 8 ? 'bg-dark' : day.hours > 0 ? 'bg-accent' : 'brw-bar--empty'"
-                :style="{ height: barHeight(day.hours) + 'px' }"
-              >
-                <q-tooltip v-if="day.hours > 0">{{ formatHoursLabel(day.hours, t) }}</q-tooltip>
-              </div>
-              <div class="brw-chart-weekday">{{ day.weekdayLabel }}</div>
-              <div class="brw-chart-daynum" :class="{ 'brw-chart-daynum--today': day.isToday }">
-                {{ day.dayNum }}
-              </div>
-            </div>
-          </div>
-        </q-card>
-
-        <q-card class="brw-card brw-stat-card" flat bordered>
-          <div class="row items-center q-gutter-sm brw-muted text-body2">
-            <q-icon name="track_changes" size="20px" />
-            <div>{{ t('home.monthlyNormLabel') }}</div>
-          </div>
-          <div class="row items-baseline q-gutter-sm">
-            <div class="brw-stat-value">{{ normProgressPercent }}%</div>
-            <div class="brw-stat-fraction">
-              {{ t('home.monthlyNormFraction', { hours: formattedHours, norm: monthlyNormHours }) }}
-            </div>
-          </div>
-          <q-linear-progress
-            :value="normProgressRatio"
-            color="accent"
-            track-color="grey-3"
-            size="8px"
-            rounded
-            class="q-mt-md"
-          />
-          <div class="brw-stat-caption q-mt-sm">
-            {{ t('home.remainingLabel', { hours: remainingHours, days: remainingWorkdays }) }}
-          </div>
-        </q-card>
-
         <q-card class="brw-card brw-panel" flat bordered>
           <div class="row items-center justify-between q-mb-sm">
             <div class="text-subtitle1 text-weight-bold">{{ t('home.recentEntries') }}</div>
@@ -199,20 +141,44 @@
             </q-item>
           </q-list>
         </q-card>
+
+        <q-card class="brw-card brw-stat-card" flat bordered>
+          <div class="row items-center q-gutter-sm brw-muted text-body2">
+            <q-icon name="track_changes" size="20px" />
+            <div>{{ t('home.monthlyNormLabel') }}</div>
+          </div>
+          <div class="row items-baseline q-gutter-sm">
+            <div class="brw-stat-value">{{ normProgressPercent }}%</div>
+            <div class="brw-stat-fraction">
+              {{ t('home.monthlyNormFraction', { hours: formattedHours, norm: monthlyNormHours }) }}
+            </div>
+          </div>
+          <q-linear-progress
+            :value="normProgressRatio"
+            color="accent"
+            track-color="grey-3"
+            size="8px"
+            rounded
+            class="q-mt-md"
+          />
+          <div class="brw-stat-caption q-mt-sm">
+            {{ t('home.remainingLabel', { hours: remainingHours, days: remainingWorkdays }) }}
+          </div>
+        </q-card>
       </div>
     </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
 import { supabase } from '@/boot/supabase';
 import { aggregateCreditedHours } from '@/utils/work-hours';
 import { getCurrentCoords } from '@/utils/geolocation';
-import { formatHoursLabel, formatHoursClock } from '@/utils/format-hours';
+import { formatHoursLabel } from '@/utils/format-hours';
 
 interface EarningsRow {
   id: string;
@@ -352,87 +318,6 @@ async function loadLastEntry() {
   lastEntryDaysAgo.value = Math.round(diffMs / (1000 * 60 * 60 * 24));
 }
 
-// ---- Weekly chart ----
-
-const weekOffset = ref(0);
-
-function getWeekStart(date: Date): Date {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
-  d.setDate(d.getDate() + diff);
-  d.setHours(0, 0, 0, 0);
-  return d;
-}
-
-const weekStart = computed(() => {
-  const base = getWeekStart(new Date());
-  base.setDate(base.getDate() + weekOffset.value * 7);
-  return base;
-});
-
-const weekEnd = computed(() => {
-  const d = new Date(weekStart.value);
-  d.setDate(d.getDate() + 6);
-  return d;
-});
-
-const weekTitle = computed(() => {
-  const monthNames = i18n.tm('months');
-  return t('home.weekLabel', {
-    from: weekStart.value.getDate(),
-    to: weekEnd.value.getDate(),
-    month: monthNames[weekEnd.value.getMonth()],
-  });
-});
-
-const weekRows = ref<{ work_date: string; hours: number; hourly_rate: number | null }[]>([]);
-
-async function loadWeek() {
-  if (!auth.user) return;
-  const { data, error } = await supabase
-    .from('work_report_earnings')
-    .select('work_date, hours, hourly_rate')
-    .eq('user_id', auth.user.id)
-    .gte('work_date', toIsoDate(weekStart.value))
-    .lte('work_date', toIsoDate(weekEnd.value));
-
-  if (error || !data) return;
-  weekRows.value = data;
-}
-
-watch(weekOffset, () => void loadWeek());
-
-const weekDays = computed(() => {
-  const names = i18n.tm('weekdaysShort');
-  const todayStr = today;
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(weekStart.value);
-    d.setDate(d.getDate() + i);
-    const dateStr = toIsoDate(d);
-    const hours = weekRows.value
-      .filter((r) => r.work_date === dateStr)
-      .reduce((sum, r) => sum + Number(r.hours), 0);
-    return {
-      date: dateStr,
-      dayNum: d.getDate(),
-      weekdayLabel: names[d.getDay()] ?? '',
-      hours,
-      isToday: dateStr === todayStr,
-    };
-  });
-});
-
-const weekCredited = computed(() => aggregateCreditedHours(weekRows.value));
-const weekTotalHours = computed(() => formatHoursLabel(weekCredited.value.creditedHours, t));
-const weekTotalEarned = computed(() => weekCredited.value.creditedEarned.toFixed(2));
-
-function barHeight(hours: number): number {
-  if (hours <= 0) return 4;
-  const maxHours = Math.max(...weekDays.value.map((d) => d.hours), 10);
-  return Math.max(6, Math.round((hours / maxHours) * 110));
-}
-
 // ---- Recent entries ----
 
 const recentEntries = ref<
@@ -476,7 +361,7 @@ async function loadRecentEntries() {
 }
 
 async function onSaved() {
-  await Promise.all([loadMonthSummary(), loadWeek(), loadRecentEntries(), loadLastEntry()]);
+  await Promise.all([loadMonthSummary(), loadRecentEntries(), loadLastEntry()]);
 }
 
 // ---- Clock-in / clock-out ----
@@ -583,7 +468,6 @@ async function endShift() {
 void loadMonthSummary();
 void loadCurrentRate();
 void loadLastEntry();
-void loadWeek();
 void loadRecentEntries();
 void loadSites();
 void loadActiveShift();
@@ -768,63 +652,6 @@ void loadActiveShift();
 
 .brw-panel {
   padding: 18px 20px 20px;
-}
-
-.brw-chart {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-top: 18px;
-  align-items: end;
-  height: 190px;
-}
-
-.brw-chart-col {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-  gap: 6px;
-}
-
-.brw-chart-hours {
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-
-  &--empty {
-    color: #c4c4c4;
-  }
-}
-
-.brw-bar {
-  border-radius: 8px 8px 0 0;
-  min-height: 4px;
-  transition: height 0.25s ease;
-
-  &--empty {
-    background: #efefef;
-  }
-}
-
-.brw-chart-weekday {
-  text-align: center;
-  font-size: 11px;
-  color: $text-muted;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.brw-chart-daynum {
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: 99px;
-  padding: 2px 0;
-
-  &--today {
-    background: $accent;
-  }
 }
 
 .brw-entry-daynum {

@@ -47,6 +47,10 @@
         :loading="loading"
         :no-data-label="t('admin.sites.noSites')"
       >
+        <template #body-cell-address="props">
+          <q-td :props="props">{{ props.value }}</q-td>
+        </template>
+
         <template #body-cell-is_active="props">
           <q-td :props="props">
             <q-toggle :model-value="props.value" @update:model-value="toggleActive(props.row)" />
@@ -65,12 +69,33 @@
       <q-card style="min-width: 320px">
         <q-card-section class="text-h6">{{ t('admin.sites.add') }}</q-card-section>
         <q-form @submit.prevent="onAdd">
-          <q-card-section>
+          <q-card-section class="column q-gutter-md">
             <q-input
               v-model="newSiteName"
               :label="t('admin.sites.nameLabel')"
               outlined
               :rules="[(val) => !!val || t('validation.requiredSiteName')]"
+              lazy-rules
+            />
+            <q-input
+              v-model="newSiteCity"
+              :label="t('admin.sites.cityLabel')"
+              outlined
+              :rules="[(val) => !!val || t('validation.requiredCity')]"
+              lazy-rules
+            />
+            <q-input
+              v-model="newSiteStreet"
+              :label="t('admin.sites.streetLabel')"
+              outlined
+              :rules="[(val) => !!val || t('validation.requiredStreet')]"
+              lazy-rules
+            />
+            <q-input
+              v-model="newSiteHouseNumber"
+              :label="t('admin.sites.houseNumberLabel')"
+              outlined
+              :rules="[(val) => !!val || t('validation.requiredHouseNumber')]"
               lazy-rules
             />
           </q-card-section>
@@ -94,6 +119,28 @@
         <q-card-section class="text-h6">{{ editingName }}</q-card-section>
         <q-form @submit.prevent="onSaveEdit">
           <q-card-section class="column q-gutter-md">
+            <q-input
+              v-model="editForm.city"
+              :label="t('admin.sites.cityLabel')"
+              outlined
+              :rules="[(val) => !!val || t('validation.requiredCity')]"
+              lazy-rules
+            />
+            <q-input
+              v-model="editForm.street"
+              :label="t('admin.sites.streetLabel')"
+              outlined
+              :rules="[(val) => !!val || t('validation.requiredStreet')]"
+              lazy-rules
+            />
+            <q-input
+              v-model="editForm.houseNumber"
+              :label="t('admin.sites.houseNumberLabel')"
+              outlined
+              :rules="[(val) => !!val || t('validation.requiredHouseNumber')]"
+              lazy-rules
+            />
+
             <div class="text-caption text-grey-7">{{ t('admin.sites.coordsHint') }}</div>
 
             <div v-if="editForm.lat !== null && editForm.lng !== null" class="text-body1">
@@ -153,6 +200,9 @@ interface Site {
   is_active: boolean;
   lat: number | null;
   lng: number | null;
+  city: string | null;
+  street: string | null;
+  house_number: string | null;
 }
 
 const $q = useQuasar();
@@ -161,6 +211,9 @@ const { t } = useI18n();
 const sites = ref<Site[]>([]);
 const search = ref('');
 const newSiteName = ref('');
+const newSiteCity = ref('');
+const newSiteStreet = ref('');
+const newSiteHouseNumber = ref('');
 const loading = ref(false);
 const adding = ref(false);
 const saving = ref(false);
@@ -169,7 +222,13 @@ const addDialogOpen = ref(false);
 const editDialogOpen = ref(false);
 const editingId = ref<string | null>(null);
 const editingName = ref('');
-const editForm = ref<{ lat: number | null; lng: number | null }>({ lat: null, lng: null });
+const editForm = ref<{
+  lat: number | null;
+  lng: number | null;
+  city: string;
+  street: string;
+  houseNumber: string;
+}>({ lat: null, lng: null, city: '', street: '', houseNumber: '' });
 
 async function captureCoords() {
   locating.value = true;
@@ -179,14 +238,14 @@ async function captureCoords() {
       $q.notify({ type: 'negative', message: t('admin.sites.locationErrorFallback') });
       return;
     }
-    editForm.value = coords;
+    editForm.value = { ...editForm.value, ...coords };
   } finally {
     locating.value = false;
   }
 }
 
 function clearCoords() {
-  editForm.value = { lat: null, lng: null };
+  editForm.value = { ...editForm.value, lat: null, lng: null };
 }
 
 function formatCoords(site: Site) {
@@ -194,10 +253,21 @@ function formatCoords(site: Site) {
   return `${site.lat.toFixed(6)}, ${site.lng.toFixed(6)}`;
 }
 
+function formatAddress(site: Site) {
+  const parts = [site.city, site.street, site.house_number].filter(Boolean);
+  return parts.length ? parts.join(', ') : '—';
+}
+
 function openEdit(site: Site) {
   editingId.value = site.id;
   editingName.value = site.name;
-  editForm.value = { lat: site.lat, lng: site.lng };
+  editForm.value = {
+    lat: site.lat,
+    lng: site.lng,
+    city: site.city ?? '',
+    street: site.street ?? '',
+    houseNumber: site.house_number ?? '',
+  };
   editDialogOpen.value = true;
 }
 
@@ -207,7 +277,13 @@ async function onSaveEdit() {
   try {
     const { error } = await supabase
       .from('sites')
-      .update({ lat: editForm.value.lat, lng: editForm.value.lng })
+      .update({
+        lat: editForm.value.lat,
+        lng: editForm.value.lng,
+        city: editForm.value.city,
+        street: editForm.value.street,
+        house_number: editForm.value.houseNumber,
+      })
       .eq('id', editingId.value);
     if (error) throw error;
     editDialogOpen.value = false;
@@ -236,6 +312,13 @@ const columns = computed<QTableColumn<Site>[]>(() => [
     align: 'left',
     sortable: true,
   },
+  {
+    name: 'address',
+    label: t('admin.sites.columnAddress'),
+    field: 'city',
+    format: (_val: string | null, row) => formatAddress(row),
+    align: 'left',
+  },
   { name: 'is_active', label: t('admin.sites.columnActive'), field: 'is_active', align: 'left' },
   {
     name: 'coords',
@@ -260,7 +343,7 @@ async function loadSites() {
   loading.value = true;
   const { data, error } = await supabase
     .from('sites')
-    .select('id, name, is_active, lat, lng')
+    .select('id, name, is_active, lat, lng, city, street, house_number')
     .order('name');
   loading.value = false;
   if (error) {
@@ -271,12 +354,21 @@ async function loadSites() {
 }
 
 async function onAdd() {
-  if (!newSiteName.value) return;
+  if (!newSiteName.value || !newSiteCity.value || !newSiteStreet.value || !newSiteHouseNumber.value)
+    return;
   adding.value = true;
   try {
-    const { error } = await supabase.from('sites').insert({ name: newSiteName.value });
+    const { error } = await supabase.from('sites').insert({
+      name: newSiteName.value,
+      city: newSiteCity.value,
+      street: newSiteStreet.value,
+      house_number: newSiteHouseNumber.value,
+    });
     if (error) throw error;
     newSiteName.value = '';
+    newSiteCity.value = '';
+    newSiteStreet.value = '';
+    newSiteHouseNumber.value = '';
     addDialogOpen.value = false;
     await loadSites();
   } catch (err) {

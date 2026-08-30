@@ -26,14 +26,11 @@
         />
 
         <q-btn
-          color="accent"
-          text-color="black"
-          icon="add"
-          :label="t('admin.sites.add')"
           unelevated
           no-caps
-          dense
-          class="text-weight-bold"
+          icon="add"
+          :label="t('admin.sites.add')"
+          class="brw-btn-primary"
           @click="addDialogOpen = true"
         />
       </template>
@@ -81,10 +78,9 @@
             <q-btn flat :label="t('common.cancel')" v-close-popup />
             <q-btn
               type="submit"
-              color="accent"
-              text-color="black"
               unelevated
               no-caps
+              class="brw-btn-primary"
               :label="t('common.save')"
               :loading="adding"
             />
@@ -109,9 +105,8 @@
               <q-btn
                 unelevated
                 no-caps
-                color="accent"
-                text-color="black"
                 icon="my_location"
+                class="brw-btn-primary"
                 :label="t('admin.sites.setCoords')"
                 :loading="locating"
                 @click="captureCoords"
@@ -129,10 +124,9 @@
             <q-btn flat :label="t('common.cancel')" v-close-popup />
             <q-btn
               type="submit"
-              color="accent"
-              text-color="black"
               unelevated
               no-caps
+              class="brw-btn-primary"
               :label="t('common.save')"
               :loading="saving"
             />

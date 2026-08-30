@@ -58,9 +58,9 @@ export default defineConfig((ctx) => {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
 
-      // GitHub Pages project site (https://github.com/brechkoio/brw-bau)
-      // is served from /brw-bau/, so all built asset URLs must be prefixed accordingly.
-      publicPath: '/brw-bau/',
+      // Served from the custom domain root (brwbau.com via GitHub Pages),
+      // not the default username.github.io/brw-bau/ project-site path.
+      publicPath: '/',
 
       // Use the standard Vite `VITE_` prefix (instead of Quasar's default `QCLI_`)
       // so env var names match what Supabase's own docs/dashboard give you.

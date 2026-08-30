@@ -1,65 +1,73 @@
 <template>
   <q-page class="brw-home-page">
     <div class="brw-home-container">
-      <!-- CTA row -->
-      <div class="column brw-cta-row">
-        <div class="row items-center q-gutter-sm">
-          <template v-if="!activeShift">
-            <q-select
-              v-model="selectedSiteId"
-              :options="siteOptions"
-              :label="t('reports.monthly.siteLabel')"
-              :placeholder="t('reports.monthly.sitePlaceholder')"
-              outlined
-              dense
-              emit-value
-              map-options
-              hide-bottom-space
-              class="brw-shift-site-select"
+      <!-- Stat cards -->
+      <div class="brw-stat-grid">
+        <div class="brw-shift-card" :class="activeShift ? 'brw-shift-card--active' : ''">
+          <template v-if="activeShift">
+            <div class="brw-shift-body">
+              <div class="brw-shift-head">
+                <span class="brw-shift-dot" aria-hidden="true" />
+                <span class="brw-shift-status">{{ t('home.shiftRunning') }}</span>
+                <q-space />
+                <span class="brw-shift-elapsed">{{ elapsedLabel }}</span>
+              </div>
+
+              <div class="brw-shift-site">{{ activeShift.site_name }}</div>
+              <div class="brw-shift-since">
+                <q-icon name="schedule" size="16px" />
+                {{ t('home.shiftStartedAt', { time: formatTime(activeShift.start_time) }) }}
+              </div>
+            </div>
+
+            <q-btn
+              unelevated
+              no-caps
+              icon="stop_circle"
+              :label="t('home.endShift')"
+              class="brw-btn-primary brw-shift-btn"
+              :loading="shiftBusy"
+              @click="endShift"
             />
+          </template>
+
+          <template v-else>
+            <div class="brw-shift-body">
+              <div class="brw-shift-status brw-shift-status--idle">
+                {{ t('home.startShiftTitle') }}
+              </div>
+
+              <div class="brw-field">
+                <label for="home-site">{{ t('reports.monthly.siteLabel') }}</label>
+                <q-select
+                  for="home-site"
+                  v-model="selectedSiteId"
+                  :options="siteOptions"
+                  :placeholder="t('reports.monthly.sitePlaceholder')"
+                  outlined
+                  emit-value
+                  map-options
+                  hide-bottom-space
+                  popup-content-class="brw-select__menu"
+                  class="brw-select"
+                />
+              </div>
+            </div>
+
             <q-btn
               unelevated
               no-caps
               icon="play_arrow"
               :label="t('home.startShift')"
-              class="brw-btn-primary"
+              class="brw-btn-primary brw-shift-btn"
               :disable="!selectedSiteId"
               :loading="shiftBusy"
               @click="startShift"
             />
-          </template>
-          <template v-else>
-            <q-btn
-              unelevated
-              no-caps
-              icon="stop"
-              :label="t('home.endShift')"
-              class="brw-btn-primary"
-              :loading="shiftBusy"
-              @click="endShift"
-            />
-            <div class="text-body2 brw-muted">
-              {{
-                t('home.shiftActiveSince', {
-                  site: activeShift.site_name,
-                  time: formatTime(activeShift.start_time),
-                })
-              }}
-            </div>
+            <div v-if="!selectedSiteId" class="brw-shift-hint">{{ t('home.pickSiteFirst') }}</div>
           </template>
         </div>
-        <div class="text-body2 brw-muted q-mt-sm">
-          {{ currentMonthLabel }} ·
-          {{
-            lastEntryDaysAgo === null
-              ? t('home.noEntriesYet')
-              : t('home.lastEntryDaysAgo', { days: lastEntryDaysAgo })
-          }}
-        </div>
-      </div>
 
-      <!-- Stat cards -->
-      <div class="brw-stat-grid">
         <q-card class="brw-card brw-stat-card" flat bordered>
           <div class="row items-center q-gutter-sm brw-muted text-body2">
             <q-icon name="schedule" size="20px" />
@@ -67,6 +75,9 @@
           </div>
           <div class="brw-stat-value">{{ formattedHours }}</div>
           <div class="brw-stat-caption">{{ t('home.daysApprox', { days: daysApprox }) }}</div>
+          <div v-if="breakMinutesThisMonth > 0" class="brw-stat-caption">
+            {{ t('home.breakDeductedCaption', { minutes: breakMinutesThisMonth }) }}
+          </div>
         </q-card>
 
         <q-card class="brw-card brw-stat-card" flat bordered>
@@ -79,33 +90,18 @@
             {{ t('home.currentRateLabel', { rate: currentRate.toFixed(2) }) }}
           </div>
         </q-card>
-
-        <q-card class="brw-card brw-stat-card" flat bordered>
-          <div class="row items-center q-gutter-sm brw-muted text-body2">
-            <q-icon name="track_changes" size="20px" />
-            <div>{{ t('home.monthlyNormLabel') }}</div>
-          </div>
-          <div class="row items-baseline q-gutter-sm">
-            <div class="brw-stat-value">{{ normProgressPercent }}%</div>
-            <div class="brw-stat-fraction">
-              {{ t('home.monthlyNormFraction', { hours: formattedHours, norm: monthlyNormHours }) }}
-            </div>
-          </div>
-          <q-linear-progress
-            :value="normProgressRatio"
-            color="accent"
-            track-color="grey-3"
-            size="8px"
-            rounded
-            class="q-mt-md"
-          />
-          <div class="brw-stat-caption q-mt-sm">
-            {{ t('home.remainingLabel', { hours: remainingHours, days: remainingWorkdays }) }}
-          </div>
-        </q-card>
       </div>
 
-      <!-- Weekly chart + recent entries -->
+      <div class="brw-shift-meta">
+        {{ currentMonthLabel }} ·
+        {{
+          lastEntryDaysAgo === null
+            ? t('home.noEntriesYet')
+            : t('home.lastEntryDaysAgo', { days: lastEntryDaysAgo })
+        }}
+      </div>
+
+      <!-- Weekly chart + monthly-norm progress + recent entries -->
       <div class="brw-two-col">
         <q-card class="brw-card brw-panel" flat bordered>
           <div class="row items-center justify-between brw-panel-header">
@@ -140,6 +136,30 @@
                 {{ day.dayNum }}
               </div>
             </div>
+          </div>
+        </q-card>
+
+        <q-card class="brw-card brw-stat-card" flat bordered>
+          <div class="row items-center q-gutter-sm brw-muted text-body2">
+            <q-icon name="track_changes" size="20px" />
+            <div>{{ t('home.monthlyNormLabel') }}</div>
+          </div>
+          <div class="row items-baseline q-gutter-sm">
+            <div class="brw-stat-value">{{ normProgressPercent }}%</div>
+            <div class="brw-stat-fraction">
+              {{ t('home.monthlyNormFraction', { hours: formattedHours, norm: monthlyNormHours }) }}
+            </div>
+          </div>
+          <q-linear-progress
+            :value="normProgressRatio"
+            color="accent"
+            track-color="grey-3"
+            size="8px"
+            rounded
+            class="q-mt-md"
+          />
+          <div class="brw-stat-caption q-mt-sm">
+            {{ t('home.remainingLabel', { hours: remainingHours, days: remainingWorkdays }) }}
           </div>
         </q-card>
 
@@ -187,11 +207,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
 import { supabase } from '@/boot/supabase';
+import { aggregateCreditedHours } from '@/utils/work-hours';
+import { getCurrentCoords } from '@/utils/geolocation';
 
 interface EarningsRow {
   id: string;
@@ -242,6 +264,7 @@ function isWeekday(day: number) {
 
 const totalHours = ref(0);
 const totalEarned = ref(0);
+const breakMinutesThisMonth = ref(0);
 const currentRate = ref<number | null>(null);
 const lastEntryDaysAgo = ref<number | null>(null);
 
@@ -288,14 +311,16 @@ async function loadMonthSummary() {
 
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('hours, earned, work_date')
+    .select('hours, work_date, hourly_rate')
     .eq('user_id', auth.user.id)
     .gte('work_date', toIsoDate(monthStart))
     .lt('work_date', toIsoDate(nextMonthStart));
 
   if (error || !data) return;
-  totalHours.value = data.reduce((sum, r) => sum + Number(r.hours), 0);
-  totalEarned.value = data.reduce((sum, r) => sum + Number(r.earned), 0);
+  const credited = aggregateCreditedHours(data);
+  totalHours.value = credited.creditedHours;
+  totalEarned.value = credited.creditedEarned;
+  breakMinutesThisMonth.value = credited.breakMinutes;
 }
 
 async function loadCurrentRate() {
@@ -362,13 +387,13 @@ const weekTitle = computed(() => {
   });
 });
 
-const weekRows = ref<{ work_date: string; hours: number; earned: number }[]>([]);
+const weekRows = ref<{ work_date: string; hours: number; hourly_rate: number | null }[]>([]);
 
 async function loadWeek() {
   if (!auth.user) return;
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('work_date, hours, earned')
+    .select('work_date, hours, hourly_rate')
     .eq('user_id', auth.user.id)
     .gte('work_date', toIsoDate(weekStart.value))
     .lte('work_date', toIsoDate(weekEnd.value));
@@ -399,12 +424,9 @@ const weekDays = computed(() => {
   });
 });
 
-const weekTotalHours = computed(() =>
-  weekDays.value.reduce((sum, d) => sum + d.hours, 0).toFixed(2),
-);
-const weekTotalEarned = computed(() =>
-  weekRows.value.reduce((sum, r) => sum + Number(r.earned), 0).toFixed(2),
-);
+const weekCredited = computed(() => aggregateCreditedHours(weekRows.value));
+const weekTotalHours = computed(() => weekCredited.value.creditedHours.toFixed(2));
+const weekTotalEarned = computed(() => weekCredited.value.creditedEarned.toFixed(2));
 
 function barHeight(hours: number): number {
   if (hours <= 0) return 4;
@@ -465,6 +487,25 @@ const selectedSiteId = ref<string | null>(null);
 const activeShift = ref<ActiveShift | null>(null);
 const shiftBusy = ref(false);
 
+const elapsedNow = ref(Date.now());
+let elapsedTick: ReturnType<typeof setInterval> | undefined;
+
+onMounted(() => {
+  elapsedTick = setInterval(() => (elapsedNow.value = Date.now()), 60_000);
+});
+onUnmounted(() => clearInterval(elapsedTick));
+
+// «3:47» — годин:хвилин від початку зміни. Рахуємо на клієнті від
+// activeShift.start_time (час без дати, зміна завжди в межах поточної доби).
+const elapsedLabel = computed(() => {
+  if (!activeShift.value) return '';
+  const [h, m] = activeShift.value.start_time.split(':').map(Number);
+  const start = new Date(elapsedNow.value);
+  start.setHours(h ?? 0, m ?? 0, 0, 0);
+  const mins = Math.max(0, Math.round((elapsedNow.value - start.getTime()) / 60_000));
+  return `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`;
+});
+
 async function loadSites() {
   const { data, error } = await supabase
     .from('sites')
@@ -492,25 +533,11 @@ function nowTime() {
   return new Date().toTimeString().slice(0, 8);
 }
 
-function getGeolocation(): Promise<{ lat: number; lng: number } | null> {
-  return new Promise((resolve) => {
-    if (!navigator.geolocation) {
-      resolve(null);
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => resolve(null),
-      { timeout: 8000 },
-    );
-  });
-}
-
 async function startShift() {
   if (!auth.user || !selectedSiteId.value) return;
   shiftBusy.value = true;
   try {
-    const geo = await getGeolocation();
+    const geo = await getCurrentCoords();
     const { error } = await supabase.from('work_reports').insert({
       user_id: auth.user.id,
       site_id: selectedSiteId.value,
@@ -577,26 +604,135 @@ void loadActiveShift();
   gap: 20px;
 }
 
-.brw-cta-row {
-  gap: 16px;
+// Блок зміни — головна дія сторінки. В активному стані єдиний темний
+// елемент на світлому тлі, тому читається першим; картки статистики
+// лишаються фоном.
+.brw-shift-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid #e6e8ea;
+  border-radius: 18px;
+  background: #fff;
+}
 
-  .row {
-    flex-wrap: wrap;
+.brw-shift-card--active {
+  border-color: transparent;
+  background: $dark;
+}
+
+// Groups everything above the button so it can grow (flex: 1) and absorb
+// any extra height the grid stretches onto the card — keeps the button
+// flush to the card's bottom edge regardless of sibling card heights.
+.brw-shift-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.brw-shift-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brw-shift-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $accent;
+  animation: brw-shift-pulse 2s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 }
 
-.brw-shift-site-select {
-  min-width: 220px;
+@keyframes brw-shift-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.brw-shift-status {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $accent;
+}
+
+.brw-shift-status--idle {
+  color: $text-muted;
+}
+
+.brw-shift-elapsed {
+  margin-left: auto;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+// Обʼєкт — головна відповідь на «де я зараз працюю», тому найбільший
+// текст блоку, а не хвостик після кнопки.
+.brw-shift-site {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  text-wrap: pretty;
+}
+
+.brw-shift-since {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.62);
+  font-variant-numeric: tabular-nums;
+}
+
+.brw-shift-btn {
+  width: 100%;
+  height: 56px;
+  border-radius: 14px;
+  font-size: 16px;
+}
+
+.brw-shift-hint {
+  margin-top: -6px;
+  font-size: 12.5px;
+  color: $text-muted;
+  text-align: center;
+}
+
+.brw-shift-meta {
+  font-size: 13px;
+  color: $text-muted;
 }
 
 .brw-muted {
   color: $text-secondary;
 }
 
+// Одна колонка до 1024px (картка на всю ширину — уникає зламу сітки в
+// проміжку 600–1024px), від 1024px картка зміни фіксованих 420px, дві
+// картки статистики ділять решту (макет 2A).
 .brw-stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: 1fr;
   gap: 16px;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 420px repeat(2, minmax(0, 1fr));
+  }
 }
 
 .brw-stat-card {

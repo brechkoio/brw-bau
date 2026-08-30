@@ -81,12 +81,22 @@
         </template>
       </q-table>
 
-      <div v-if="filteredRows.length" class="row q-col-gutter-xl q-mt-md text-subtitle1">
-        <div>
-          {{ t('reports.summary.totalHours') }}: <strong>{{ totalHours }}</strong>
+      <div v-if="filteredRows.length" class="column q-mt-md">
+        <div class="row q-col-gutter-xl text-subtitle1">
+          <div>
+            {{ t('reports.summary.totalHours') }}: <strong>{{ totalHours }}</strong>
+          </div>
+          <div>
+            {{ t('reports.monthly.totalEarned') }}: <strong>{{ formatMoney(totalEarned) }}</strong>
+          </div>
         </div>
-        <div>
-          {{ t('reports.monthly.totalEarned') }}: <strong>{{ formatMoney(totalEarned) }}</strong>
+        <div v-if="creditedTotals.breakMinutes > 0" class="text-caption brw-break-caption q-mt-xs">
+          {{
+            t('reports.monthly.breakDeductedCaption', {
+              raw: creditedTotals.rawHours.toFixed(2),
+              minutes: creditedTotals.breakMinutes,
+            })
+          }}
         </div>
       </div>
 
@@ -264,6 +274,7 @@ import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
 import { exportTableToCsv } from '@/utils/export-csv';
 import { formatDisplayDate } from '@/utils/format-date';
+import { aggregateCreditedHours } from '@/utils/work-hours';
 
 interface ReportRow {
   id: string;
@@ -272,6 +283,7 @@ interface ReportRow {
   end_time: string | null;
   hours: number | null;
   earned: number | null;
+  hourly_rate: number | null;
   site_id: string;
   site_name: string;
 }
@@ -319,12 +331,9 @@ const filteredRows = computed(() => {
     .sort((a, b) => a.work_date.localeCompare(b.work_date));
 });
 
-const totalHours = computed(() =>
-  filteredRows.value.reduce((sum, r) => sum + Number(r.hours), 0).toFixed(2),
-);
-const totalEarned = computed(() =>
-  filteredRows.value.reduce((sum, r) => sum + Number(r.earned), 0),
-);
+const creditedTotals = computed(() => aggregateCreditedHours(filteredRows.value));
+const totalHours = computed(() => creditedTotals.value.creditedHours.toFixed(2));
+const totalEarned = computed(() => creditedTotals.value.creditedEarned);
 
 const columns = computed<QTableColumn<ReportRow>[]>(() => [
   {
@@ -411,7 +420,7 @@ async function loadReports() {
   loading.value = true;
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('id, work_date, start_time, end_time, hours, earned, site_id, site_name')
+    .select('id, work_date, start_time, end_time, hours, earned, hourly_rate, site_id, site_name')
     .eq('user_id', auth.user.id)
     .order('work_date', { ascending: false });
   loading.value = false;
@@ -501,5 +510,9 @@ void loadReports();
   margin-bottom: 6px;
   font-size: 12px;
   color: $text-secondary;
+}
+
+.brw-break-caption {
+  color: $text-muted;
 }
 </style>

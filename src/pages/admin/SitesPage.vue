@@ -55,6 +55,12 @@
             <q-toggle :model-value="props.value" @update:model-value="toggleActive(props.row)" />
           </q-td>
         </template>
+
+        <template #body-cell-actions="props">
+          <q-td :props="props">
+            <q-btn flat icon="edit" class="brw-table-icon-btn" @click="openEdit(props.row)" />
+          </q-td>
+        </template>
       </q-table>
     </div>
 
@@ -86,6 +92,54 @@
         </q-form>
       </q-card>
     </q-dialog>
+
+    <q-dialog v-model="editDialogOpen">
+      <q-card style="min-width: 320px">
+        <q-card-section class="text-h6">{{ editingName }}</q-card-section>
+        <q-form @submit.prevent="onSaveEdit">
+          <q-card-section class="column q-gutter-md">
+            <div class="text-caption text-grey-7">{{ t('admin.sites.coordsHint') }}</div>
+
+            <div v-if="editForm.lat !== null && editForm.lng !== null" class="text-body1">
+              {{ editForm.lat.toFixed(6) }}, {{ editForm.lng.toFixed(6) }}
+            </div>
+            <div v-else class="text-body1 text-grey-6">{{ t('admin.sites.coordsNotSet') }}</div>
+
+            <div class="row q-gutter-sm">
+              <q-btn
+                unelevated
+                no-caps
+                color="accent"
+                text-color="black"
+                icon="my_location"
+                :label="t('admin.sites.setCoords')"
+                :loading="locating"
+                @click="captureCoords"
+              />
+              <q-btn
+                v-if="editForm.lat !== null"
+                flat
+                no-caps
+                :label="t('admin.sites.clearCoords')"
+                @click="clearCoords"
+              />
+            </div>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat :label="t('common.cancel')" v-close-popup />
+            <q-btn
+              type="submit"
+              color="accent"
+              text-color="black"
+              unelevated
+              no-caps
+              :label="t('common.save')"
+              :loading="saving"
+            />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -97,11 +151,14 @@ import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
 import { exportTableToCsv } from '@/utils/export-csv';
+import { getCurrentCoords } from '@/utils/geolocation';
 
 interface Site {
   id: string;
   name: string;
   is_active: boolean;
+  lat: number | null;
+  lng: number | null;
 }
 
 const $q = useQuasar();
@@ -112,7 +169,64 @@ const search = ref('');
 const newSiteName = ref('');
 const loading = ref(false);
 const adding = ref(false);
+const saving = ref(false);
+const locating = ref(false);
 const addDialogOpen = ref(false);
+const editDialogOpen = ref(false);
+const editingId = ref<string | null>(null);
+const editingName = ref('');
+const editForm = ref<{ lat: number | null; lng: number | null }>({ lat: null, lng: null });
+
+async function captureCoords() {
+  locating.value = true;
+  try {
+    const coords = await getCurrentCoords();
+    if (!coords) {
+      $q.notify({ type: 'negative', message: t('admin.sites.locationErrorFallback') });
+      return;
+    }
+    editForm.value = coords;
+  } finally {
+    locating.value = false;
+  }
+}
+
+function clearCoords() {
+  editForm.value = { lat: null, lng: null };
+}
+
+function formatCoords(site: Site) {
+  if (site.lat === null || site.lng === null) return '—';
+  return `${site.lat.toFixed(6)}, ${site.lng.toFixed(6)}`;
+}
+
+function openEdit(site: Site) {
+  editingId.value = site.id;
+  editingName.value = site.name;
+  editForm.value = { lat: site.lat, lng: site.lng };
+  editDialogOpen.value = true;
+}
+
+async function onSaveEdit() {
+  if (!editingId.value) return;
+  saving.value = true;
+  try {
+    const { error } = await supabase
+      .from('sites')
+      .update({ lat: editForm.value.lat, lng: editForm.value.lng })
+      .eq('id', editingId.value);
+    if (error) throw error;
+    editDialogOpen.value = false;
+    await loadSites();
+  } catch (err) {
+    $q.notify({
+      type: 'negative',
+      message: err instanceof Error ? err.message : t('admin.sites.errorFallback'),
+    });
+  } finally {
+    saving.value = false;
+  }
+}
 
 const filteredSites = computed(() => {
   const query = search.value.trim().toLowerCase();
@@ -129,10 +243,20 @@ const columns = computed<QTableColumn<Site>[]>(() => [
     sortable: true,
   },
   { name: 'is_active', label: t('admin.sites.columnActive'), field: 'is_active', align: 'left' },
+  {
+    name: 'coords',
+    label: t('admin.sites.columnCoords'),
+    field: 'lat',
+    format: (_val: number | null, row) => formatCoords(row),
+    align: 'left',
+  },
+  { name: 'actions', label: t('admin.sites.columnActions'), field: 'id', align: 'left' },
 ]);
 
+const exportColumns = computed(() => columns.value.filter((col) => col.name !== 'actions'));
+
 function onExport() {
-  const ok = exportTableToCsv('sites.csv', columns.value, filteredSites.value);
+  const ok = exportTableToCsv('sites.csv', exportColumns.value, filteredSites.value);
   if (!ok) {
     $q.notify({ type: 'negative', message: t('common.exportError') });
   }
@@ -140,7 +264,10 @@ function onExport() {
 
 async function loadSites() {
   loading.value = true;
-  const { data, error } = await supabase.from('sites').select('id, name, is_active').order('name');
+  const { data, error } = await supabase
+    .from('sites')
+    .select('id, name, is_active, lat, lng')
+    .order('name');
   loading.value = false;
   if (error) {
     $q.notify({ type: 'negative', message: error.message });

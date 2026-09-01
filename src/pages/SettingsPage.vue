@@ -449,6 +449,7 @@ import { supabase } from '@/boot/supabase';
 import { useAuthStore } from '@/stores/auth-store';
 import { usePwaInstall } from '@/composables/use-pwa-install';
 import { toLocalIsoDate } from '@/utils/format-date';
+import { authErrorMessage } from '@/utils/auth-errors';
 
 type TabId = 'profile' | 'security' | 'app';
 
@@ -617,7 +618,7 @@ async function onChangePassword() {
   } catch (err) {
     $q.notify({
       type: 'negative',
-      message: err instanceof Error ? err.message : t('settings.errorFallback'),
+      message: authErrorMessage(err, t, 'settings.errorFallback'),
     });
   } finally {
     passwordSaving.value = false;
@@ -647,7 +648,7 @@ async function onSignOutEverywhere() {
   } catch (err) {
     $q.notify({
       type: 'negative',
-      message: err instanceof Error ? err.message : t('settings.errorFallback'),
+      message: authErrorMessage(err, t, 'settings.errorFallback'),
     });
   }
 }

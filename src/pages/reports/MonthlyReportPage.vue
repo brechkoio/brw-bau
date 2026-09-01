@@ -30,6 +30,7 @@
         />
 
         <q-btn
+          v-if="auth.isAdmin"
           unelevated
           no-caps
           icon="download"
@@ -431,6 +432,7 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => {
 const exportColumns = computed(() => columns.value.filter((col) => col.name !== 'actions'));
 
 async function onExport() {
+  if (!auth.isAdmin) return;
   const ok = await exportTableToXlsx(
     `monthly-report-${dateRange.value.from.slice(0, 7)}.xlsx`,
     exportColumns.value,

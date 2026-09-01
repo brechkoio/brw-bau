@@ -1,0 +1,24 @@
+src/pages/SettingsPage.vue
+  s_b8c28d9d9370be::t_e011425eaf516f 651
+  s_b8c28d9d9370be::t_6d61252d3beb22 452
+  s_b8c28d9d9370be::t_c9c81608657d76 621
+src/pages/reports/MonthlyReportPage.vue
+  s_b8c28d9d9370be::t_c27c694c022b2e 33
+  s_b8c28d9d9370be::t_b17fddbb74b6ba 435
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "e65a8556fcaeac50a2556ebc6a51887623b659c6",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

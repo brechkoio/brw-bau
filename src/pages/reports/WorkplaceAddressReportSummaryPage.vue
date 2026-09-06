@@ -50,11 +50,14 @@
               <div class="brw-summary__value">{{ totalPeople }}</div>
             </div>
           </div>
-          <div v-if="creditedTotals.breakMinutes > 0" class="text-caption brw-break-caption">
+          <div
+            v-if="creditedSummary && creditedSummary.breakMinutes > 0"
+            class="text-caption brw-break-caption"
+          >
             {{
               t('reports.monthly.breakDeductedCaption', {
-                raw: formatHoursLabel(creditedTotals.rawHours, t),
-                minutes: creditedTotals.breakMinutes,
+                raw: formatHoursLabel(creditedSummary.rawHours, t),
+                minutes: creditedSummary.breakMinutes,
               })
             }}
           </div>
@@ -125,7 +128,6 @@ import PeriodFilter from '@/components/PeriodFilter.vue';
 import { exportTableToXlsx } from '@/utils/export-xlsx';
 import { currentMonthRange } from '@/utils/date-range';
 import { formatHoursLabel } from '@/utils/format-hours';
-import { aggregateCreditedHours } from '@/utils/work-hours';
 
 interface EarningsRow {
   work_date: string;
@@ -149,6 +151,14 @@ interface WorkplaceAddressMonthRow {
 interface WorkplaceAddressOption {
   label: string;
   value: string;
+}
+
+interface CreditedSummary {
+  rawHours: number;
+  creditedHours: number;
+  creditedEarned: number;
+  breakMinutes: number;
+  peopleCount: number;
 }
 
 const $q = useQuasar();
@@ -212,32 +222,35 @@ const rows = computed<WorkplaceAddressMonthRow[]>(() => {
 });
 
 // The row-level table stays raw (each row is exactly what was clocked) —
-// only the summary total applies the lunch-break credit, grouped by
-// (user, day) since this report spans multiple workers. This is the same
-// number "Звіт за місяць" and HomePage show for the same worker/period —
-// it's meant to be the one figure payroll actually uses.
-const creditedTotals = computed(() => {
-  const filtered = rawRows.value.filter(
-    (r) =>
-      !selectedWorkplaceAddressId.value ||
-      r.workplace_address_id === selectedWorkplaceAddressId.value,
-  );
-  return aggregateCreditedHours(filtered);
-});
-const totalHours = computed(() => formatHoursLabel(creditedTotals.value.creditedHours, t));
-const totalEarned = computed(() => creditedTotals.value.creditedEarned);
-const totalPeople = computed(() => {
-  const ids = new Set<string>();
-  for (const r of rawRows.value) {
-    if (
-      selectedWorkplaceAddressId.value &&
-      r.workplace_address_id !== selectedWorkplaceAddressId.value
-    )
-      continue;
-    ids.add(r.user_id);
+// only the summary total applies the lunch-break credit. Computed entirely
+// server-side (work_report_credited_summary groups by user+day and sums),
+// so this report never has to re-derive the rule itself.
+const creditedSummary = ref<CreditedSummary | null>(null);
+const totalHours = computed(() => formatHoursLabel(creditedSummary.value?.creditedHours ?? 0, t));
+const totalEarned = computed(() => creditedSummary.value?.creditedEarned ?? 0);
+const totalPeople = computed(() => creditedSummary.value?.peopleCount ?? 0);
+
+async function loadCreditedSummary() {
+  const { data, error } = await supabase.rpc('work_report_credited_summary', {
+    p_from: dateRange.value.from,
+    p_to: dateRange.value.to,
+    p_workplace_address_id: selectedWorkplaceAddressId.value,
+  });
+  if (error) {
+    $q.notify({ type: 'negative', message: error.message });
+    return;
   }
-  return ids.size;
-});
+  const row = data?.[0];
+  creditedSummary.value = row
+    ? {
+        rawHours: Number(row.raw_hours),
+        creditedHours: Number(row.credited_hours),
+        creditedEarned: Number(row.credited_earned),
+        breakMinutes: row.break_minutes,
+        peopleCount: row.people_count,
+      }
+    : null;
+}
 
 function formatMonthYear(yearMonth: string): string {
   const [y, m] = yearMonth.split('-');
@@ -336,9 +349,11 @@ async function loadRows() {
 }
 
 watch(dateRange, () => void loadRows());
+watch([dateRange, selectedWorkplaceAddressId], () => void loadCreditedSummary(), { deep: true });
 
 void loadWorkplaceAddresses();
 void loadRows();
+void loadCreditedSummary();
 </script>
 
 <style lang="scss" scoped>

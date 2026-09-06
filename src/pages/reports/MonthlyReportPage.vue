@@ -136,11 +136,14 @@
             {{ t('reports.monthly.totalEarned') }}: <strong>{{ formatMoney(totalEarned) }}</strong>
           </div>
         </div>
-        <div v-if="creditedTotals.breakMinutes > 0" class="text-caption brw-break-caption q-mt-xs">
+        <div
+          v-if="creditedSummary && creditedSummary.breakMinutes > 0"
+          class="text-caption brw-break-caption q-mt-xs"
+        >
           {{
             t('reports.monthly.breakDeductedCaption', {
-              raw: formatHoursLabel(creditedTotals.rawHours, t),
-              minutes: creditedTotals.breakMinutes,
+              raw: formatHoursLabel(creditedSummary.rawHours, t),
+              minutes: creditedSummary.breakMinutes,
             })
           }}
         </div>
@@ -312,7 +315,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useQuasar, type QTableColumn, type QPopupProxy } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
@@ -322,7 +325,6 @@ import PeriodFilter from '@/components/PeriodFilter.vue';
 import { exportTableToXlsx } from '@/utils/export-xlsx';
 import { formatDisplayDate, toLocalIsoDate } from '@/utils/format-date';
 import { currentMonthRange } from '@/utils/date-range';
-import { aggregateCreditedHours, creditedHoursByDay } from '@/utils/work-hours';
 import { formatHoursLabel } from '@/utils/format-hours';
 import { getCurrentCoords } from '@/utils/geolocation';
 
@@ -336,6 +338,14 @@ interface ReportRow {
   hourly_rate: number | null;
   workplace_address_id: string;
   workplace_address_name: string;
+  day_break_minutes: number | null;
+}
+
+interface CreditedSummary {
+  rawHours: number;
+  creditedHours: number;
+  creditedEarned: number;
+  breakMinutes: number;
 }
 
 interface WorkplaceAddressOption {
@@ -368,15 +378,38 @@ const filteredRows = computed(() => {
     .sort((a, b) => a.work_date.localeCompare(b.work_date));
 });
 
-const creditedTotals = computed(() => aggregateCreditedHours(filteredRows.value));
-const totalHours = computed(() => formatHoursLabel(creditedTotals.value.creditedHours, t));
-const totalEarned = computed(() => creditedTotals.value.creditedEarned);
-const breakByDay = computed(() => creditedHoursByDay(filteredRows.value));
+const creditedSummary = ref<CreditedSummary | null>(null);
+const totalHours = computed(() => formatHoursLabel(creditedSummary.value?.creditedHours ?? 0, t));
+const totalEarned = computed(() => creditedSummary.value?.creditedEarned ?? 0);
 
-function breakLabel(workDate: string): string {
-  const info = breakByDay.value.get(`|${workDate}`);
-  if (!info || info.breakMinutes <= 0) return t('reports.monthly.breakNotDeducted');
-  return t('reports.monthly.breakDeductedShort', { minutes: info.breakMinutes });
+async function loadCreditedSummary() {
+  if (!auth.user) return;
+  const { data, error } = await supabase.rpc('work_report_credited_summary', {
+    p_from: dateRange.value.from,
+    p_to: dateRange.value.to,
+    p_user_id: auth.user.id,
+  });
+  if (error) {
+    $q.notify({ type: 'negative', message: error.message });
+    return;
+  }
+  const row = data?.[0];
+  creditedSummary.value = row
+    ? {
+        rawHours: Number(row.raw_hours),
+        creditedHours: Number(row.credited_hours),
+        creditedEarned: Number(row.credited_earned),
+        breakMinutes: row.break_minutes,
+      }
+    : null;
+}
+
+watch(dateRange, () => void loadCreditedSummary(), { deep: true });
+
+function breakLabel(row: ReportRow): string {
+  const minutes = row.day_break_minutes ?? 0;
+  if (minutes <= 0) return t('reports.monthly.breakNotDeducted');
+  return t('reports.monthly.breakDeductedShort', { minutes });
 }
 
 const columns = computed<QTableColumn<ReportRow>[]>(() => {
@@ -425,7 +458,7 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => {
       name: 'breakDeducted',
       label: t('reports.monthly.columnBreak'),
       field: 'work_date',
-      format: (val: string) => breakLabel(val),
+      format: (_val: string, row: ReportRow) => breakLabel(row),
       align: 'left',
     },
     {
@@ -560,7 +593,7 @@ async function startShift() {
     $q.notify({ type: 'positive', message: t('home.shiftStarted') });
     selectedWorkplaceAddressId.value = null;
     startShiftDialogOpen.value = false;
-    await Promise.all([loadActiveShift(), loadReports()]);
+    await Promise.all([loadActiveShift(), loadReports(), loadCreditedSummary()]);
   } catch (err) {
     $q.notify({
       type: 'negative',
@@ -581,7 +614,7 @@ async function endShift() {
       .eq('id', activeShift.value.id);
     if (error) throw error;
     $q.notify({ type: 'positive', message: t('home.shiftEnded') });
-    await Promise.all([loadActiveShift(), loadReports()]);
+    await Promise.all([loadActiveShift(), loadReports(), loadCreditedSummary()]);
   } catch (err) {
     $q.notify({
       type: 'negative',
@@ -598,7 +631,7 @@ async function loadReports() {
   const { data, error } = await supabase
     .from('work_report_earnings')
     .select(
-      'id, work_date, start_time, end_time, hours, earned, hourly_rate, workplace_address_id, workplace_address_name',
+      'id, work_date, start_time, end_time, hours, earned, hourly_rate, workplace_address_id, workplace_address_name, day_break_minutes',
     )
     .eq('user_id', auth.user.id)
     .order('work_date', { ascending: false });
@@ -658,7 +691,7 @@ async function onSaveEdit() {
     if (error) throw error;
     $q.notify({ type: 'positive', message: t('reports.monthly.successUpdated') });
     editDialogOpen.value = false;
-    await loadReports();
+    await Promise.all([loadReports(), loadCreditedSummary()]);
   } catch (err) {
     $q.notify({
       type: 'negative',
@@ -685,12 +718,13 @@ async function onDelete(row: ReportRow) {
     return;
   }
   $q.notify({ type: 'positive', message: t('reports.monthly.successDeleted') });
-  await loadReports();
+  await Promise.all([loadReports(), loadCreditedSummary()]);
 }
 
 void loadWorkplaceAddresses();
 void loadReports();
 void loadActiveShift();
+void loadCreditedSummary();
 </script>
 
 <style lang="scss" scoped>

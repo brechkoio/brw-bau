@@ -182,7 +182,6 @@ import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth-store';
 import { supabase } from '@/boot/supabase';
-import { aggregateCreditedHours } from '@/utils/work-hours';
 import { getCurrentCoords } from '@/utils/geolocation';
 import { formatHoursLabel } from '@/utils/format-hours';
 import { toLocalIsoDate } from '@/utils/format-date';
@@ -279,20 +278,19 @@ const remainingWorkdays = computed(() => {
 async function loadMonthSummary() {
   if (!auth.user) return;
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
-  const { data, error } = await supabase
-    .from('work_report_earnings')
-    .select('hours, work_date, hourly_rate')
-    .eq('user_id', auth.user.id)
-    .gte('work_date', toIsoDate(monthStart))
-    .lt('work_date', toIsoDate(nextMonthStart));
+  const { data, error } = await supabase.rpc('work_report_credited_summary', {
+    p_from: toIsoDate(monthStart),
+    p_to: toIsoDate(monthEnd),
+    p_user_id: auth.user.id,
+  });
 
   if (error || !data) return;
-  const credited = aggregateCreditedHours(data);
-  totalHours.value = credited.creditedHours;
-  totalEarned.value = credited.creditedEarned;
-  breakMinutesThisMonth.value = credited.breakMinutes;
+  const row = data[0];
+  totalHours.value = row ? Number(row.credited_hours) : 0;
+  totalEarned.value = row ? Number(row.credited_earned) : 0;
+  breakMinutesThisMonth.value = row ? row.break_minutes : 0;
 }
 
 async function loadCurrentRate() {

@@ -101,6 +101,20 @@
               lazy-rules
             />
 
+            <div class="brw-field">
+              <label for="rate-lunch-break">{{ t('admin.rates.lunchBreakLabel') }}</label>
+              <q-select
+                for="rate-lunch-break"
+                v-model="form.lunchBreakMinutes"
+                :options="lunchBreakOptions"
+                outlined
+                emit-value
+                map-options
+                popup-content-class="brw-select__menu"
+                class="brw-select"
+              />
+            </div>
+
             <q-input
               v-model="form.effectiveFrom"
               :label="t('admin.rates.effectiveFromLabel')"
@@ -160,6 +174,20 @@
               :rules="[(val) => (val && val > 0) || t('validation.requiredAmount')]"
               lazy-rules
             />
+
+            <div class="brw-field">
+              <label for="rate-edit-lunch-break">{{ t('admin.rates.lunchBreakLabel') }}</label>
+              <q-select
+                for="rate-edit-lunch-break"
+                v-model="editForm.lunchBreakMinutes"
+                :options="lunchBreakOptions"
+                outlined
+                emit-value
+                map-options
+                popup-content-class="brw-select__menu"
+                class="brw-select"
+              />
+            </div>
 
             <q-input
               v-model="editForm.effectiveFrom"
@@ -225,11 +253,17 @@ interface RateRow {
   id: string;
   hourly_rate: number;
   effective_from: string;
+  lunch_break_minutes: number;
   employee_name: string;
 }
 
 const $q = useQuasar();
 const { t } = useI18n();
+
+const lunchBreakOptions = computed(() => [
+  { label: t('admin.rates.lunchBreakOption30'), value: 30 },
+  { label: t('admin.rates.lunchBreakOption60'), value: 60 },
+]);
 
 const employeeOptions = ref<EmployeeOption[]>([]);
 const rates = ref<RateRow[]>([]);
@@ -242,6 +276,7 @@ const effectiveFromProxy = ref<QPopupProxy | null>(null);
 const form = ref({
   employeeId: null as string | null,
   hourlyRate: null as number | null,
+  lunchBreakMinutes: 30,
   effectiveFrom: toLocalIsoDate(new Date()),
 });
 
@@ -249,8 +284,13 @@ const editDialogOpen = ref(false);
 const editingId = ref<string | null>(null);
 const editingEmployeeName = ref('');
 const editEffectiveFromProxy = ref<QPopupProxy | null>(null);
-const editForm = ref<{ hourlyRate: number | null; effectiveFrom: string }>({
+const editForm = ref<{
+  hourlyRate: number | null;
+  lunchBreakMinutes: number;
+  effectiveFrom: string;
+}>({
   hourlyRate: null,
+  lunchBreakMinutes: 30,
   effectiveFrom: toLocalIsoDate(new Date()),
 });
 
@@ -259,6 +299,7 @@ function openEdit(rate: RateRow) {
   editingEmployeeName.value = rate.employee_name;
   editForm.value = {
     hourlyRate: rate.hourly_rate,
+    lunchBreakMinutes: rate.lunch_break_minutes,
     effectiveFrom: rate.effective_from,
   };
   editDialogOpen.value = true;
@@ -281,6 +322,7 @@ async function onSaveEdit() {
       .from('employee_rates')
       .update({
         hourly_rate: editForm.value.hourlyRate,
+        lunch_break_minutes: editForm.value.lunchBreakMinutes,
         effective_from: editForm.value.effectiveFrom,
       })
       .eq('id', editingId.value);
@@ -325,6 +367,13 @@ const columns = computed<QTableColumn<RateRow>[]>(() => [
     format: (val: number) => `${val} ${t('admin.rates.perHourSuffix')}`,
     align: 'left',
   },
+  {
+    name: 'lunch_break_minutes',
+    label: t('admin.rates.columnLunchBreak'),
+    field: 'lunch_break_minutes',
+    format: (val: number) => `${val} ${t('admin.rates.minutesSuffix')}`,
+    align: 'left',
+  },
   { name: 'actions', label: t('admin.rates.columnActions'), field: 'id', align: 'left' },
 ]);
 
@@ -360,7 +409,7 @@ async function loadRates() {
   loading.value = true;
   const { data, error } = await supabase
     .from('employee_rates')
-    .select('id, hourly_rate, effective_from, profiles(first_name, last_name)')
+    .select('id, hourly_rate, effective_from, lunch_break_minutes, profiles(first_name, last_name)')
     .order('effective_from', { ascending: false });
   loading.value = false;
   if (error) {
@@ -373,6 +422,7 @@ async function loadRates() {
       id: r.id,
       hourly_rate: r.hourly_rate,
       effective_from: r.effective_from,
+      lunch_break_minutes: r.lunch_break_minutes,
       employee_name: profile ? `${profile.first_name} ${profile.last_name}` : '',
     };
   });
@@ -385,6 +435,7 @@ async function onSave() {
     const { error } = await supabase.from('employee_rates').insert({
       user_id: form.value.employeeId,
       hourly_rate: form.value.hourlyRate,
+      lunch_break_minutes: form.value.lunchBreakMinutes,
       effective_from: form.value.effectiveFrom,
     });
     if (error) throw error;
@@ -393,6 +444,7 @@ async function onSave() {
     form.value = {
       employeeId: null,
       hourlyRate: null,
+      lunchBreakMinutes: 30,
       effectiveFrom: toLocalIsoDate(new Date()),
     };
     await loadRates();

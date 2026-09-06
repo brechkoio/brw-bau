@@ -1,0 +1,108 @@
+src/pages/HomePage.vue
+  s_b8c28d9d9370be::t_196f1b3a961649 47-50,67,132,197,200,207,335,350,361,376-377,400,402,407,414,432,438,446,483,579
+  s_b8c28d9d9370be::t_7a120c9d6c209c 16-18,43-45,71-73,419-423
+src/i18n/ru.ts
+  s_b8c28d9d9370be::t_92e056ab6222cc 33,37,140-142,144,154-155,157,182,215-216,283,295-297,303,347,359
+  s_b8c28d9d9370be::t_8423c9cf238a1d 306,311-312
+  s_b8c28d9d9370be::t_e48b655331afc4 20-21
+  s_b8c28d9d9370be::t_1a11000bde1a12 343
+supabase/tests/close_forgotten_shifts.test.sql
+  s_b8c28d9d9370be::t_09424252f5a762 24-25
+  s_b8c28d9d9370be::t_7aa5f731636d2d 29
+src/css/app.scss
+  s_b8c28d9d9370be::t_05d8813d8af83a 553-559
+  s_b8c28d9d9370be::t_a1a1a55dfd14ee 560
+src/i18n/de.ts
+  s_b8c28d9d9370be::t_061f8693eb39d7 20-21
+  s_b8c28d9d9370be::t_f349ac1a228960 346
+  s_b8c28d9d9370be::t_92e056ab6222cc 33,37,140-142,144,154-155,157,182,215-216,286,298-300,306,350,362
+  s_b8c28d9d9370be::t_d9d350b831fe62 309,314-315
+supabase/tests/server_clock_stamping.test.sql
+  s_b8c28d9d9370be::t_09424252f5a762 12-13
+  s_b8c28d9d9370be::t_7aa5f731636d2d 17
+src/utils/work-hours.spec.ts
+  s_b8c28d9d9370be::t_eed07957e0194f 146-188
+  s_b8c28d9d9370be::t_d0a4f610ead0f6 2-7
+  s_b8c28d9d9370be::t_d71d42b97a2d3c 44
+src/pages/reports/GeneralReportPage.vue
+  s_b8c28d9d9370be::t_d36061b3b4e188 69-72,237-238,243,253,286-288,332,334,339,375,384,408,449
+  s_b8c28d9d9370be::t_dc8c92879cd709 208
+  s_b8c28d9d9370be::t_7bc636e61eba36 392-400
+  s_b8c28d9d9370be::t_7a120c9d6c209c 65-67,347-349
+src/utils/work-hours.ts
+  s_b8c28d9d9370be::t_4cfc60aecc0cfc 33-36,43,46,54-55,57,64,73-95
+  s_b8c28d9d9370be::t_f2f3a6735df2c1 38-42
+src/pages/reports/MonthlyReportPage.vue
+  s_b8c28d9d9370be::t_bb0ff6986865ef 652
+  s_b8c28d9d9370be::t_a44d1f8336e1b5 374-380
+  s_b8c28d9d9370be::t_7a120c9d6c209c 9-11,51-53,154-156,538-542,600-602
+  s_b8c28d9d9370be::t_aebe4c3a95da65 55-58,83,158-161,337-338,341,348,360,401-403,488,490,498,503,533,547,553,561,619,628,691
+  s_b8c28d9d9370be::t_096c94dd442441 636-644
+  s_b8c28d9d9370be::t_ce05b40644e54b 425-430
+  s_b8c28d9d9370be::t_a60c4ae3899b16 325
+  s_b8c28d9d9370be::t_4c95a40417fc44 302,305
+  s_b8c28d9d9370be::t_1cdffcc888ad50 424
+src/pages/reports/WorkplaceAddressReportSummaryPage.vue
+  s_b8c28d9d9370be::t_8f664a9151e1da 1-5,11-166,174-175,181-206,212-220,224-231,237-324,328-416
+  s_b8c28d9d9370be::t_7a120c9d6c209c 6-10,167-173,176-180,207-211,221-223,232-236,325-327
+src/pages/SettingsPage.vue
+  s_b8c28d9d9370be::t_7a120c9d6c209c 138-140
+  s_b8c28d9d9370be::t_d71d42b97a2d3c 141,143-144,153,492,515,521
+src/router/routes.ts
+  s_b8c28d9d9370be::t_4931db7eee2b37 72-74,77-79,87-89
+src/components/TableFilter.vue
+  s_b8c28d9d9370be::t_d71d42b97a2d3c 30
+supabase/tests/work_report_earnings.test.sql
+  s_b8c28d9d9370be::t_7aa5f731636d2d 43,47,51
+  s_b8c28d9d9370be::t_09424252f5a762 22-23
+supabase/tests/work_reports_lockdown.test.sql
+  s_b8c28d9d9370be::t_7aa5f731636d2d 21,35,38,60
+  s_b8c28d9d9370be::t_09424252f5a762 17-19
+supabase/migrations/20260830240000_rename_sites_to_workplace_address.sql
+  s_b8c28d9d9370be::t_cddc7df3d66709 1-66
+src/i18n/uk.ts
+  s_b8c28d9d9370be::t_1001577bf481d1 18-19
+  s_b8c28d9d9370be::t_3e95cf5bec9063 304,309-310
+  s_b8c28d9d9370be::t_513f823905afb4 341
+  s_b8c28d9d9370be::t_92e056ab6222cc 31,35,138-140,142,152-153,155,180,213-214,281,293-295,301,345,357
+src/layouts/MainLayout.vue
+  s_b8c28d9d9370be::t_53658edbd43cc2 149,153,158,161,166,183,187,190,193,297,299,424-425,428,432-434
+  s_b8c28d9d9370be::t_7a120c9d6c209c 301-310,316-320
+src/pages/admin/WorkplaceAddressPage.vue
+  s_b8c28d9d9370be::t_f75a1210e5f4d1 32,42,70,74-75,78,82-83,90-91,98-99,123-124,126-133,136,144,152,159,174,182,215,231-234,243,249,256,296-304,310,312,322,326,333,339,342,349,358-359,362,367,374,376,383,386,407-411,414-417,419,423,432,439,442
+  s_b8c28d9d9370be::t_81bd046b5fee82 48,229,269-271,274,283-284,286-291,335-336,394,430,433-434
+  s_b8c28d9d9370be::t_7a120c9d6c209c 164-166,275-279,354-357,398-403
+src/pages/reports/WorkplaceAddressReportPage.vue
+  s_b8c28d9d9370be::t_3ac07ef2ded45c 1-5,11-163,171-172,178-203,207-216,220-227,233-315,319-410
+  s_b8c28d9d9370be::t_7a120c9d6c209c 6-10,164-170,173-177,204-206,217-219,228-232,316-318
+src/i18n/en-US.ts
+  s_b8c28d9d9370be::t_32640b4f299408 20-21
+  s_b8c28d9d9370be::t_6cdfe6d35d1f18 306,311-312
+  s_b8c28d9d9370be::t_92e056ab6222cc 33,37,139-141,143,153-154,156,181,214-215,283,295-297,303,347,359
+  s_b8c28d9d9370be::t_754330282a76cf 343
+src/pages/admin/EmployeeRatesPage.vue
+  s_b8c28d9d9370be::t_74f5c4b8c17eb2 267-275
+  s_b8c28d9d9370be::t_148e5460303b37 31-33,53-57
+  s_b8c28d9d9370be::t_3be5078485330d 138-149,151-175,181-198
+  s_b8c28d9d9370be::t_ae3a26d93fd721 150
+  s_b8c28d9d9370be::t_8e0ea494d63ddb 176-180
+  s_b8c28d9d9370be::t_5857e6d6cd3edb 248-266,276-299
+  s_b8c28d9d9370be::t_b8945762c297ec 328,331-332,336
+  s_b8c28d9d9370be::t_6c306b53b9e699 58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "6fadfc7f34f6c09239dbfccda71c9e3ff82e14bd",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

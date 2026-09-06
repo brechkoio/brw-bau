@@ -46,6 +46,8 @@
         bordered
         :loading="loading"
         :no-data-label="t('admin.rates.noRates')"
+        :rows-per-page-options="[25, 50, 100, 0]"
+        :pagination="{ rowsPerPage: 25 }"
       >
         <template #body-cell-hourly_rate="props">
           <q-td :props="props">{{ props.value }}</q-td>

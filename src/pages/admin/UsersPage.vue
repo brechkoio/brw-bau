@@ -37,6 +37,8 @@
         bordered
         :loading="loading"
         :no-data-label="t('admin.users.noUsers')"
+        :rows-per-page-options="[25, 50, 100, 0]"
+        :pagination="{ rowsPerPage: 25 }"
       />
     </div>
   </q-page>

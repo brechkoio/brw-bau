@@ -38,6 +38,8 @@
         bordered
         :loading="loading"
         :no-data-label="t('reports.general.noResults')"
+        :rows-per-page-options="[25, 50, 100, 0]"
+        :pagination="{ rowsPerPage: 25 }"
       >
         <template #body-cell-hours="props">
           <q-td :props="props" class="text-negative text-weight-bold">{{ props.value }}</q-td>

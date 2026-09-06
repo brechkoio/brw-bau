@@ -46,6 +46,8 @@
         bordered
         :loading="loading"
         :no-data-label="t('admin.workplaceAddress.noWorkplaceAddresses')"
+        :rows-per-page-options="[25, 50, 100, 0]"
+        :pagination="{ rowsPerPage: 25 }"
       >
         <template #body-cell-address="props">
           <q-td :props="props">{{ props.value }}</q-td>

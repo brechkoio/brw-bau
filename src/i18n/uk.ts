@@ -321,6 +321,12 @@ const uk = {
       longShiftsHint:
         'Зміни довші за {hours} год — перевірте перед розрахунком зарплати. Сюди ж потрапляють зміни, закриті автоматично (якщо працівник забув натиснути «Закінчити»).',
       noResults: 'Немає змін, довших за норму, за цей період',
+      columnLocation: 'Локація',
+      locationInRange: 'В межах адреси',
+      locationOutOfRange: 'Поза межами адреси',
+      locationUnknown: 'Невідомо',
+      locationStartTooltip: 'Початок зміни: {status}',
+      locationEndTooltip: 'Завершення зміни: {status}',
     },
     deletedEmployee: 'Видалений співробітник',
   },

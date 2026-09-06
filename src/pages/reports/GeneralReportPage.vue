@@ -43,6 +43,35 @@
           <q-td :props="props" class="text-negative text-weight-bold">{{ props.value }}</q-td>
         </template>
 
+        <template #body-cell-location="props">
+          <q-td :props="props">
+            <div class="row items-center no-wrap q-gutter-x-sm">
+              <q-icon
+                :name="locationIcon(props.row.start_location_status)"
+                :color="locationColor(props.row.start_location_status)"
+                size="20px"
+              >
+                <q-tooltip>{{
+                  t('reports.general.locationStartTooltip', {
+                    status: locationStatusLabel(props.row.start_location_status),
+                  })
+                }}</q-tooltip>
+              </q-icon>
+              <q-icon
+                :name="locationIcon(props.row.end_location_status)"
+                :color="locationColor(props.row.end_location_status)"
+                size="20px"
+              >
+                <q-tooltip>{{
+                  t('reports.general.locationEndTooltip', {
+                    status: locationStatusLabel(props.row.end_location_status),
+                  })
+                }}</q-tooltip>
+              </q-icon>
+            </div>
+          </q-td>
+        </template>
+
         <template #body-cell-actions="props">
           <q-td :props="props">
             <q-btn flat icon="edit" class="brw-table-icon-btn" @click="openEdit(props.row)" />
@@ -227,6 +256,8 @@ import { formatHoursLabel } from '@/utils/format-hours';
 
 const THRESHOLD_HOURS = 8;
 
+type LocationStatus = 'in_range' | 'out_of_range' | 'unknown' | null;
+
 interface ReportRow {
   id: string;
   work_date: string;
@@ -238,6 +269,8 @@ interface ReportRow {
   workplace_address_name: string;
   user_id: string | null;
   worker_name: string;
+  start_location_status: LocationStatus;
+  end_location_status: LocationStatus;
 }
 
 interface WorkplaceAddressOption {
@@ -264,6 +297,39 @@ function formatTime(value: string | null) {
 
 function formatMoney(value: number) {
   return `${Number(value).toFixed(2)} ${t('common.currency')}`;
+}
+
+function locationStatusLabel(status: LocationStatus) {
+  switch (status) {
+    case 'in_range':
+      return t('reports.general.locationInRange');
+    case 'out_of_range':
+      return t('reports.general.locationOutOfRange');
+    default:
+      return t('reports.general.locationUnknown');
+  }
+}
+
+function locationIcon(status: LocationStatus) {
+  switch (status) {
+    case 'in_range':
+      return 'check_circle';
+    case 'out_of_range':
+      return 'warning';
+    default:
+      return 'help_outline';
+  }
+}
+
+function locationColor(status: LocationStatus) {
+  switch (status) {
+    case 'in_range':
+      return 'positive';
+    case 'out_of_range':
+      return 'negative';
+    default:
+      return 'grey-6';
+  }
 }
 
 const columns = computed<QTableColumn<ReportRow>[]>(() => [
@@ -313,6 +379,13 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => [
     align: 'left',
     sortable: true,
   },
+  {
+    name: 'location',
+    label: t('reports.general.columnLocation'),
+    field: (row) =>
+      `${locationStatusLabel(row.start_location_status)} / ${locationStatusLabel(row.end_location_status)}`,
+    align: 'left',
+  },
   { name: 'actions', label: t('reports.monthly.columnActions'), field: 'id', align: 'left' },
 ]);
 
@@ -345,7 +418,7 @@ async function loadRows() {
     supabase
       .from('work_report_earnings')
       .select(
-        'id, work_date, start_time, end_time, hours, earned, workplace_address_id, workplace_address_name, user_id',
+        'id, work_date, start_time, end_time, hours, earned, workplace_address_id, workplace_address_name, user_id, start_location_status, end_location_status',
       )
       .gt('hours', THRESHOLD_HOURS)
       .gte('work_date', dateRange.value.from)

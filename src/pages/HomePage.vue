@@ -457,9 +457,14 @@ async function endShift() {
   if (!activeShift.value) return;
   shiftBusy.value = true;
   try {
+    const geo = await getCurrentCoords();
     const { error } = await supabase
       .from('work_reports')
-      .update({ end_time: nowTime() })
+      .update({
+        end_time: nowTime(),
+        end_lat: geo?.lat ?? null,
+        end_lng: geo?.lng ?? null,
+      })
       .eq('id', activeShift.value.id);
     if (error) throw error;
     $q.notify({ type: 'positive', message: t('home.shiftEnded') });

@@ -323,6 +323,12 @@ export default {
       longShiftsHint:
         'Смены длиннее {hours} ч — проверьте перед расчётом зарплаты. Сюда же попадают смены, закрытые автоматически (если работник забыл нажать «Закончить»).',
       noResults: 'Нет смен длиннее нормы за этот период',
+      columnLocation: 'Локация',
+      locationInRange: 'В пределах адреса',
+      locationOutOfRange: 'За пределами адреса',
+      locationUnknown: 'Неизвестно',
+      locationStartTooltip: 'Начало смены: {status}',
+      locationEndTooltip: 'Завершение смены: {status}',
     },
     deletedEmployee: 'Удалённый сотрудник',
   },

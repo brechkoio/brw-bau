@@ -326,6 +326,12 @@ export default {
       longShiftsHint:
         'Schichten länger als {hours} Std. — vor der Lohnabrechnung prüfen. Hier erscheinen auch automatisch geschlossene Schichten (wenn ein Mitarbeiter „Beenden“ vergessen hat).',
       noResults: 'Keine Schichten über dem Grenzwert für diesen Zeitraum',
+      columnLocation: 'Standort',
+      locationInRange: 'Innerhalb der Adresse',
+      locationOutOfRange: 'Außerhalb der Adresse',
+      locationUnknown: 'Unbekannt',
+      locationStartTooltip: 'Schichtbeginn: {status}',
+      locationEndTooltip: 'Schichtende: {status}',
     },
     deletedEmployee: 'Gelöschter Mitarbeiter',
   },

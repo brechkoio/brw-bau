@@ -323,6 +323,12 @@ export default {
       longShiftsHint:
         'Shifts longer than {hours}h — review before running payroll. This also catches shifts closed automatically (when a worker forgot to tap "End").',
       noResults: 'No shifts over the threshold for this period',
+      columnLocation: 'Location',
+      locationInRange: 'Within the workplace address',
+      locationOutOfRange: 'Outside the workplace address',
+      locationUnknown: 'Unknown',
+      locationStartTooltip: 'Shift start: {status}',
+      locationEndTooltip: 'Shift end: {status}',
     },
     deletedEmployee: 'Deleted employee',
   },

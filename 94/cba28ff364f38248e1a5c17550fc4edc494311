@@ -1,0 +1,38 @@
+src/pages/HomePage.vue
+  s_b8c28d9d9370be::t_98bd4a513a4705 460,463-467
+src/i18n/de.ts
+  s_b8c28d9d9370be::t_6ba70b55ed60cc 329-334
+src/i18n/ru.ts
+  s_b8c28d9d9370be::t_a04d384b4ceda8 326-331
+src/i18n/en-US.ts
+  s_b8c28d9d9370be::t_87c4a4ce25318c 326-331
+supabase/tests/location_status.test.sql
+  s_b8c28d9d9370be::t_3f4f1123cfb3af 1-7,9-125
+  s_b8c28d9d9370be::t_ea14e7d4106ca6 8
+supabase/migrations/20260906090000_location_status.sql
+  s_b8c28d9d9370be::t_76fe96dfcc70b0 1-103
+src/i18n/uk.ts
+  s_b8c28d9d9370be::t_90d3ff81207bfe 324-329
+src/pages/reports/GeneralReportPage.vue
+  s_b8c28d9d9370be::t_61a7746b6b674d 421
+  s_b8c28d9d9370be::t_68a755b7b980dc 382-388
+  s_b8c28d9d9370be::t_2e9ce7a255d5d3 46-74
+  s_b8c28d9d9370be::t_57bef75576118b 259-260,272-273
+  s_b8c28d9d9370be::t_235ce5c687772c 302-334
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "94cba28ff364f38248e1a5c17550fc4edc494311",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

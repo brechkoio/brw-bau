@@ -1,0 +1,25 @@
+src/pages/admin/WorkplaceAddressPage.vue
+  s_b8c28d9d9370be::t_d1dee876d8c1f8 49-50
+src/pages/admin/UsersPage.vue
+  s_b8c28d9d9370be::t_f0f130f799595e 40-41
+src/pages/reports/GeneralReportPage.vue
+  s_b8c28d9d9370be::t_4b85e7b893b50d 41-42
+src/pages/admin/EmployeeRatesPage.vue
+  s_b8c28d9d9370be::t_c0c327bb95dccb 49-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "c93ac05a1eb96f5a184b0ecad1b6e473a2797467",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+src/i18n/en-US.ts
+  s_b8c28d9d9370be::t_dcb2f7d428d271 153-154,156
+  s_b8c28d9d9370be::t_4a4783a8be74bb 33,37
+  s_b8c28d9d9370be::t_03a9d67099eb49 214
+  s_b8c28d9d9370be::t_68a94e35d8be41 283
+  s_b8c28d9d9370be::t_03706ca305c618 295-297,303
+  s_b8c28d9d9370be::t_1782b8dd68f528 181
+  s_b8c28d9d9370be::t_dab97bf87bf765 139,143
+  s_b8c28d9d9370be::t_51dd66b9381d34 353-354,364-365,367
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "a61bfc329ef4ca43c1ebc9ceddb87d1e383fb3f5",
+  "prompts": {},
+  "sessions": {
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

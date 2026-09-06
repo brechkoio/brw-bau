@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { creditedDayHours, aggregateCreditedHours, type DailyHoursRow } from './work-hours';
+import {
+  creditedDayHours,
+  aggregateCreditedHours,
+  creditedHoursByDay,
+  type DailyHoursRow,
+} from './work-hours';
 
 describe('creditedDayHours', () => {
   it('does not deduct below the 6h threshold', () => {
@@ -36,7 +41,7 @@ describe('aggregateCreditedHours', () => {
   });
 
   it('deducts once per day when two shifts on the same day sum past the threshold', () => {
-    // e.g. a worker clocks in/out twice at two different sites the same day.
+    // e.g. a worker clocks in/out twice at two different workplace addresses the same day.
     const rows: DailyHoursRow[] = [
       { work_date: '2026-08-01', hours: 3, hourly_rate: 20 },
       { work_date: '2026-08-01', hours: 4, hourly_rate: 20 },
@@ -136,5 +141,48 @@ describe('aggregateCreditedHours', () => {
     // prevents them at the source.
     expect(totals.rawHours).toBe(-2);
     expect(totals.creditedHours).toBe(-2);
+  });
+});
+
+describe('creditedHoursByDay', () => {
+  it('reports zero breakMinutes for a day under the threshold, keyed by "|work_date" when user_id is absent', () => {
+    const rows: DailyHoursRow[] = [{ work_date: '2026-08-01', hours: 4, hourly_rate: 20 }];
+    const byDay = creditedHoursByDay(rows);
+    expect(byDay.get('|2026-08-01')).toEqual({ rawHours: 4, creditedHours: 4, breakMinutes: 0 });
+  });
+
+  it('reports 30 deducted minutes for a day at/above the threshold', () => {
+    const rows: DailyHoursRow[] = [{ work_date: '2026-08-01', hours: 8, hourly_rate: 20 }];
+    const byDay = creditedHoursByDay(rows);
+    expect(byDay.get('|2026-08-01')).toEqual({
+      rawHours: 8,
+      creditedHours: 7.5,
+      breakMinutes: 30,
+    });
+  });
+
+  it('combines multiple same-day rows into one entry before checking the threshold', () => {
+    const rows: DailyHoursRow[] = [
+      { work_date: '2026-08-01', hours: 3, hourly_rate: 10 },
+      { work_date: '2026-08-01', hours: 4, hourly_rate: 10 },
+    ];
+    const byDay = creditedHoursByDay(rows);
+    expect(byDay.get('|2026-08-01')?.breakMinutes).toBe(30);
+  });
+
+  it('keys different people on the same date separately, matching aggregateCreditedHours', () => {
+    const rows: DailyHoursRow[] = [
+      { work_date: '2026-08-01', user_id: 'worker-a', hours: 8, hourly_rate: 10 },
+      { work_date: '2026-08-01', user_id: 'worker-b', hours: 3, hourly_rate: 20 },
+    ];
+    const byDay = creditedHoursByDay(rows);
+    expect(byDay.get('worker-a|2026-08-01')?.breakMinutes).toBe(30);
+    expect(byDay.get('worker-b|2026-08-01')?.breakMinutes).toBe(0);
+  });
+
+  it('has no entry for a date that was never in the input', () => {
+    const rows: DailyHoursRow[] = [{ work_date: '2026-08-01', hours: 4 }];
+    const byDay = creditedHoursByDay(rows);
+    expect(byDay.has('|2026-08-02')).toBe(false);
   });
 });

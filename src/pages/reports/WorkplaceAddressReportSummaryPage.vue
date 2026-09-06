@@ -1,23 +1,27 @@
 <template>
   <q-page class="column no-wrap">
     <TableFiltersBar>
-      <PeriodFilter v-model="dateRange" />
+      <PeriodFilter v-model="dateRange" months-view />
 
-      <TableFilter v-slot="{ inputId }" :label="t('reports.filters.site')" width="300px">
+      <TableFilter
+        v-slot="{ inputId }"
+        :label="t('reports.filters.workplaceAddress')"
+        width="300px"
+      >
         <q-select
           :for="inputId"
-          v-model="selectedSiteId"
-          :options="siteOptions"
-          :placeholder="t('reports.monthly.allSites')"
+          v-model="selectedWorkplaceAddressId"
+          :options="workplaceAddressOptions"
+          :placeholder="t('reports.monthly.allWorkplaceAddresses')"
           outlined
           clearable
           emit-value
           map-options
           popup-content-class="brw-select__menu"
-          class="brw-select brw-input--dense brw-site-select"
+          class="brw-select brw-input--dense brw-workplace-address-select"
         >
           <template #append>
-            <div class="brw-site-select__divider" />
+            <div class="brw-workplace-address-select__divider" />
           </template>
           <template #option="scope">
             <q-item v-bind="scope.itemProps">
@@ -36,6 +40,10 @@
             <div class="brw-summary">
               <div class="brw-summary__label">{{ t('reports.summary.totalHours') }}</div>
               <div class="brw-summary__value">{{ totalHours }}</div>
+            </div>
+            <div class="brw-summary">
+              <div class="brw-summary__label">{{ t('reports.summary.totalEarned') }}</div>
+              <div class="brw-summary__value">{{ formatMoney(totalEarned) }}</div>
             </div>
             <div class="brw-summary">
               <div class="brw-summary__label">{{ t('reports.summary.totalPeople') }}</div>
@@ -115,7 +123,6 @@ import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
 import PeriodFilter from '@/components/PeriodFilter.vue';
 import { exportTableToXlsx } from '@/utils/export-xlsx';
-import { formatDisplayDate } from '@/utils/format-date';
 import { currentMonthRange } from '@/utils/date-range';
 import { formatHoursLabel } from '@/utils/format-hours';
 import { aggregateCreditedHours } from '@/utils/work-hours';
@@ -125,21 +132,21 @@ interface EarningsRow {
   hours: number;
   earned: number;
   hourly_rate: number | null;
-  site_id: string;
-  site_name: string;
+  workplace_address_id: string;
+  workplace_address_name: string;
   user_id: string;
 }
 
-interface SiteDayRow {
+interface WorkplaceAddressMonthRow {
   key: string;
-  site_name: string;
-  work_date: string;
+  workplace_address_name: string;
+  month: string;
   hours: number;
   earned: number;
   people: number;
 }
 
-interface SiteOption {
+interface WorkplaceAddressOption {
   label: string;
   value: string;
 }
@@ -150,18 +157,29 @@ const { t } = useI18n();
 const dateRange = ref<{ from: string; to: string }>(currentMonthRange());
 
 const rawRows = ref<EarningsRow[]>([]);
-const siteOptions = ref<SiteOption[]>([]);
-const selectedSiteId = ref<string | null>(null);
+const workplaceAddressOptions = ref<WorkplaceAddressOption[]>([]);
+const selectedWorkplaceAddressId = ref<string | null>(null);
 const loading = ref(false);
 
-const rows = computed<SiteDayRow[]>(() => {
+const rows = computed<WorkplaceAddressMonthRow[]>(() => {
   const grouped = new Map<
     string,
-    { site_name: string; work_date: string; hours: number; earned: number; users: Set<string> }
+    {
+      workplace_address_name: string;
+      month: string;
+      hours: number;
+      earned: number;
+      users: Set<string>;
+    }
   >();
   for (const r of rawRows.value) {
-    if (selectedSiteId.value && r.site_id !== selectedSiteId.value) continue;
-    const key = `${r.site_id}_${r.work_date}`;
+    if (
+      selectedWorkplaceAddressId.value &&
+      r.workplace_address_id !== selectedWorkplaceAddressId.value
+    )
+      continue;
+    const month = r.work_date.slice(0, 7); // YYYY-MM
+    const key = `${r.workplace_address_id}_${month}`;
     const existing = grouped.get(key);
     if (existing) {
       existing.hours += Number(r.hours);
@@ -169,8 +187,8 @@ const rows = computed<SiteDayRow[]>(() => {
       existing.users.add(r.user_id);
     } else {
       grouped.set(key, {
-        site_name: r.site_name,
-        work_date: r.work_date,
+        workplace_address_name: r.workplace_address_name,
+        month,
         hours: Number(r.hours),
         earned: Number(r.earned),
         users: new Set([r.user_id]),
@@ -180,14 +198,16 @@ const rows = computed<SiteDayRow[]>(() => {
   return Array.from(grouped.entries())
     .map(([key, g]) => ({
       key,
-      site_name: g.site_name,
-      work_date: g.work_date,
+      workplace_address_name: g.workplace_address_name,
+      month: g.month,
       hours: g.hours,
       earned: g.earned,
       people: g.users.size,
     }))
     .sort(
-      (a, b) => a.site_name.localeCompare(b.site_name) || a.work_date.localeCompare(b.work_date),
+      (a, b) =>
+        a.workplace_address_name.localeCompare(b.workplace_address_name) ||
+        a.month.localeCompare(b.month),
     );
 });
 
@@ -198,34 +218,49 @@ const rows = computed<SiteDayRow[]>(() => {
 // it's meant to be the one figure payroll actually uses.
 const creditedTotals = computed(() => {
   const filtered = rawRows.value.filter(
-    (r) => !selectedSiteId.value || r.site_id === selectedSiteId.value,
+    (r) =>
+      !selectedWorkplaceAddressId.value ||
+      r.workplace_address_id === selectedWorkplaceAddressId.value,
   );
   return aggregateCreditedHours(filtered);
 });
 const totalHours = computed(() => formatHoursLabel(creditedTotals.value.creditedHours, t));
-
+const totalEarned = computed(() => creditedTotals.value.creditedEarned);
 const totalPeople = computed(() => {
   const ids = new Set<string>();
   for (const r of rawRows.value) {
-    if (selectedSiteId.value && r.site_id !== selectedSiteId.value) continue;
+    if (
+      selectedWorkplaceAddressId.value &&
+      r.workplace_address_id !== selectedWorkplaceAddressId.value
+    )
+      continue;
     ids.add(r.user_id);
   }
   return ids.size;
 });
 
-const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
+function formatMonthYear(yearMonth: string): string {
+  const [y, m] = yearMonth.split('-');
+  return `${m}/${y}`;
+}
+
+function formatMoney(value: number) {
+  return `${value.toFixed(2)} ${t('common.currency')}`;
+}
+
+const columns = computed<QTableColumn<WorkplaceAddressMonthRow>[]>(() => [
   {
-    name: 'site_name',
-    label: t('reports.monthly.columnSite'),
-    field: 'site_name',
+    name: 'workplace_address_name',
+    label: t('reports.monthly.columnWorkplaceAddress'),
+    field: 'workplace_address_name',
     align: 'left',
     sortable: true,
   },
   {
-    name: 'work_date',
+    name: 'month',
     label: t('reports.monthly.columnDate'),
-    field: 'work_date',
-    format: (val: string) => formatDisplayDate(val),
+    field: 'month',
+    format: (val: string) => formatMonthYear(val),
     align: 'left',
     sortable: true,
   },
@@ -254,13 +289,9 @@ const columns = computed<QTableColumn<SiteDayRow>[]>(() => [
   },
 ]);
 
-function formatMoney(value: number) {
-  return `${value.toFixed(2)} ${t('common.currency')}`;
-}
-
 async function onExport() {
   const ok = await exportTableToXlsx(
-    `sites-report-${dateRange.value.from.slice(0, 7)}.xlsx`,
+    `workplace-address-report-summary-${dateRange.value.from.slice(0, 7)}.xlsx`,
     columns.value,
     rows.value,
   );
@@ -270,13 +301,13 @@ async function onExport() {
 }
 
 function resetFilters() {
-  selectedSiteId.value = null;
+  selectedWorkplaceAddressId.value = null;
   dateRange.value = currentMonthRange();
 }
 
-async function loadSites() {
+async function loadWorkplaceAddresses() {
   const { data, error } = await supabase
-    .from('sites')
+    .from('workplace_address')
     .select('id, name')
     .eq('is_active', true)
     .order('name');
@@ -284,14 +315,16 @@ async function loadSites() {
     $q.notify({ type: 'negative', message: error.message });
     return;
   }
-  siteOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
+  workplaceAddressOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
 }
 
 async function loadRows() {
   loading.value = true;
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('work_date, hours, earned, hourly_rate, site_id, site_name, user_id')
+    .select(
+      'work_date, hours, earned, hourly_rate, workplace_address_id, workplace_address_name, user_id',
+    )
     .gte('work_date', dateRange.value.from)
     .lte('work_date', dateRange.value.to);
   loading.value = false;
@@ -304,44 +337,41 @@ async function loadRows() {
 
 watch(dateRange, () => void loadRows());
 
-void loadSites();
+void loadWorkplaceAddresses();
 void loadRows();
 </script>
 
 <style lang="scss" scoped>
-.brw-site-select__divider {
+.brw-workplace-address-select__divider {
   width: 1px;
   height: 22px;
   background: $separator-color;
 }
 
-.brw-site-select :deep(.q-select__dropdown-icon) {
+.brw-workplace-address-select :deep(.q-select__dropdown-icon) {
   color: $text-muted;
 }
 
-.brw-site-select :deep(.q-field__focusable-action) {
+.brw-workplace-address-select :deep(.q-field__focusable-action) {
   color: $text-hint;
   font-size: 18px;
 }
 
-.brw-site-select :deep(.q-field__native) {
+.brw-workplace-address-select :deep(.q-field__native) {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
+// Same two-row grid as a filter column: a 22px label row over a 44px
+// control row — see WorkplaceAddressReportPage.vue for the full rationale, shared
+// here since this panel has two summary values instead of one.
 .brw-summary-group {
   display: flex;
   align-items: flex-end;
   gap: 20px;
 }
 
-// Same two-row grid as a filter column: a 22px label row
-// (line-height:16px + margin-bottom:6px, matching .brw-filter__label) over
-// a 44px control row. The value sits in its own height:44px flex box
-// instead of leaning on line-height to center it — a padding-bottom nudge
-// would drift under a different font/zoom and break the getBoundingClientRect
-// alignment check.
 .brw-summary {
   display: flex;
   flex-direction: column;

@@ -13,7 +13,9 @@
                 <span class="brw-shift-elapsed">{{ elapsedLabel }}</span>
               </div>
 
-              <div class="brw-shift-site">{{ activeShift.site_name }}</div>
+              <div class="brw-shift-workplace-address">
+                {{ activeShift.workplace_address_name }}
+              </div>
               <div class="brw-shift-since">
                 <q-icon name="schedule" size="16px" />
                 {{ t('home.shiftStartedAt', { time: formatTime(activeShift.start_time) }) }}
@@ -38,12 +40,14 @@
               </div>
 
               <div class="brw-field">
-                <label for="home-site">{{ t('reports.monthly.siteLabel') }}</label>
+                <label for="home-workplace-address">{{
+                  t('reports.monthly.workplaceAddressLabel')
+                }}</label>
                 <q-select
-                  for="home-site"
-                  v-model="selectedSiteId"
-                  :options="siteOptions"
-                  :placeholder="t('reports.monthly.sitePlaceholder')"
+                  for="home-workplace-address"
+                  v-model="selectedWorkplaceAddressId"
+                  :options="workplaceAddressOptions"
+                  :placeholder="t('reports.monthly.workplaceAddressPlaceholder')"
                   outlined
                   emit-value
                   map-options
@@ -60,11 +64,13 @@
               icon="play_arrow"
               :label="t('home.startShift')"
               class="brw-btn-primary brw-shift-btn"
-              :disable="!selectedSiteId"
+              :disable="!selectedWorkplaceAddressId"
               :loading="shiftBusy"
               @click="startShift"
             />
-            <div v-if="!selectedSiteId" class="brw-shift-hint">{{ t('home.pickSiteFirst') }}</div>
+            <div v-if="!selectedWorkplaceAddressId" class="brw-shift-hint">
+              {{ t('home.pickWorkplaceAddressFirst') }}
+            </div>
           </template>
         </div>
 
@@ -123,7 +129,7 @@
                 <div class="brw-entry-weekday">{{ entry.weekdayLabel }}</div>
               </q-item-section>
               <q-item-section>
-                <q-item-label class="ellipsis">{{ entry.site_name }}</q-item-label>
+                <q-item-label class="ellipsis">{{ entry.workplace_address_name }}</q-item-label>
                 <q-item-label caption>{{ entry.timeRange }}</q-item-label>
               </q-item-section>
               <q-item-section side top>
@@ -188,17 +194,17 @@ interface EarningsRow {
   end_time: string | null;
   hours: number | null;
   earned: number | null;
-  site_name: string;
+  workplace_address_name: string;
 }
 
-interface SiteOption {
+interface WorkplaceAddressOption {
   label: string;
   value: string;
 }
 
 interface ActiveShift {
   id: string;
-  site_name: string;
+  workplace_address_name: string;
   start_time: string;
 }
 
@@ -326,7 +332,7 @@ const recentEntries = ref<
     id: string;
     dayNum: number;
     weekdayLabel: string;
-    site_name: string;
+    workplace_address_name: string;
     timeRange: string;
     hours: number;
     earned: number;
@@ -341,7 +347,7 @@ async function loadRecentEntries() {
   if (!auth.user) return;
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('id, work_date, start_time, end_time, hours, earned, site_name')
+    .select('id, work_date, start_time, end_time, hours, earned, workplace_address_name')
     .eq('user_id', auth.user.id)
     .order('work_date', { ascending: false })
     .limit(6);
@@ -352,7 +358,7 @@ async function loadRecentEntries() {
     id: r.id,
     dayNum: parseLocalDate(r.work_date).getDate(),
     weekdayLabel: names[getLocalWeekday(r.work_date)] ?? '',
-    site_name: r.site_name,
+    workplace_address_name: r.workplace_address_name,
     timeRange: r.end_time
       ? `${formatTime(r.start_time)}–${formatTime(r.end_time)}`
       : `${formatTime(r.start_time)}–${t('common.inProgress')}`,
@@ -367,8 +373,8 @@ async function onSaved() {
 
 // ---- Clock-in / clock-out ----
 
-const siteOptions = ref<SiteOption[]>([]);
-const selectedSiteId = ref<string | null>(null);
+const workplaceAddressOptions = ref<WorkplaceAddressOption[]>([]);
+const selectedWorkplaceAddressId = ref<string | null>(null);
 const activeShift = ref<ActiveShift | null>(null);
 const shiftBusy = ref(false);
 
@@ -391,26 +397,30 @@ const elapsedLabel = computed(() => {
   return `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`;
 });
 
-async function loadSites() {
+async function loadWorkplaceAddresses() {
   const { data, error } = await supabase
-    .from('sites')
+    .from('workplace_address')
     .select('id, name')
     .eq('is_active', true)
     .order('name');
   if (error) return;
-  siteOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
+  workplaceAddressOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
 }
 
 async function loadActiveShift() {
   if (!auth.user) return;
   const { data } = await supabase
     .from('work_report_earnings')
-    .select('id, site_name, start_time')
+    .select('id, workplace_address_name, start_time')
     .eq('user_id', auth.user.id)
     .is('end_time', null)
     .maybeSingle();
   activeShift.value = data
-    ? { id: data.id, site_name: data.site_name, start_time: data.start_time }
+    ? {
+        id: data.id,
+        workplace_address_name: data.workplace_address_name,
+        start_time: data.start_time,
+      }
     : null;
 }
 
@@ -419,13 +429,13 @@ function nowTime() {
 }
 
 async function startShift() {
-  if (!auth.user || !selectedSiteId.value) return;
+  if (!auth.user || !selectedWorkplaceAddressId.value) return;
   shiftBusy.value = true;
   try {
     const geo = await getCurrentCoords();
     const { error } = await supabase.from('work_reports').insert({
       user_id: auth.user.id,
-      site_id: selectedSiteId.value,
+      workplace_address_id: selectedWorkplaceAddressId.value,
       work_date: today,
       start_time: nowTime(),
       start_lat: geo?.lat ?? null,
@@ -433,7 +443,7 @@ async function startShift() {
     });
     if (error) throw error;
     $q.notify({ type: 'positive', message: t('home.shiftStarted') });
-    selectedSiteId.value = null;
+    selectedWorkplaceAddressId.value = null;
     await Promise.all([loadActiveShift(), loadRecentEntries(), loadLastEntry()]);
   } catch (err) {
     $q.notify({
@@ -470,7 +480,7 @@ void loadMonthSummary();
 void loadCurrentRate();
 void loadLastEntry();
 void loadRecentEntries();
-void loadSites();
+void loadWorkplaceAddresses();
 void loadActiveShift();
 </script>
 
@@ -566,7 +576,7 @@ void loadActiveShift();
 
 // Обʼєкт — головна відповідь на «де я зараз працюю», тому найбільший
 // текст блоку, а не хвостик після кнопки.
-.brw-shift-site {
+.brw-shift-workplace-address {
   font-size: 22px;
   font-weight: 600;
   line-height: 1.2;

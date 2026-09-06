@@ -29,7 +29,7 @@
           unelevated
           no-caps
           icon="add"
-          :label="t('admin.sites.add')"
+          :label="t('admin.workplaceAddress.add')"
           class="brw-btn-primary"
           @click="addDialogOpen = true"
         />
@@ -39,13 +39,13 @@
     <div class="brw-page-body q-pa-md">
       <q-table
         class="col brw-sticky-table"
-        :rows="filteredSites"
+        :rows="filteredWorkplaceAddresses"
         :columns="columns"
         row-key="id"
         flat
         bordered
         :loading="loading"
-        :no-data-label="t('admin.sites.noSites')"
+        :no-data-label="t('admin.workplaceAddress.noWorkplaceAddresses')"
       >
         <template #body-cell-address="props">
           <q-td :props="props">{{ props.value }}</q-td>
@@ -67,36 +67,36 @@
 
     <q-dialog v-model="addDialogOpen">
       <q-card style="min-width: 320px">
-        <q-card-section class="text-h6">{{ t('admin.sites.add') }}</q-card-section>
+        <q-card-section class="text-h6">{{ t('admin.workplaceAddress.add') }}</q-card-section>
         <q-form @submit.prevent="onAdd">
           <q-card-section class="column q-gutter-md">
             <q-input
-              v-model="newSiteName"
-              :label="t('admin.sites.nameLabel')"
+              v-model="newWorkplaceAddressName"
+              :label="t('admin.workplaceAddress.nameLabel')"
               outlined
               class="brw-input"
-              :rules="[(val) => !!val || t('validation.requiredSiteName')]"
+              :rules="[(val) => !!val || t('validation.requiredWorkplaceAddressName')]"
               lazy-rules
             />
             <q-input
-              v-model="newSiteCity"
-              :label="t('admin.sites.cityLabel')"
+              v-model="newWorkplaceAddressCity"
+              :label="t('admin.workplaceAddress.cityLabel')"
               outlined
               class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredCity')]"
               lazy-rules
             />
             <q-input
-              v-model="newSiteStreet"
-              :label="t('admin.sites.streetLabel')"
+              v-model="newWorkplaceAddressStreet"
+              :label="t('admin.workplaceAddress.streetLabel')"
               outlined
               class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredStreet')]"
               lazy-rules
             />
             <q-input
-              v-model="newSiteHouseNumber"
-              :label="t('admin.sites.houseNumberLabel')"
+              v-model="newWorkplaceAddressHouseNumber"
+              :label="t('admin.workplaceAddress.houseNumberLabel')"
               outlined
               class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredHouseNumber')]"
@@ -120,12 +120,20 @@
 
     <q-dialog v-model="editDialogOpen">
       <q-card style="min-width: 320px">
-        <q-card-section class="text-h6">{{ editingName }}</q-card-section>
-        <q-form @submit.prevent="onSaveEdit">
+        <q-card-section class="text-h6">{{ t('common.edit') }}</q-card-section>
+        <q-form @submit.prevent="confirmSaveEdit">
           <q-card-section class="column q-gutter-md">
             <q-input
+              v-model="editForm.name"
+              :label="t('admin.workplaceAddress.nameLabel')"
+              outlined
+              class="brw-input"
+              :rules="[(val) => !!val || t('validation.requiredWorkplaceAddressName')]"
+              lazy-rules
+            />
+            <q-input
               v-model="editForm.city"
-              :label="t('admin.sites.cityLabel')"
+              :label="t('admin.workplaceAddress.cityLabel')"
               outlined
               class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredCity')]"
@@ -133,7 +141,7 @@
             />
             <q-input
               v-model="editForm.street"
-              :label="t('admin.sites.streetLabel')"
+              :label="t('admin.workplaceAddress.streetLabel')"
               outlined
               class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredStreet')]"
@@ -141,19 +149,21 @@
             />
             <q-input
               v-model="editForm.houseNumber"
-              :label="t('admin.sites.houseNumberLabel')"
+              :label="t('admin.workplaceAddress.houseNumberLabel')"
               outlined
               class="brw-input"
               :rules="[(val) => !!val || t('validation.requiredHouseNumber')]"
               lazy-rules
             />
 
-            <div class="text-caption text-grey-7">{{ t('admin.sites.coordsHint') }}</div>
+            <div class="text-caption text-grey-7">{{ t('admin.workplaceAddress.coordsHint') }}</div>
 
             <div v-if="editForm.lat !== null && editForm.lng !== null" class="text-body1">
               {{ editForm.lat.toFixed(6) }}, {{ editForm.lng.toFixed(6) }}
             </div>
-            <div v-else class="text-body1 text-grey-6">{{ t('admin.sites.coordsNotSet') }}</div>
+            <div v-else class="text-body1 text-grey-6">
+              {{ t('admin.workplaceAddress.coordsNotSet') }}
+            </div>
 
             <div class="row q-gutter-sm">
               <q-btn
@@ -161,7 +171,7 @@
                 no-caps
                 icon="my_location"
                 class="brw-btn-primary"
-                :label="t('admin.sites.setCoords')"
+                :label="t('admin.workplaceAddress.setCoords')"
                 :loading="locating"
                 @click="captureCoords"
               />
@@ -169,7 +179,7 @@
                 v-if="editForm.lat !== null"
                 flat
                 no-caps
-                :label="t('admin.sites.clearCoords')"
+                :label="t('admin.workplaceAddress.clearCoords')"
                 @click="clearCoords"
               />
             </div>
@@ -202,7 +212,7 @@ import { exportTableToXlsx } from '@/utils/export-xlsx';
 import { getCurrentCoords } from '@/utils/geolocation';
 import { toLocalIsoDate } from '@/utils/format-date';
 
-interface Site {
+interface WorkplaceAddress {
   id: string;
   name: string;
   is_active: boolean;
@@ -216,12 +226,12 @@ interface Site {
 const $q = useQuasar();
 const { t } = useI18n();
 
-const sites = ref<Site[]>([]);
+const workplaceAddresses = ref<WorkplaceAddress[]>([]);
 const search = ref('');
-const newSiteName = ref('');
-const newSiteCity = ref('');
-const newSiteStreet = ref('');
-const newSiteHouseNumber = ref('');
+const newWorkplaceAddressName = ref('');
+const newWorkplaceAddressCity = ref('');
+const newWorkplaceAddressStreet = ref('');
+const newWorkplaceAddressHouseNumber = ref('');
 const loading = ref(false);
 const adding = ref(false);
 const saving = ref(false);
@@ -229,21 +239,21 @@ const locating = ref(false);
 const addDialogOpen = ref(false);
 const editDialogOpen = ref(false);
 const editingId = ref<string | null>(null);
-const editingName = ref('');
 const editForm = ref<{
+  name: string;
   lat: number | null;
   lng: number | null;
   city: string;
   street: string;
   houseNumber: string;
-}>({ lat: null, lng: null, city: '', street: '', houseNumber: '' });
+}>({ name: '', lat: null, lng: null, city: '', street: '', houseNumber: '' });
 
 async function captureCoords() {
   locating.value = true;
   try {
     const coords = await getCurrentCoords();
     if (!coords) {
-      $q.notify({ type: 'negative', message: t('admin.sites.locationErrorFallback') });
+      $q.notify({ type: 'negative', message: t('admin.workplaceAddress.locationErrorFallback') });
       return;
     }
     editForm.value = { ...editForm.value, ...coords };
@@ -256,27 +266,40 @@ function clearCoords() {
   editForm.value = { ...editForm.value, lat: null, lng: null };
 }
 
-function formatCoords(site: Site) {
-  if (site.lat === null || site.lng === null) return '—';
-  return `${site.lat.toFixed(6)}, ${site.lng.toFixed(6)}`;
+function formatCoords(workplaceAddress: WorkplaceAddress) {
+  if (workplaceAddress.lat === null || workplaceAddress.lng === null) return '—';
+  return `${workplaceAddress.lat.toFixed(6)}, ${workplaceAddress.lng.toFixed(6)}`;
 }
 
-function formatAddress(site: Site) {
-  const parts = [site.city, site.street, site.house_number].filter(Boolean);
+function formatAddress(workplaceAddress: WorkplaceAddress) {
+  const parts = [
+    workplaceAddress.city,
+    workplaceAddress.street,
+    workplaceAddress.house_number,
+  ].filter(Boolean);
   return parts.length ? parts.join(', ') : '—';
 }
 
-function openEdit(site: Site) {
-  editingId.value = site.id;
-  editingName.value = site.name;
+function openEdit(workplaceAddress: WorkplaceAddress) {
+  editingId.value = workplaceAddress.id;
   editForm.value = {
-    lat: site.lat,
-    lng: site.lng,
-    city: site.city ?? '',
-    street: site.street ?? '',
-    houseNumber: site.house_number ?? '',
+    name: workplaceAddress.name,
+    lat: workplaceAddress.lat,
+    lng: workplaceAddress.lng,
+    city: workplaceAddress.city ?? '',
+    street: workplaceAddress.street ?? '',
+    houseNumber: workplaceAddress.house_number ?? '',
   };
   editDialogOpen.value = true;
+}
+
+function confirmSaveEdit() {
+  $q.dialog({
+    title: t('common.saveConfirmTitle'),
+    message: t('common.saveConfirmMessage'),
+    cancel: { label: t('common.cancel'), flat: true, noCaps: true },
+    ok: { label: t('common.save'), unelevated: true, noCaps: true, class: 'brw-btn-primary' },
+  }).onOk(() => void onSaveEdit());
 }
 
 async function onSaveEdit() {
@@ -284,8 +307,9 @@ async function onSaveEdit() {
   saving.value = true;
   try {
     const { error } = await supabase
-      .from('sites')
+      .from('workplace_address')
       .update({
+        name: editForm.value.name,
         lat: editForm.value.lat,
         lng: editForm.value.lng,
         city: editForm.value.city,
@@ -295,66 +319,71 @@ async function onSaveEdit() {
       .eq('id', editingId.value);
     if (error) throw error;
     editDialogOpen.value = false;
-    await loadSites();
+    await loadWorkplaceAddresses();
   } catch (err) {
     $q.notify({
       type: 'negative',
-      message: err instanceof Error ? err.message : t('admin.sites.errorFallback'),
+      message: err instanceof Error ? err.message : t('admin.workplaceAddress.errorFallback'),
     });
   } finally {
     saving.value = false;
   }
 }
 
-const filteredSites = computed(() => {
+const filteredWorkplaceAddresses = computed(() => {
   const query = search.value.trim().toLowerCase();
-  if (!query) return sites.value;
-  return sites.value.filter((s) => s.name.toLowerCase().includes(query));
+  if (!query) return workplaceAddresses.value;
+  return workplaceAddresses.value.filter((s) => s.name.toLowerCase().includes(query));
 });
 
-const columns = computed<QTableColumn<Site>[]>(() => [
+const columns = computed<QTableColumn<WorkplaceAddress>[]>(() => [
   {
     name: 'name',
-    label: t('admin.sites.columnName'),
+    label: t('admin.workplaceAddress.columnName'),
     field: 'name',
     align: 'left',
     sortable: true,
   },
   {
     name: 'address',
-    label: t('admin.sites.columnAddress'),
+    label: t('admin.workplaceAddress.columnAddress'),
     field: 'city',
     format: (_val: string | null, row) => formatAddress(row),
     align: 'left',
   },
-  { name: 'is_active', label: t('admin.sites.columnActive'), field: 'is_active', align: 'left' },
+  {
+    name: 'is_active',
+    label: t('admin.workplaceAddress.columnActive'),
+    field: 'is_active',
+    align: 'left',
+  },
   {
     name: 'coords',
-    label: t('admin.sites.columnCoords'),
+    label: t('admin.workplaceAddress.columnCoords'),
     field: 'lat',
     format: (_val: number | null, row) => formatCoords(row),
     align: 'left',
   },
-  { name: 'actions', label: t('admin.sites.columnActions'), field: 'id', align: 'left' },
+  { name: 'actions', label: t('admin.workplaceAddress.columnActions'), field: 'id', align: 'left' },
 ]);
 
 const exportColumns = computed(() => columns.value.filter((col) => col.name !== 'actions'));
 
 async function onExport() {
   const ok = await exportTableToXlsx(
-    `sites-${toLocalIsoDate(new Date()).slice(0, 7)}.xlsx`,
+    `workplace-addresses-${toLocalIsoDate(new Date()).slice(0, 7)}.xlsx`,
     exportColumns.value,
-    filteredSites.value,
+    filteredWorkplaceAddresses.value,
   );
   if (!ok) {
     $q.notify({ type: 'negative', message: t('common.exportError') });
   }
 }
 
-async function loadSites() {
+async function loadWorkplaceAddresses() {
   loading.value = true;
   const { data, error } = await supabase
-    .from('sites')
+    .from('workplace_address')
     .select('id, name, is_active, lat, lng, city, street, house_number')
     .order('name');
   loading.value = false;
@@ -362,48 +391,53 @@ async function loadSites() {
     $q.notify({ type: 'negative', message: error.message });
     return;
   }
-  sites.value = data ?? [];
+  workplaceAddresses.value = data ?? [];
 }
 
 async function onAdd() {
-  if (!newSiteName.value || !newSiteCity.value || !newSiteStreet.value || !newSiteHouseNumber.value)
+  if (
+    !newWorkplaceAddressName.value ||
+    !newWorkplaceAddressCity.value ||
+    !newWorkplaceAddressStreet.value ||
+    !newWorkplaceAddressHouseNumber.value
+  )
     return;
   adding.value = true;
   try {
-    const { error } = await supabase.from('sites').insert({
-      name: newSiteName.value,
-      city: newSiteCity.value,
-      street: newSiteStreet.value,
-      house_number: newSiteHouseNumber.value,
+    const { error } = await supabase.from('workplace_address').insert({
+      name: newWorkplaceAddressName.value,
+      city: newWorkplaceAddressCity.value,
+      street: newWorkplaceAddressStreet.value,
+      house_number: newWorkplaceAddressHouseNumber.value,
     });
     if (error) throw error;
-    newSiteName.value = '';
-    newSiteCity.value = '';
-    newSiteStreet.value = '';
-    newSiteHouseNumber.value = '';
+    newWorkplaceAddressName.value = '';
+    newWorkplaceAddressCity.value = '';
+    newWorkplaceAddressStreet.value = '';
+    newWorkplaceAddressHouseNumber.value = '';
     addDialogOpen.value = false;
-    await loadSites();
+    await loadWorkplaceAddresses();
   } catch (err) {
     $q.notify({
       type: 'negative',
-      message: err instanceof Error ? err.message : t('admin.sites.errorFallback'),
+      message: err instanceof Error ? err.message : t('admin.workplaceAddress.errorFallback'),
     });
   } finally {
     adding.value = false;
   }
 }
 
-async function toggleActive(site: Site) {
+async function toggleActive(workplaceAddress: WorkplaceAddress) {
   const { error } = await supabase
-    .from('sites')
-    .update({ is_active: !site.is_active })
-    .eq('id', site.id);
+    .from('workplace_address')
+    .update({ is_active: !workplaceAddress.is_active })
+    .eq('id', workplaceAddress.id);
   if (error) {
     $q.notify({ type: 'negative', message: error.message });
     return;
   }
-  await loadSites();
+  await loadWorkplaceAddresses();
 }
 
-void loadSites();
+void loadWorkplaceAddresses();
 </script>

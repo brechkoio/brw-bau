@@ -69,14 +69,14 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAdmin: true, title: 'meta.title.generalReport' },
       },
       {
-        path: 'reports/sites',
-        component: () => import('@/pages/reports/SitesReportPage.vue'),
-        meta: { requiresAdmin: true, title: 'meta.title.sitesReport' },
+        path: 'reports/workplace-addresses',
+        component: () => import('@/pages/reports/WorkplaceAddressReportPage.vue'),
+        meta: { requiresAdmin: true, title: 'meta.title.workplaceAddressReport' },
       },
       {
-        path: 'reports/sites-summary',
-        component: () => import('@/pages/reports/SitesReportSummaryPage.vue'),
-        meta: { requiresAdmin: true, title: 'meta.title.sitesSummaryReport' },
+        path: 'reports/workplace-addresses-summary',
+        component: () => import('@/pages/reports/WorkplaceAddressReportSummaryPage.vue'),
+        meta: { requiresAdmin: true, title: 'meta.title.workplaceAddressSummaryReport' },
       },
       {
         path: 'admin/rates',
@@ -84,9 +84,9 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAdmin: true, title: 'meta.title.employeeRates' },
       },
       {
-        path: 'admin/sites',
-        component: () => import('@/pages/admin/SitesPage.vue'),
-        meta: { requiresAdmin: true, title: 'meta.title.sites' },
+        path: 'admin/workplace-addresses',
+        component: () => import('@/pages/admin/WorkplaceAddressPage.vue'),
+        meta: { requiresAdmin: true, title: 'meta.title.workplaceAddress' },
       },
       {
         path: 'admin/users',

@@ -19,8 +19,8 @@ update public.profiles set first_name = 'Test', last_name = 'WorkerB'
 update public.profiles set first_name = 'Test', last_name = 'Admin', role = 'admin'
   where id = '11111111-1111-1111-1111-111111111199';
 
-insert into public.sites (id, name) values
-  ('33333333-3333-3333-3333-333333333333', 'Test Site');
+insert into public.workplace_address (id, name) values
+  ('33333333-3333-3333-3333-333333333333', 'Test Workplace');
 
 -- Worker A's rate changes mid-month.
 insert into public.employee_rates (user_id, hourly_rate, effective_from) values
@@ -40,15 +40,15 @@ insert into public.employee_rates (user_id, hourly_rate, effective_from) values
 -- one-open-shift-per-user index forbids two null end_times at once.
 select set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111199', true);
 
-insert into public.work_reports (id, user_id, site_id, work_date, start_time, end_time) values
+insert into public.work_reports (id, user_id, workplace_address_id, work_date, start_time, end_time) values
   ('a1000000-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333333', current_date, '08:00', null);
 update public.work_reports set work_date = '2026-08-10', start_time = '08:00', end_time = '16:00' where id = 'a1000000-0000-0000-0000-000000000001';
 
-insert into public.work_reports (id, user_id, site_id, work_date, start_time, end_time) values
+insert into public.work_reports (id, user_id, workplace_address_id, work_date, start_time, end_time) values
   ('a1000000-0000-0000-0000-000000000002', '11111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333333', current_date, '08:00', null);
 update public.work_reports set work_date = '2026-08-20', start_time = '08:00', end_time = '16:00' where id = 'a1000000-0000-0000-0000-000000000002';
 
-insert into public.work_reports (id, user_id, site_id, work_date, start_time, end_time) values
+insert into public.work_reports (id, user_id, workplace_address_id, work_date, start_time, end_time) values
   ('a1000000-0000-0000-0000-000000000003', '22222222-2222-2222-2222-222222222222', '33333333-3333-3333-3333-333333333333', current_date, '08:00', null);
 update public.work_reports set work_date = '2026-08-10', start_time = '08:00', end_time = '16:00' where id = 'a1000000-0000-0000-0000-000000000003';
 

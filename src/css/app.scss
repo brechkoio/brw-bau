@@ -541,11 +541,7 @@ body {
   }
 }
 .brw-btn-google {
-  display: flex;
   width: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
   min-height: 48px;
   border: 1px solid $separator-color;
   border-radius: 12px;
@@ -553,6 +549,14 @@ body {
   color: $dark;
   font-size: 14px;
   font-weight: 500;
+
+  // The svg icon and label are children of Quasar's own .q-btn__content
+  // wrapper, not of .brw-btn-google directly — a `gap` set on the button
+  // itself has no effect since it only ever has that one wrapper as a
+  // direct child.
+  .q-btn__content {
+    gap: 10px;
+  }
 
   &:hover {
     background: $secondary;

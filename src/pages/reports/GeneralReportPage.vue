@@ -62,12 +62,14 @@
         <q-card-section class="text-h6">{{ t('common.edit') }}</q-card-section>
         <q-card-section class="column q-gutter-md">
           <div class="brw-field">
-            <label for="edit-general-site">{{ t('reports.monthly.siteLabel') }}</label>
+            <label for="edit-general-workplace-address">{{
+              t('reports.monthly.workplaceAddressLabel')
+            }}</label>
             <q-select
-              for="edit-general-site"
-              v-model="editForm.siteId"
-              :options="siteOptions"
-              :placeholder="t('reports.monthly.sitePlaceholder')"
+              for="edit-general-workplace-address"
+              v-model="editForm.workplaceAddressId"
+              :options="workplaceAddressOptions"
+              :placeholder="t('reports.monthly.workplaceAddressPlaceholder')"
               outlined
               emit-value
               map-options
@@ -203,7 +205,7 @@
             class="brw-btn-primary"
             :label="t('common.save')"
             :loading="saving"
-            @click="onSaveEdit"
+            @click="confirmSaveEdit"
           />
         </q-card-actions>
       </q-card>
@@ -232,13 +234,13 @@ interface ReportRow {
   end_time: string | null;
   hours: number;
   earned: number;
-  site_id: string;
-  site_name: string;
+  workplace_address_id: string;
+  workplace_address_name: string;
   user_id: string | null;
   worker_name: string;
 }
 
-interface SiteOption {
+interface WorkplaceAddressOption {
   label: string;
   value: string;
 }
@@ -248,7 +250,7 @@ const { t } = useI18n();
 
 const dateRange = ref(currentMonthRange());
 const rawRows = ref<ReportRow[]>([]);
-const siteOptions = ref<SiteOption[]>([]);
+const workplaceAddressOptions = ref<WorkplaceAddressOption[]>([]);
 const loading = ref(false);
 const saving = ref(false);
 
@@ -281,9 +283,9 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => [
     sortable: true,
   },
   {
-    name: 'site_name',
-    label: t('reports.monthly.columnSite'),
-    field: 'site_name',
+    name: 'workplace_address_name',
+    label: t('reports.monthly.columnWorkplaceAddress'),
+    field: 'workplace_address_name',
     align: 'left',
     sortable: true,
   },
@@ -327,14 +329,14 @@ async function onExport() {
   }
 }
 
-async function loadSites() {
+async function loadWorkplaceAddresses() {
   const { data, error } = await supabase
-    .from('sites')
+    .from('workplace_address')
     .select('id, name')
     .eq('is_active', true)
     .order('name');
   if (error) return;
-  siteOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
+  workplaceAddressOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
 }
 
 async function loadRows() {
@@ -342,7 +344,9 @@ async function loadRows() {
   const [{ data, error }, { data: profiles }] = await Promise.all([
     supabase
       .from('work_report_earnings')
-      .select('id, work_date, start_time, end_time, hours, earned, site_id, site_name, user_id')
+      .select(
+        'id, work_date, start_time, end_time, hours, earned, workplace_address_id, workplace_address_name, user_id',
+      )
       .gt('hours', THRESHOLD_HOURS)
       .gte('work_date', dateRange.value.from)
       .lte('work_date', dateRange.value.to),
@@ -368,7 +372,7 @@ const editWorkDateProxy = ref<QPopupProxy | null>(null);
 const editStartTimeProxy = ref<QPopupProxy | null>(null);
 const editEndTimeProxy = ref<QPopupProxy | null>(null);
 const editForm = ref({
-  siteId: null as string | null,
+  workplaceAddressId: null as string | null,
   workDate: '',
   startTime: '',
   endTime: '',
@@ -377,12 +381,21 @@ const editForm = ref({
 function openEdit(row: ReportRow) {
   editingId.value = row.id;
   editForm.value = {
-    siteId: row.site_id,
+    workplaceAddressId: row.workplace_address_id,
     workDate: row.work_date,
     startTime: formatTime(row.start_time),
     endTime: formatTime(row.end_time),
   };
   editDialogOpen.value = true;
+}
+
+function confirmSaveEdit() {
+  $q.dialog({
+    title: t('common.saveConfirmTitle'),
+    message: t('common.saveConfirmMessage'),
+    cancel: { label: t('common.cancel'), flat: true, noCaps: true },
+    ok: { label: t('common.save'), unelevated: true, noCaps: true, class: 'brw-btn-primary' },
+  }).onOk(() => void onSaveEdit());
 }
 
 async function onSaveEdit() {
@@ -392,7 +405,7 @@ async function onSaveEdit() {
     const { error } = await supabase
       .from('work_reports')
       .update({
-        site_id: editForm.value.siteId,
+        workplace_address_id: editForm.value.workplaceAddressId,
         work_date: editForm.value.workDate,
         start_time: editForm.value.startTime,
         end_time: editForm.value.endTime || null,
@@ -433,7 +446,7 @@ async function onDelete(row: ReportRow) {
 
 watch(dateRange, () => void loadRows());
 
-void loadSites();
+void loadWorkplaceAddresses();
 void loadRows();
 </script>
 

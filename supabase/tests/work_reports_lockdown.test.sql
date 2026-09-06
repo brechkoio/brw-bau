@@ -14,11 +14,11 @@ update public.profiles set first_name = 'Test', last_name = 'Worker'
 update public.profiles set first_name = 'Test', last_name = 'Admin', role = 'admin'
   where id = '99999999-9999-9999-9999-999999999999';
 
-insert into public.sites (id, name) values
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Test Site 3'),
-  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Test Site 4');
+insert into public.workplace_address (id, name) values
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Test Workplace 3'),
+  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Test Workplace 4');
 
-insert into public.work_reports (id, user_id, site_id, work_date, start_time, end_time) values
+insert into public.work_reports (id, user_id, workplace_address_id, work_date, start_time, end_time) values
   (
     'cccccccc-cccc-cccc-cccc-cccccccccccc',
     '88888888-8888-8888-8888-888888888888',
@@ -32,10 +32,10 @@ insert into public.work_reports (id, user_id, site_id, work_date, start_time, en
 -- is_admin() is false — this is the "non-admin" branch by default.
 
 select throws_ok(
-  $$update public.work_reports set site_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb' where id = 'cccccccc-cccc-cccc-cccc-cccccccccccc'$$,
+  $$update public.work_reports set workplace_address_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb' where id = 'cccccccc-cccc-cccc-cccc-cccccccccccc'$$,
   'P0001',
   'Only end_time can be changed when closing your own shift',
-  'a non-admin update cannot change site_id'
+  'a non-admin update cannot change workplace_address_id'
 );
 
 select lives_ok(
@@ -57,7 +57,7 @@ select isnt(
 select set_config('request.jwt.claim.sub', '99999999-9999-9999-9999-999999999999', true);
 
 select lives_ok(
-  $$update public.work_reports set site_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb' where id = 'cccccccc-cccc-cccc-cccc-cccccccccccc'$$,
+  $$update public.work_reports set workplace_address_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb' where id = 'cccccccc-cccc-cccc-cccc-cccccccccccc'$$,
   'an admin CAN change any column, bypassing the non-admin restriction'
 );
 

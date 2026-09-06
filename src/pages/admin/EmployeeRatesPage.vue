@@ -26,14 +26,11 @@
         />
 
         <q-btn
-          color="accent"
-          text-color="black"
-          icon="add"
-          :label="t('admin.rates.submit')"
           unelevated
           no-caps
-          dense
-          class="text-weight-bold"
+          icon="add"
+          :label="t('admin.rates.submit')"
+          class="brw-btn-primary"
           @click="addDialogOpen = true"
         />
       </template>
@@ -52,6 +49,12 @@
       >
         <template #body-cell-hourly_rate="props">
           <q-td :props="props">{{ props.value }}</q-td>
+        </template>
+
+        <template #body-cell-actions="props">
+          <q-td :props="props">
+            <q-btn flat icon="edit" class="brw-table-icon-btn" @click="openEdit(props.row)" />
+          </q-td>
         </template>
       </q-table>
     </div>
@@ -130,10 +133,69 @@
             <q-btn flat :label="t('common.cancel')" v-close-popup />
             <q-btn
               type="submit"
-              color="accent"
-              text-color="black"
               unelevated
               no-caps
+              class="brw-btn-primary"
+              :label="t('common.save')"
+              :loading="saving"
+            />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="editDialogOpen">
+      <q-card style="min-width: 320px">
+        <q-card-section class="text-h6">{{ editingEmployeeName }}</q-card-section>
+        <q-form @submit.prevent="confirmSaveEdit">
+          <q-card-section class="column q-gutter-md">
+            <q-input
+              v-model.number="editForm.hourlyRate"
+              type="number"
+              step="0.01"
+              min="0.01"
+              :label="t('admin.rates.rateLabel')"
+              outlined
+              class="brw-input"
+              :rules="[(val) => (val && val > 0) || t('validation.requiredAmount')]"
+              lazy-rules
+            />
+
+            <q-input
+              v-model="editForm.effectiveFrom"
+              :label="t('admin.rates.effectiveFromLabel')"
+              outlined
+              readonly
+              class="brw-input cursor-pointer"
+              :rules="[(val) => !!val || t('validation.requiredDate')]"
+              lazy-rules
+            >
+              <template #append>
+                <q-icon name="event" />
+              </template>
+              <q-popup-proxy
+                ref="editEffectiveFromProxy"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-date
+                  v-model="editForm.effectiveFrom"
+                  mask="YYYY-MM-DD"
+                  today-btn
+                  color="accent"
+                  text-color="dark"
+                  @update:model-value="() => editEffectiveFromProxy?.hide()"
+                />
+              </q-popup-proxy>
+            </q-input>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat :label="t('common.cancel')" v-close-popup />
+            <q-btn
+              type="submit"
+              unelevated
+              no-caps
+              class="brw-btn-primary"
               :label="t('common.save')"
               :loading="saving"
             />
@@ -183,6 +245,58 @@ const form = ref({
   effectiveFrom: toLocalIsoDate(new Date()),
 });
 
+const editDialogOpen = ref(false);
+const editingId = ref<string | null>(null);
+const editingEmployeeName = ref('');
+const editEffectiveFromProxy = ref<QPopupProxy | null>(null);
+const editForm = ref<{ hourlyRate: number | null; effectiveFrom: string }>({
+  hourlyRate: null,
+  effectiveFrom: toLocalIsoDate(new Date()),
+});
+
+function openEdit(rate: RateRow) {
+  editingId.value = rate.id;
+  editingEmployeeName.value = rate.employee_name;
+  editForm.value = {
+    hourlyRate: rate.hourly_rate,
+    effectiveFrom: rate.effective_from,
+  };
+  editDialogOpen.value = true;
+}
+
+function confirmSaveEdit() {
+  $q.dialog({
+    title: t('common.saveConfirmTitle'),
+    message: t('common.saveConfirmMessage'),
+    cancel: { label: t('common.cancel'), flat: true, noCaps: true },
+    ok: { label: t('common.save'), unelevated: true, noCaps: true, class: 'brw-btn-primary' },
+  }).onOk(() => void onSaveEdit());
+}
+
+async function onSaveEdit() {
+  if (!editingId.value || !editForm.value.hourlyRate) return;
+  saving.value = true;
+  try {
+    const { error } = await supabase
+      .from('employee_rates')
+      .update({
+        hourly_rate: editForm.value.hourlyRate,
+        effective_from: editForm.value.effectiveFrom,
+      })
+      .eq('id', editingId.value);
+    if (error) throw error;
+    editDialogOpen.value = false;
+    await loadRates();
+  } catch (err) {
+    $q.notify({
+      type: 'negative',
+      message: err instanceof Error ? err.message : t('admin.rates.errorFallback'),
+    });
+  } finally {
+    saving.value = false;
+  }
+}
+
 const filteredRates = computed(() => {
   const query = search.value.trim().toLowerCase();
   if (!query) return rates.value;
@@ -211,12 +325,15 @@ const columns = computed<QTableColumn<RateRow>[]>(() => [
     format: (val: number) => `${val} ${t('admin.rates.perHourSuffix')}`,
     align: 'left',
   },
+  { name: 'actions', label: t('admin.rates.columnActions'), field: 'id', align: 'left' },
 ]);
+
+const exportColumns = computed(() => columns.value.filter((col) => col.name !== 'actions'));
 
 async function onExport() {
   const ok = await exportTableToXlsx(
     `employee-rates-${toLocalIsoDate(new Date()).slice(0, 7)}.xlsx`,
-    columns.value,
+    exportColumns.value,
     filteredRates.value,
   );
   if (!ok) {

@@ -9,12 +9,12 @@ insert into auth.users (id, email) values
   ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'worker-f@test.local');
 update public.profiles set first_name = 'Test', last_name = 'WorkerF'
   where id = 'dddddddd-dddd-dddd-dddd-dddddddddddd';
-insert into public.sites (id, name) values
-  ('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'Test Site 5');
+insert into public.workplace_address (id, name) values
+  ('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'Test Workplace 5');
 
 -- Deliberately send an obviously-wrong work_date/start_time (as if the
 -- worker's phone clock were broken) — the trigger should override both.
-insert into public.work_reports (id, user_id, site_id, work_date, start_time, end_time) values (
+insert into public.work_reports (id, user_id, workplace_address_id, work_date, start_time, end_time) values (
   'ffffffff-ffff-ffff-ffff-ffffffffffff',
   'dddddddd-dddd-dddd-dddd-dddddddddddd',
   'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',

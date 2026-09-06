@@ -135,11 +135,13 @@
               </div>
 
               <div class="brw-field">
-                <label for="settings-default-site">{{ t('settings.defaultSiteLabel') }}</label>
-                <!-- TODO(backend): profiles.default_site_id -->
+                <label for="settings-default-workplace-address">{{
+                  t('settings.defaultWorkplaceAddressLabel')
+                }}</label>
+                <!-- TODO(backend): profiles.default_workplace_address_id -->
                 <q-select
-                  for="settings-default-site"
-                  v-model="defaultSiteId"
+                  for="settings-default-workplace-address"
+                  v-model="defaultWorkplaceAddressId"
                   :options="[]"
                   emit-value
                   map-options
@@ -148,7 +150,7 @@
                   popup-content-class="brw-select__menu"
                   class="brw-select"
                 />
-                <div class="brw-field-hint">{{ t('settings.defaultSiteHint') }}</div>
+                <div class="brw-field-hint">{{ t('settings.defaultWorkplaceAddressHint') }}</div>
               </div>
             </div>
           </div>
@@ -487,7 +489,7 @@ const firstName = ref(auth.profile?.first_name ?? '');
 const lastName = ref(auth.profile?.last_name ?? '');
 const avatarFile = ref<File | null>(null);
 const avatarPreview = ref<string | null>(auth.profile?.avatar_url ?? null);
-const defaultSiteId = ref<string | null>(null);
+const defaultWorkplaceAddressId = ref<string | null>(null);
 const saving = ref(false);
 const fileInput = ref<QFile | null>(null);
 
@@ -510,13 +512,13 @@ const dirty = computed(
     firstName.value !== (auth.profile?.first_name ?? '') ||
     lastName.value !== (auth.profile?.last_name ?? '') ||
     avatarFile.value !== null ||
-    defaultSiteId.value !== null,
+    defaultWorkplaceAddressId.value !== null,
 );
 
 function onDiscard() {
   firstName.value = auth.profile?.first_name ?? '';
   lastName.value = auth.profile?.last_name ?? '';
-  defaultSiteId.value = null;
+  defaultWorkplaceAddressId.value = null;
   if (objectUrl) {
     URL.revokeObjectURL(objectUrl);
     objectUrl = null;

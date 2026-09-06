@@ -21,12 +21,12 @@ update public.profiles set first_name = 'Test', last_name = 'WorkerToday'
   where id = '44444444-4444-4444-4444-444444444445';
 update public.profiles set first_name = 'Test', last_name = 'Admin', role = 'admin'
   where id = '44444444-4444-4444-4444-444444444499';
-insert into public.sites (id, name) values
-  ('55555555-5555-5555-5555-555555555555', 'Test Site 2');
+insert into public.workplace_address (id, name) values
+  ('55555555-5555-5555-5555-555555555555', 'Test Workplace 2');
 
 -- work_date/start_time get stamped from the server clock on insert — as
 -- an admin, backdate the "forgotten" row to yesterday afterwards.
-insert into public.work_reports (id, user_id, site_id, work_date, start_time, end_time) values
+insert into public.work_reports (id, user_id, workplace_address_id, work_date, start_time, end_time) values
   (
     '66666666-6666-6666-6666-666666666666',
     '44444444-4444-4444-4444-444444444444',

@@ -27,7 +27,7 @@ const inputId = useId();
 }
 
 // line-height:16px + margin-bottom:6px = a fixed 22px label row, shared
-// with `.brw-summary__label` in SitesReportPage.vue — the panel is a strict
+// with `.brw-summary__label` in WorkplaceAddressReportPage.vue — the panel is a strict
 // two-row grid (22px labels / 44px controls), not freely-sized blocks.
 .brw-filter__label {
   display: block;

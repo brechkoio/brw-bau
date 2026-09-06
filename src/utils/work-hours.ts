@@ -30,14 +30,20 @@ export interface CreditedTotals {
   breakMinutes: number;
 }
 
+function groupKey(userId: string | null | undefined, workDate: string): string {
+  return `${userId ?? ''}|${workDate}`;
+}
+
 // Groups rows by (user, work_date) — a day can have several shift rows,
-// even across different sites — and applies the lunch-break deduction once
-// per person per day, then re-derives earnings from the credited hours
-// rather than trusting each row's already-computed `earned`.
-export function aggregateCreditedHours(rows: DailyHoursRow[]): CreditedTotals {
+// even across different workplace addresses — and sums the raw hours/rate
+// per group. Both aggregateCreditedHours (period totals) and
+// creditedHoursByDay (per-day breakdown, so the report can show *why* a
+// given day was or wasn't docked) build on this same grouping so they can
+// never disagree with each other.
+function groupByDayPerson(rows: DailyHoursRow[]): Map<string, { rawHours: number; rate: number }> {
   const byDayPerson = new Map<string, { rawHours: number; rate: number }>();
   for (const r of rows) {
-    const key = `${r.user_id ?? ''}|${r.work_date}`;
+    const key = groupKey(r.user_id, r.work_date);
     const existing = byDayPerson.get(key);
     if (existing) {
       existing.rawHours += Number(r.hours ?? 0);
@@ -45,14 +51,17 @@ export function aggregateCreditedHours(rows: DailyHoursRow[]): CreditedTotals {
       byDayPerson.set(key, { rawHours: Number(r.hours ?? 0), rate: Number(r.hourly_rate ?? 0) });
     }
   }
+  return byDayPerson;
+}
 
+export function aggregateCreditedHours(rows: DailyHoursRow[]): CreditedTotals {
   const totals: CreditedTotals = {
     rawHours: 0,
     creditedHours: 0,
     creditedEarned: 0,
     breakMinutes: 0,
   };
-  for (const { rawHours, rate } of byDayPerson.values()) {
+  for (const { rawHours, rate } of groupByDayPerson(rows).values()) {
     const credited = creditedDayHours(rawHours);
     totals.rawHours += rawHours;
     totals.creditedHours += credited;
@@ -60,4 +69,27 @@ export function aggregateCreditedHours(rows: DailyHoursRow[]): CreditedTotals {
     totals.breakMinutes += Math.round((rawHours - credited) * 60);
   }
   return totals;
+}
+
+export interface DayBreakInfo {
+  rawHours: number;
+  creditedHours: number;
+  breakMinutes: number;
+}
+
+// Per-(user, work_date) breakdown so a report can show, for each row, either
+// "-30 хв" or an explicit "not deducted" — instead of only a period-wide
+// total that leaves the reader guessing which days were actually docked.
+// Look up with the same key a row belongs to: `${userId ?? ''}|${workDate}`.
+export function creditedHoursByDay(rows: DailyHoursRow[]): Map<string, DayBreakInfo> {
+  const result = new Map<string, DayBreakInfo>();
+  for (const [key, { rawHours }] of groupByDayPerson(rows)) {
+    const credited = creditedDayHours(rawHours);
+    result.set(key, {
+      rawHours,
+      creditedHours: credited,
+      breakMinutes: Math.round((rawHours - credited) * 60),
+    });
+  }
+  return result;
 }

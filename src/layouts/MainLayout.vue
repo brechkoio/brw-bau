@@ -146,24 +146,24 @@
             room to show a submenu on an icon rail. -->
             <q-expansion-item
               v-if="!isMini"
-              v-model="siteReportGroupExpanded"
+              v-model="workplaceAddressReportGroupExpanded"
               :header-class="[
                 'brw-nav-item',
                 'brw-nav-group-header',
-                { 'brw-nav-item--active': siteReportGroupActive },
+                { 'brw-nav-item--active': workplaceAddressReportGroupActive },
               ]"
             >
               <template #header>
                 <q-item-section avatar>
-                  <q-icon :name="siteReportGroup.icon" size="22px" />
+                  <q-icon :name="workplaceAddressReportGroup.icon" size="22px" />
                 </q-item-section>
                 <q-item-section class="brw-nav-label">{{
-                  t(siteReportGroup.labelKey)
+                  t(workplaceAddressReportGroup.labelKey)
                 }}</q-item-section>
               </template>
 
               <q-item
-                v-for="child in siteReportGroup.children"
+                v-for="child in workplaceAddressReportGroup.children"
                 :key="child.to"
                 :to="child.to"
                 clickable
@@ -180,17 +180,17 @@
 
             <q-item
               v-else
-              :to="siteReportGroup.children[0]!.to"
+              :to="workplaceAddressReportGroup.children[0]!.to"
               clickable
               class="brw-nav-item"
               active-class="brw-nav-item--active"
-              :aria-current="siteReportGroupActive ? 'page' : undefined"
+              :aria-current="workplaceAddressReportGroupActive ? 'page' : undefined"
             >
               <q-item-section avatar>
-                <q-icon :name="siteReportGroup.icon" size="22px" />
+                <q-icon :name="workplaceAddressReportGroup.icon" size="22px" />
               </q-item-section>
               <q-tooltip anchor="center right" self="center left" :offset="[8, 0]">
-                {{ t(siteReportGroup.labelKey) }}
+                {{ t(workplaceAddressReportGroup.labelKey) }}
               </q-tooltip>
             </q-item>
 
@@ -294,18 +294,30 @@ const adminLinksTop: NavLink[] = [
   { to: '/reports/general', icon: 'summarize', labelKey: 'layout.navGeneralReport' },
 ];
 
-const siteReportGroup: { icon: string; labelKey: string; children: NavLink[] } = {
+const workplaceAddressReportGroup: { icon: string; labelKey: string; children: NavLink[] } = {
   icon: 'apartment',
-  labelKey: 'layout.navSitesReport',
+  labelKey: 'layout.navWorkplaceAddressReport',
   children: [
-    { to: '/reports/sites', icon: 'view_list', labelKey: 'layout.navSitesReportDaily' },
-    { to: '/reports/sites-summary', icon: 'donut_large', labelKey: 'layout.navSitesReportMonthly' },
+    {
+      to: '/reports/workplace-addresses',
+      icon: 'view_list',
+      labelKey: 'layout.navWorkplaceAddressReportDaily',
+    },
+    {
+      to: '/reports/workplace-addresses-summary',
+      icon: 'donut_large',
+      labelKey: 'layout.navWorkplaceAddressReportMonthly',
+    },
   ],
 };
 
 const adminLinksBottom: NavLink[] = [
   { to: '/admin/rates', icon: 'payments', labelKey: 'layout.navEmployeeRates' },
-  { to: '/admin/sites', icon: 'location_city', labelKey: 'layout.navSites' },
+  {
+    to: '/admin/workplace-addresses',
+    icon: 'location_city',
+    labelKey: 'layout.navWorkplaceAddress',
+  },
   { to: '/admin/users', icon: 'group', labelKey: 'layout.navUsers' },
 ];
 
@@ -409,17 +421,17 @@ function isLinkActive(item: NavLink): boolean {
   return route.path === item.to || route.path.startsWith(`${item.to}/`);
 }
 
-const siteReportGroupActive = computed(() =>
-  siteReportGroup.children.some((child) => isLinkActive(child)),
+const workplaceAddressReportGroupActive = computed(() =>
+  workplaceAddressReportGroup.children.some((child) => isLinkActive(child)),
 );
 
-// Independent of siteReportGroupActive so the user can collapse the group
+// Independent of workplaceAddressReportGroupActive so the user can collapse the group
 // while still on one of its pages — but landing on a child route (direct
 // link, refresh, back button) always opens it, so the active page isn't
 // hidden inside a collapsed submenu.
-const siteReportGroupExpanded = ref(siteReportGroupActive.value);
-watch(siteReportGroupActive, (active) => {
-  if (active) siteReportGroupExpanded.value = true;
+const workplaceAddressReportGroupExpanded = ref(workplaceAddressReportGroupActive.value);
+watch(workplaceAddressReportGroupActive, (active) => {
+  if (active) workplaceAddressReportGroupExpanded.value = true;
 });
 
 function onBurgerClick() {

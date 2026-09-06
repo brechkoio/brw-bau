@@ -6,7 +6,9 @@
       <template #actions>
         <div v-if="activeShift" class="brw-shift-status">
           <q-icon name="schedule" size="18px" />
-          <span class="ellipsis">{{ activeShift.site_name }} · {{ elapsedLabel }}</span>
+          <span class="ellipsis"
+            >{{ activeShift.workplace_address_name }} · {{ elapsedLabel }}</span
+          >
         </div>
 
         <q-btn
@@ -46,12 +48,14 @@
         <q-card-section class="text-h6">{{ t('home.startShiftTitle') }}</q-card-section>
         <q-card-section>
           <div class="brw-field">
-            <label for="start-shift-site">{{ t('reports.monthly.siteLabel') }}</label>
+            <label for="start-shift-workplace-address">{{
+              t('reports.monthly.workplaceAddressLabel')
+            }}</label>
             <q-select
-              for="start-shift-site"
-              v-model="selectedSiteId"
-              :options="siteOptions"
-              :placeholder="t('reports.monthly.sitePlaceholder')"
+              for="start-shift-workplace-address"
+              v-model="selectedWorkplaceAddressId"
+              :options="workplaceAddressOptions"
+              :placeholder="t('reports.monthly.workplaceAddressPlaceholder')"
               outlined
               emit-value
               map-options
@@ -76,7 +80,7 @@
             no-caps
             class="brw-btn-primary"
             :label="t('home.startShift')"
-            :disable="!selectedSiteId"
+            :disable="!selectedWorkplaceAddressId"
             :loading="shiftBusy"
             @click="startShift"
           />
@@ -147,12 +151,14 @@
           <q-card-section class="text-h6">{{ t('common.edit') }}</q-card-section>
           <q-card-section class="column q-gutter-md">
             <div class="brw-field">
-              <label for="edit-report-site">{{ t('reports.monthly.siteLabel') }}</label>
+              <label for="edit-report-workplace-address">{{
+                t('reports.monthly.workplaceAddressLabel')
+              }}</label>
               <q-select
-                for="edit-report-site"
-                v-model="editForm.siteId"
-                :options="siteOptions"
-                :placeholder="t('reports.monthly.sitePlaceholder')"
+                for="edit-report-workplace-address"
+                v-model="editForm.workplaceAddressId"
+                :options="workplaceAddressOptions"
+                :placeholder="t('reports.monthly.workplaceAddressPlaceholder')"
                 outlined
                 emit-value
                 map-options
@@ -291,13 +297,12 @@
           <q-card-actions align="right">
             <q-btn flat :label="t('common.cancel')" v-close-popup />
             <q-btn
-              color="accent"
-              text-color="black"
               unelevated
               no-caps
+              class="brw-btn-primary"
               :label="t('common.save')"
               :loading="saving"
-              @click="onSaveEdit"
+              @click="confirmSaveEdit"
             />
           </q-card-actions>
         </q-card>
@@ -317,7 +322,7 @@ import PeriodFilter from '@/components/PeriodFilter.vue';
 import { exportTableToXlsx } from '@/utils/export-xlsx';
 import { formatDisplayDate, toLocalIsoDate } from '@/utils/format-date';
 import { currentMonthRange } from '@/utils/date-range';
-import { aggregateCreditedHours } from '@/utils/work-hours';
+import { aggregateCreditedHours, creditedHoursByDay } from '@/utils/work-hours';
 import { formatHoursLabel } from '@/utils/format-hours';
 import { getCurrentCoords } from '@/utils/geolocation';
 
@@ -329,18 +334,18 @@ interface ReportRow {
   hours: number | null;
   earned: number | null;
   hourly_rate: number | null;
-  site_id: string;
-  site_name: string;
+  workplace_address_id: string;
+  workplace_address_name: string;
 }
 
-interface SiteOption {
+interface WorkplaceAddressOption {
   label: string;
   value: string;
 }
 
 interface ActiveShift {
   id: string;
-  site_name: string;
+  workplace_address_name: string;
   start_time: string;
 }
 
@@ -352,7 +357,7 @@ const auth = useAuthStore();
 const dateRange = ref<{ from: string; to: string }>(currentMonthRange());
 
 const rows = ref<ReportRow[]>([]);
-const siteOptions = ref<SiteOption[]>([]);
+const workplaceAddressOptions = ref<WorkplaceAddressOption[]>([]);
 const loading = ref(false);
 const saving = ref(false);
 
@@ -366,6 +371,13 @@ const filteredRows = computed(() => {
 const creditedTotals = computed(() => aggregateCreditedHours(filteredRows.value));
 const totalHours = computed(() => formatHoursLabel(creditedTotals.value.creditedHours, t));
 const totalEarned = computed(() => creditedTotals.value.creditedEarned);
+const breakByDay = computed(() => creditedHoursByDay(filteredRows.value));
+
+function breakLabel(workDate: string): string {
+  const info = breakByDay.value.get(`|${workDate}`);
+  if (!info || info.breakMinutes <= 0) return t('reports.monthly.breakNotDeducted');
+  return t('reports.monthly.breakDeductedShort', { minutes: info.breakMinutes });
+}
 
 const columns = computed<QTableColumn<ReportRow>[]>(() => {
   const cols: QTableColumn<ReportRow>[] = [
@@ -386,9 +398,9 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => {
       sortable: true,
     },
     {
-      name: 'site_name',
-      label: t('reports.monthly.columnSite'),
-      field: 'site_name',
+      name: 'workplace_address_name',
+      label: t('reports.monthly.columnWorkplaceAddress'),
+      field: 'workplace_address_name',
       align: 'left',
       sortable: true,
     },
@@ -408,6 +420,13 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => {
       format: (val: number | null) => formatHoursLabel(val ?? 0, t),
       align: 'left',
       sortable: true,
+    },
+    {
+      name: 'breakDeducted',
+      label: t('reports.monthly.columnBreak'),
+      field: 'work_date',
+      format: (val: string) => breakLabel(val),
+      align: 'left',
     },
     {
       name: 'earned',
@@ -466,9 +485,9 @@ function formatMoney(value: number) {
   return `${Number(value).toFixed(2)} ${t('common.currency')}`;
 }
 
-async function loadSites() {
+async function loadWorkplaceAddresses() {
   const { data, error } = await supabase
-    .from('sites')
+    .from('workplace_address')
     .select('id, name')
     .eq('is_active', true)
     .order('name');
@@ -476,12 +495,12 @@ async function loadSites() {
     $q.notify({ type: 'negative', message: error.message });
     return;
   }
-  siteOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
+  workplaceAddressOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
 }
 
 // ---- Clock-in / clock-out (duplicated from HomePage.vue) ----
 
-const selectedSiteId = ref<string | null>(null);
+const selectedWorkplaceAddressId = ref<string | null>(null);
 const activeShift = ref<ActiveShift | null>(null);
 const shiftBusy = ref(false);
 const startShiftDialogOpen = ref(false);
@@ -511,23 +530,27 @@ async function loadActiveShift() {
   if (!auth.user) return;
   const { data } = await supabase
     .from('work_report_earnings')
-    .select('id, site_name, start_time')
+    .select('id, workplace_address_name, start_time')
     .eq('user_id', auth.user.id)
     .is('end_time', null)
     .maybeSingle();
   activeShift.value = data
-    ? { id: data.id, site_name: data.site_name, start_time: data.start_time }
+    ? {
+        id: data.id,
+        workplace_address_name: data.workplace_address_name,
+        start_time: data.start_time,
+      }
     : null;
 }
 
 async function startShift() {
-  if (!auth.user || !selectedSiteId.value) return;
+  if (!auth.user || !selectedWorkplaceAddressId.value) return;
   shiftBusy.value = true;
   try {
     const geo = await getCurrentCoords();
     const { error } = await supabase.from('work_reports').insert({
       user_id: auth.user.id,
-      site_id: selectedSiteId.value,
+      workplace_address_id: selectedWorkplaceAddressId.value,
       work_date: toLocalIsoDate(new Date()),
       start_time: nowTime(),
       start_lat: geo?.lat ?? null,
@@ -535,7 +558,7 @@ async function startShift() {
     });
     if (error) throw error;
     $q.notify({ type: 'positive', message: t('home.shiftStarted') });
-    selectedSiteId.value = null;
+    selectedWorkplaceAddressId.value = null;
     startShiftDialogOpen.value = false;
     await Promise.all([loadActiveShift(), loadReports()]);
   } catch (err) {
@@ -574,7 +597,9 @@ async function loadReports() {
   loading.value = true;
   const { data, error } = await supabase
     .from('work_report_earnings')
-    .select('id, work_date, start_time, end_time, hours, earned, hourly_rate, site_id, site_name')
+    .select(
+      'id, work_date, start_time, end_time, hours, earned, hourly_rate, workplace_address_id, workplace_address_name',
+    )
     .eq('user_id', auth.user.id)
     .order('work_date', { ascending: false });
   loading.value = false;
@@ -591,7 +616,7 @@ const editWorkDateProxy = ref<QPopupProxy | null>(null);
 const editStartTimeProxy = ref<QPopupProxy | null>(null);
 const editEndTimeProxy = ref<QPopupProxy | null>(null);
 const editForm = ref({
-  siteId: null as string | null,
+  workplaceAddressId: null as string | null,
   workDate: '',
   startTime: '',
   endTime: '',
@@ -600,12 +625,21 @@ const editForm = ref({
 function openEdit(row: ReportRow) {
   editingId.value = row.id;
   editForm.value = {
-    siteId: row.site_id,
+    workplaceAddressId: row.workplace_address_id,
     workDate: row.work_date,
     startTime: formatTime(row.start_time),
     endTime: formatTime(row.end_time),
   };
   editDialogOpen.value = true;
+}
+
+function confirmSaveEdit() {
+  $q.dialog({
+    title: t('common.saveConfirmTitle'),
+    message: t('common.saveConfirmMessage'),
+    cancel: { label: t('common.cancel'), flat: true, noCaps: true },
+    ok: { label: t('common.save'), unelevated: true, noCaps: true, class: 'brw-btn-primary' },
+  }).onOk(() => void onSaveEdit());
 }
 
 async function onSaveEdit() {
@@ -615,7 +649,7 @@ async function onSaveEdit() {
     const { error } = await supabase
       .from('work_reports')
       .update({
-        site_id: editForm.value.siteId,
+        workplace_address_id: editForm.value.workplaceAddressId,
         work_date: editForm.value.workDate,
         start_time: editForm.value.startTime,
         end_time: editForm.value.endTime || null,
@@ -654,7 +688,7 @@ async function onDelete(row: ReportRow) {
   await loadReports();
 }
 
-void loadSites();
+void loadWorkplaceAddresses();
 void loadReports();
 void loadActiveShift();
 </script>

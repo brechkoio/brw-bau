@@ -114,6 +114,12 @@
           <q-td :props="props">{{ props.value }}</q-td>
         </template>
 
+        <template #body-cell-tooShort="props">
+          <q-td :props="props" :class="{ 'text-warning text-weight-bold': props.row.is_too_short }">
+            {{ props.value }}
+          </q-td>
+        </template>
+
         <template #body-cell-actions="props">
           <q-td :props="props">
             <q-btn flat icon="edit" class="brw-table-icon-btn" @click="openEdit(props.row)" />
@@ -339,6 +345,7 @@ interface ReportRow {
   workplace_address_id: string;
   workplace_address_name: string;
   day_break_minutes: number | null;
+  is_too_short: boolean | null;
 }
 
 interface CreditedSummary {
@@ -412,6 +419,10 @@ function breakLabel(row: ReportRow): string {
   return t('reports.monthly.breakDeductedShort', { minutes });
 }
 
+function tooShortLabel(row: ReportRow): string {
+  return row.is_too_short ? t('reports.monthly.tooShortNote') : '';
+}
+
 const columns = computed<QTableColumn<ReportRow>[]>(() => {
   const cols: QTableColumn<ReportRow>[] = [
     {
@@ -459,6 +470,13 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => {
       label: t('reports.monthly.columnBreak'),
       field: 'work_date',
       format: (_val: string, row: ReportRow) => breakLabel(row),
+      align: 'left',
+    },
+    {
+      name: 'tooShort',
+      label: t('reports.monthly.columnTooShort'),
+      field: 'work_date',
+      format: (_val: string, row: ReportRow) => tooShortLabel(row),
       align: 'left',
     },
     {
@@ -631,7 +649,7 @@ async function loadReports() {
   const { data, error } = await supabase
     .from('work_report_earnings')
     .select(
-      'id, work_date, start_time, end_time, hours, earned, hourly_rate, workplace_address_id, workplace_address_name, day_break_minutes',
+      'id, work_date, start_time, end_time, hours, earned, hourly_rate, workplace_address_id, workplace_address_name, day_break_minutes, is_too_short',
     )
     .eq('user_id', auth.user.id)
     .order('work_date', { ascending: false });

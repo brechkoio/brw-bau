@@ -310,6 +310,8 @@ export default {
       breakDeductedCaption: 'Отработано {raw} · вычтено {minutes} мин на обед',
       breakNotDeducted: 'Не вычтено',
       breakDeductedShort: '-{minutes} мин',
+      columnTooShort: 'Зачтено',
+      tooShortNote: 'Не зачтено (< 15 мин)',
       noReports: 'Нет записей за этот месяц',
       deleteConfirmTitle: 'Удалить запись?',
       deleteConfirmMessage: 'Это действие нельзя отменить.',

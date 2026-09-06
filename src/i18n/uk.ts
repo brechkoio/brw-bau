@@ -308,6 +308,8 @@ const uk = {
       breakDeductedCaption: 'Відпрацьовано {raw} · вирахувано {minutes} хв на обід',
       breakNotDeducted: 'Не знято',
       breakDeductedShort: '-{minutes} хв',
+      columnTooShort: 'Зараховано',
+      tooShortNote: 'Не зараховано (< 15 хв)',
       noReports: 'Немає записів за цей місяць',
       deleteConfirmTitle: 'Видалити запис?',
       deleteConfirmMessage: 'Цю дію не можна скасувати.',

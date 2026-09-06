@@ -313,6 +313,8 @@ export default {
       breakDeductedCaption: '{raw} gearbeitet · {minutes} Min. Mittagspause abgezogen',
       breakNotDeducted: 'Nicht abgezogen',
       breakDeductedShort: '-{minutes} Min.',
+      columnTooShort: 'Angerechnet',
+      tooShortNote: 'Nicht angerechnet (< 15 Min.)',
       noReports: 'Keine Einträge für diesen Monat',
       deleteConfirmTitle: 'Eintrag löschen?',
       deleteConfirmMessage: 'Dies kann nicht rückgängig gemacht werden.',

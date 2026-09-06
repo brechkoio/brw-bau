@@ -310,6 +310,8 @@ export default {
       breakDeductedCaption: 'Worked {raw} · {minutes} min deducted for lunch',
       breakNotDeducted: 'Not deducted',
       breakDeductedShort: '-{minutes} min',
+      columnTooShort: 'Counted',
+      tooShortNote: 'Not counted (< 15 min)',
       noReports: 'No entries for this month',
       deleteConfirmTitle: 'Delete this entry?',
       deleteConfirmMessage: 'This cannot be undone.',

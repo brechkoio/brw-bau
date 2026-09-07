@@ -393,6 +393,7 @@ async function loadWorkplaceAddresses() {
   const { data, error } = await supabase
     .from('workplace_address')
     .select('id, name, is_active, lat, lng, city, street, house_number')
+    .order('is_active', { ascending: false })
     .order('name');
   loading.value = false;
   if (error) {

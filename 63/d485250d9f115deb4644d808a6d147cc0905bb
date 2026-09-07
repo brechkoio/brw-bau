@@ -1,0 +1,19 @@
+src/pages/admin/WorkplaceAddressPage.vue
+  s_08e1b3dcd68421::t_519d610dffec6c 396
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "63d485250d9f115deb4644d808a6d147cc0905bb",
+  "prompts": {},
+  "sessions": {
+    "s_08e1b3dcd68421": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85d81f4b-9966-4688-95d1-4dd7561a0588",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

@@ -135,6 +135,7 @@ export default {
     navHome: 'Home',
     navSettings: 'Settings',
     navMonthlyReport: 'Monthly report',
+    navRules: 'Rules and regulations',
     navGeneralReport: 'General report',
     navWorkplaceAddressReport: 'Workplace address report',
     navWorkplaceAddressReportDaily: 'Detailed (by day)',
@@ -148,6 +149,7 @@ export default {
     title: {
       home: 'Home',
       settings: 'Settings',
+      rules: 'Rules and regulations',
       monthlyReport: 'Monthly report',
       generalReport: 'General report',
       workplaceAddressReport: 'Workplace address report',
@@ -281,6 +283,7 @@ export default {
     filters: {
       period: 'Period',
       workplaceAddress: 'Workplace address',
+      employee: 'Employee',
     },
     summary: {
       totalHours: 'Total hours',
@@ -322,9 +325,8 @@ export default {
     general: {
       title: 'General report',
       columnPeople: 'People',
-      longShiftsHint:
-        'Shifts longer than {hours}h — review before running payroll. This also catches shifts closed automatically (when a worker forgot to tap "End").',
-      noResults: 'No shifts over the threshold for this period',
+      noResults: 'No shifts for this period',
+      allEmployees: 'All employees',
       columnLocation: 'Location',
       locationInRange: 'Within the workplace address',
       locationOutOfRange: 'Outside the workplace address',
@@ -371,6 +373,12 @@ export default {
       columnActions: 'Actions',
       noWorkplaceAddresses: 'No workplace addresses',
       errorFallback: 'Could not save the workplace address',
+      deleteConfirmTitle: 'Delete "{name}"?',
+      deleteConfirmMessage: 'This action cannot be undone.',
+      successDeleted: 'Workplace address deleted',
+      deleteBlockedMessage:
+        'Cannot delete — there are already work reports for this workplace address. Deactivate it with the "Active" toggle instead.',
+      deleteErrorFallback: 'Could not delete the workplace address',
       coordsHint:
         'Open this page while standing at the workplace address itself and tap the button below — coordinates are captured automatically',
       coordsNotSet: 'Coordinates not set',

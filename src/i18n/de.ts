@@ -136,6 +136,7 @@ export default {
     navHome: 'Start',
     navSettings: 'Einstellungen',
     navMonthlyReport: 'Monatsbericht',
+    navRules: 'Regeln und Bestimmungen',
     navGeneralReport: 'Gesamtbericht',
     navWorkplaceAddressReport: 'Objektbericht',
     navWorkplaceAddressReportDaily: 'Detailliert (nach Tagen)',
@@ -149,6 +150,7 @@ export default {
     title: {
       home: 'Start',
       settings: 'Einstellungen',
+      rules: 'Regeln und Bestimmungen',
       monthlyReport: 'Monatsbericht',
       generalReport: 'Gesamtbericht',
       workplaceAddressReport: 'Objektbericht',
@@ -284,6 +286,7 @@ export default {
     filters: {
       period: 'Zeitraum',
       workplaceAddress: 'Objekt (Adresse)',
+      employee: 'Mitarbeiter',
     },
     summary: {
       totalHours: 'Stunden gesamt',
@@ -325,9 +328,8 @@ export default {
     general: {
       title: 'Gesamtbericht',
       columnPeople: 'Personen',
-      longShiftsHint:
-        'Schichten länger als {hours} Std. — vor der Lohnabrechnung prüfen. Hier erscheinen auch automatisch geschlossene Schichten (wenn ein Mitarbeiter „Beenden“ vergessen hat).',
-      noResults: 'Keine Schichten über dem Grenzwert für diesen Zeitraum',
+      noResults: 'Keine Schichten in diesem Zeitraum',
+      allEmployees: 'Alle Mitarbeiter',
       columnLocation: 'Standort',
       locationInRange: 'Innerhalb der Adresse',
       locationOutOfRange: 'Außerhalb der Adresse',
@@ -374,6 +376,12 @@ export default {
       columnActions: 'Aktionen',
       noWorkplaceAddresses: 'Keine Objekte',
       errorFallback: 'Objekt konnte nicht gespeichert werden',
+      deleteConfirmTitle: '„{name}“ löschen?',
+      deleteConfirmMessage: 'Diese Aktion kann nicht rückgängig gemacht werden.',
+      successDeleted: 'Objekt gelöscht',
+      deleteBlockedMessage:
+        'Löschen nicht möglich — für dieses Objekt existieren bereits Arbeitsberichte. Deaktivieren Sie es stattdessen über den Schalter „Aktiv“.',
+      deleteErrorFallback: 'Objekt konnte nicht gelöscht werden',
       coordsHint:
         'Öffnen Sie diese Seite, während Sie sich direkt am Objekt befinden, und tippen Sie unten auf die Schaltfläche — die Koordinaten werden automatisch erfasst',
       coordsNotSet: 'Keine Koordinaten festgelegt',

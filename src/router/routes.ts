@@ -59,6 +59,11 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'meta.title.settings' },
       },
       {
+        path: 'rules',
+        component: () => import('@/pages/WorkRulesPage.vue'),
+        meta: { title: 'meta.title.rules' },
+      },
+      {
         path: 'reports/monthly',
         component: () => import('@/pages/reports/MonthlyReportPage.vue'),
         meta: { title: 'meta.title.monthlyReport' },

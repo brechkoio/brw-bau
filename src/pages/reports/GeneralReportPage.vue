@@ -3,12 +3,20 @@
     <TableFiltersBar>
       <PeriodFilter v-model="dateRange" width="280px" />
 
+      <SelectFilter
+        v-model="selectedUserId"
+        :label="t('reports.filters.employee')"
+        :options="userOptions"
+        :placeholder="t('reports.general.allEmployees')"
+        width="260px"
+      />
+
       <template #summary>
         <div class="brw-summary">
           <div class="brw-summary__label">
             {{ t('reports.monthly.columnHours') }} &gt; {{ THRESHOLD_HOURS }}
           </div>
-          <div class="brw-summary__value">{{ rows.length }}</div>
+          <div class="brw-summary__value">{{ longShiftsCount }}</div>
         </div>
       </template>
 
@@ -24,10 +32,6 @@
       </template>
     </TableFiltersBar>
 
-    <q-banner class="brw-hint q-mx-md q-mt-md">
-      {{ t('reports.general.longShiftsHint', { hours: THRESHOLD_HOURS }) }}
-    </q-banner>
-
     <div class="brw-page-body q-pa-md">
       <q-table
         class="col brw-sticky-table"
@@ -42,7 +46,12 @@
         :pagination="{ rowsPerPage: 25 }"
       >
         <template #body-cell-hours="props">
-          <q-td :props="props" class="text-negative text-weight-bold">{{ props.value }}</q-td>
+          <q-td
+            :props="props"
+            :class="{ 'text-negative text-weight-bold': (props.row.hours ?? 0) > THRESHOLD_HOURS }"
+          >
+            {{ props.value }}
+          </q-td>
         </template>
 
         <template #body-cell-location="props">
@@ -251,6 +260,7 @@ import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import PeriodFilter from '@/components/PeriodFilter.vue';
+import SelectFilter from '@/components/SelectFilter.vue';
 import { exportTableToXlsx } from '@/utils/export-xlsx';
 import { formatDisplayDate } from '@/utils/format-date';
 import { currentMonthRange } from '@/utils/date-range';
@@ -265,8 +275,8 @@ interface ReportRow {
   work_date: string;
   start_time: string;
   end_time: string | null;
-  hours: number;
-  earned: number;
+  hours: number | null;
+  earned: number | null;
   workplace_address_id: string;
   workplace_address_name: string;
   user_id: string | null;
@@ -280,17 +290,28 @@ interface WorkplaceAddressOption {
   value: string;
 }
 
+interface UserOption {
+  label: string;
+  value: string;
+}
+
 const $q = useQuasar();
 const { t } = useI18n();
 
 const dateRange = ref(currentMonthRange());
 const rawRows = ref<ReportRow[]>([]);
 const workplaceAddressOptions = ref<WorkplaceAddressOption[]>([]);
+const userOptions = ref<UserOption[]>([]);
+const selectedUserId = ref<string | null>(null);
 const loading = ref(false);
 const saving = ref(false);
 
 const rows = computed(() =>
   [...rawRows.value].sort((a, b) => b.work_date.localeCompare(a.work_date)),
+);
+
+const longShiftsCount = computed(
+  () => rows.value.filter((r) => (r.hours ?? 0) > THRESHOLD_HOURS).length,
 );
 
 function formatTime(value: string | null) {
@@ -361,7 +382,8 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => [
     name: 'time',
     label: t('reports.monthly.columnTime'),
     field: 'start_time',
-    format: (val: string, row) => `${formatTime(val)}–${formatTime(row.end_time)}`,
+    format: (val: string, row) =>
+      `${formatTime(val)}–${row.end_time ? formatTime(row.end_time) : t('common.inProgress')}`,
     align: 'left',
     sortable: true,
   },
@@ -369,7 +391,7 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => [
     name: 'hours',
     label: t('reports.monthly.columnHours'),
     field: 'hours',
-    format: (val: number) => formatHoursLabel(val, t),
+    format: (val: number | null) => formatHoursLabel(val ?? 0, t),
     align: 'left',
     sortable: true,
   },
@@ -377,7 +399,7 @@ const columns = computed<QTableColumn<ReportRow>[]>(() => [
     name: 'earned',
     label: t('reports.monthly.columnEarned'),
     field: 'earned',
-    format: (val: number) => formatMoney(val),
+    format: (val: number | null) => formatMoney(val ?? 0),
     align: 'left',
     sortable: true,
   },
@@ -414,17 +436,32 @@ async function loadWorkplaceAddresses() {
   workplaceAddressOptions.value = (data ?? []).map((s) => ({ label: s.name, value: s.id }));
 }
 
+async function loadUsers() {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, first_name, last_name')
+    .order('first_name');
+  if (error) return;
+  userOptions.value = (data ?? []).map((p) => ({
+    label: `${p.first_name} ${p.last_name}`,
+    value: p.id,
+  }));
+}
+
 async function loadRows() {
   loading.value = true;
+  let query = supabase
+    .from('work_report_earnings')
+    .select(
+      'id, work_date, start_time, end_time, hours, earned, workplace_address_id, workplace_address_name, user_id, start_location_status, end_location_status',
+    )
+    .gte('work_date', dateRange.value.from)
+    .lte('work_date', dateRange.value.to);
+  if (selectedUserId.value) {
+    query = query.eq('user_id', selectedUserId.value);
+  }
   const [{ data, error }, { data: profiles }] = await Promise.all([
-    supabase
-      .from('work_report_earnings')
-      .select(
-        'id, work_date, start_time, end_time, hours, earned, workplace_address_id, workplace_address_name, user_id, start_location_status, end_location_status',
-      )
-      .gt('hours', THRESHOLD_HOURS)
-      .gte('work_date', dateRange.value.from)
-      .lte('work_date', dateRange.value.to),
+    query,
     supabase.from('profiles').select('id, first_name, last_name'),
   ]);
   loading.value = false;
@@ -519,9 +556,10 @@ async function onDelete(row: ReportRow) {
   await loadRows();
 }
 
-watch(dateRange, () => void loadRows());
+watch([dateRange, selectedUserId], () => void loadRows());
 
 void loadWorkplaceAddresses();
+void loadUsers();
 void loadRows();
 </script>
 
@@ -531,14 +569,6 @@ void loadRows();
   margin-bottom: 6px;
   font-size: 12px;
   color: $text-secondary;
-}
-
-.brw-hint {
-  border-radius: 12px;
-  background: $accent-soft;
-  border: 1px solid $accent-soft-border;
-  color: $accent-ink;
-  font-size: 13px;
 }
 
 .brw-summary {

@@ -134,6 +134,7 @@ const uk = {
     navHome: 'Головна',
     navSettings: 'Налаштування',
     navMonthlyReport: 'Звіт за місяць',
+    navRules: 'Правила та положення',
     navGeneralReport: 'Загальний звіт',
     navWorkplaceAddressReport: "Звіт по об'єктах",
     navWorkplaceAddressReportDaily: 'Детальний (по днях)',
@@ -147,6 +148,7 @@ const uk = {
     title: {
       home: 'Головна',
       settings: 'Налаштування',
+      rules: 'Правила та положення',
       monthlyReport: 'Звіт за місяць',
       generalReport: 'Загальний звіт',
       workplaceAddressReport: "Звіт по об'єктах",
@@ -279,6 +281,7 @@ const uk = {
     filters: {
       period: 'Період',
       workplaceAddress: "Об'єкт (адреса)",
+      employee: 'Співробітник',
     },
     summary: {
       totalHours: 'Разом годин',
@@ -320,9 +323,8 @@ const uk = {
     general: {
       title: 'Загальний звіт',
       columnPeople: 'Кількість людей',
-      longShiftsHint:
-        'Зміни довші за {hours} год — перевірте перед розрахунком зарплати. Сюди ж потрапляють зміни, закриті автоматично (якщо працівник забув натиснути «Закінчити»).',
-      noResults: 'Немає змін, довших за норму, за цей період',
+      noResults: 'Немає змін за цей період',
+      allEmployees: 'Усі співробітники',
       columnLocation: 'Локація',
       locationInRange: 'В межах адреси',
       locationOutOfRange: 'Поза межами адреси',
@@ -369,6 +371,12 @@ const uk = {
       columnActions: 'Дії',
       noWorkplaceAddresses: "Немає об'єктів",
       errorFallback: "Не вдалося зберегти об'єкт",
+      deleteConfirmTitle: 'Видалити «{name}»?',
+      deleteConfirmMessage: 'Цю дію не можна скасувати.',
+      successDeleted: "Об'єкт видалено",
+      deleteBlockedMessage:
+        "Неможливо видалити — за цим об'єктом уже є звіти про роботу. Деактивуйте його перемикачем «Активний» замість видалення.",
+      deleteErrorFallback: "Не вдалося видалити об'єкт",
       coordsHint:
         'Відкрийте цю сторінку, перебуваючи на самому об’єкті, і натисніть кнопку нижче — координати визначаться автоматично',
       coordsNotSet: 'Координати не встановлено',

@@ -3,36 +3,13 @@
     <TableFiltersBar>
       <PeriodFilter v-model="dateRange" />
 
-      <TableFilter
-        v-slot="{ inputId }"
+      <SelectFilter
+        v-model="selectedWorkplaceAddressId"
         :label="t('reports.filters.workplaceAddress')"
+        :options="workplaceAddressOptions"
+        :placeholder="t('reports.monthly.allWorkplaceAddresses')"
         width="300px"
-      >
-        <q-select
-          :for="inputId"
-          v-model="selectedWorkplaceAddressId"
-          :options="workplaceAddressOptions"
-          :placeholder="t('reports.monthly.allWorkplaceAddresses')"
-          outlined
-          clearable
-          emit-value
-          map-options
-          popup-content-class="brw-select__menu"
-          class="brw-select brw-input--dense brw-workplace-address-select"
-        >
-          <template #append>
-            <div class="brw-workplace-address-select__divider" />
-          </template>
-          <template #option="scope">
-            <q-item v-bind="scope.itemProps">
-              <q-item-section>{{ scope.opt.label }}</q-item-section>
-              <q-item-section v-if="scope.selected" side>
-                <q-icon name="check" size="18px" class="brw-select__check" />
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-      </TableFilter>
+      />
 
       <template #summary>
         <div class="column items-end">
@@ -119,7 +96,7 @@ import { useQuasar, type QTableColumn } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
-import TableFilter from '@/components/TableFilter.vue';
+import SelectFilter from '@/components/SelectFilter.vue';
 import PeriodFilter from '@/components/PeriodFilter.vue';
 import { exportTableToXlsx } from '@/utils/export-xlsx';
 import { formatDisplayDate } from '@/utils/format-date';
@@ -345,27 +322,6 @@ void loadCreditedSummary();
 </script>
 
 <style lang="scss" scoped>
-.brw-workplace-address-select__divider {
-  width: 1px;
-  height: 22px;
-  background: $separator-color;
-}
-
-.brw-workplace-address-select :deep(.q-select__dropdown-icon) {
-  color: $text-muted;
-}
-
-.brw-workplace-address-select :deep(.q-field__focusable-action) {
-  color: $text-hint;
-  font-size: 18px;
-}
-
-.brw-workplace-address-select :deep(.q-field__native) {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .brw-summary-group {
   display: flex;
   align-items: flex-end;

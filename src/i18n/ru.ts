@@ -136,6 +136,7 @@ export default {
     navHome: 'Главная',
     navSettings: 'Настройки',
     navMonthlyReport: 'Отчёт за месяц',
+    navRules: 'Правила и положения',
     navGeneralReport: 'Общий отчёт',
     navWorkplaceAddressReport: 'Отчёт по объектам',
     navWorkplaceAddressReportDaily: 'Детально (по дням)',
@@ -149,6 +150,7 @@ export default {
     title: {
       home: 'Главная',
       settings: 'Настройки',
+      rules: 'Правила и положения',
       monthlyReport: 'Отчёт за месяц',
       generalReport: 'Общий отчёт',
       workplaceAddressReport: 'Отчёт по объектам',
@@ -281,6 +283,7 @@ export default {
     filters: {
       period: 'Период',
       workplaceAddress: 'Объект (адрес)',
+      employee: 'Сотрудник',
     },
     summary: {
       totalHours: 'Всего часов',
@@ -322,9 +325,8 @@ export default {
     general: {
       title: 'Общий отчёт',
       columnPeople: 'Количество людей',
-      longShiftsHint:
-        'Смены длиннее {hours} ч — проверьте перед расчётом зарплаты. Сюда же попадают смены, закрытые автоматически (если работник забыл нажать «Закончить»).',
-      noResults: 'Нет смен длиннее нормы за этот период',
+      noResults: 'Нет смен за этот период',
+      allEmployees: 'Все сотрудники',
       columnLocation: 'Локация',
       locationInRange: 'В пределах адреса',
       locationOutOfRange: 'За пределами адреса',
@@ -371,6 +373,12 @@ export default {
       columnActions: 'Действия',
       noWorkplaceAddresses: 'Нет объектов',
       errorFallback: 'Не удалось сохранить объект',
+      deleteConfirmTitle: 'Удалить «{name}»?',
+      deleteConfirmMessage: 'Это действие нельзя отменить.',
+      successDeleted: 'Объект удалён',
+      deleteBlockedMessage:
+        'Невозможно удалить — по этому объекту уже есть отчёты о работе. Деактивируйте его переключателем «Активен» вместо удаления.',
+      deleteErrorFallback: 'Не удалось удалить объект',
       coordsHint:
         'Откройте эту страницу, находясь на самом объекте, и нажмите кнопку ниже — координаты определятся автоматически',
       coordsNotSet: 'Координаты не установлены',

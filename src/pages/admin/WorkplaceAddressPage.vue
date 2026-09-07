@@ -62,6 +62,12 @@
         <template #body-cell-actions="props">
           <q-td :props="props">
             <q-btn flat icon="edit" class="brw-table-icon-btn" @click="openEdit(props.row)" />
+            <q-btn
+              flat
+              icon="delete"
+              class="brw-table-icon-btn"
+              @click="confirmDelete(props.row)"
+            />
           </q-td>
         </template>
       </q-table>
@@ -438,6 +444,34 @@ async function toggleActive(workplaceAddress: WorkplaceAddress) {
     $q.notify({ type: 'negative', message: error.message });
     return;
   }
+  await loadWorkplaceAddresses();
+}
+
+function confirmDelete(workplaceAddress: WorkplaceAddress) {
+  $q.dialog({
+    title: t('admin.workplaceAddress.deleteConfirmTitle', { name: workplaceAddress.name }),
+    message: t('admin.workplaceAddress.deleteConfirmMessage'),
+    cancel: { label: t('common.cancel'), flat: true },
+    ok: { label: t('common.delete'), color: 'negative', unelevated: true },
+  }).onOk(() => void onDelete(workplaceAddress));
+}
+
+async function onDelete(workplaceAddress: WorkplaceAddress) {
+  const { error } = await supabase.from('workplace_address').delete().eq('id', workplaceAddress.id);
+  if (error) {
+    // 23503 = foreign_key_violation — this workplace address still has
+    // work_reports pointing at it (no ON DELETE CASCADE by design, so
+    // historical reports never silently disappear). That's the expected,
+    // recoverable case: point the admin at the existing deactivate toggle
+    // instead of surfacing the raw Postgres constraint error.
+    const message =
+      error.code === '23503'
+        ? t('admin.workplaceAddress.deleteBlockedMessage')
+        : (error.message ?? t('admin.workplaceAddress.deleteErrorFallback'));
+    $q.notify({ type: 'negative', message });
+    return;
+  }
+  $q.notify({ type: 'positive', message: t('admin.workplaceAddress.successDeleted') });
   await loadWorkplaceAddresses();
 }
 

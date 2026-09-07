@@ -216,6 +216,22 @@
 
         <div class="brw-drawer__footer">
           <q-item
+            to="/rules"
+            clickable
+            class="brw-nav-item"
+            active-class="brw-nav-item--active"
+            :aria-current="route.path === '/rules' ? 'page' : undefined"
+          >
+            <q-item-section avatar>
+              <q-icon name="gavel" size="22px" />
+            </q-item-section>
+            <q-item-section class="brw-nav-label">{{ t('layout.navRules') }}</q-item-section>
+            <q-tooltip v-if="isMini" anchor="center right" self="center left" :offset="[8, 0]">
+              {{ t('layout.navRules') }}
+            </q-tooltip>
+          </q-item>
+
+          <q-item
             to="/settings"
             clickable
             class="brw-nav-item"

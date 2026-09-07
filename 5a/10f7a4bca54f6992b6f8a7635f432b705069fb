@@ -1,0 +1,102 @@
+src/content/work-rules/uk.md
+  s_b8c28d9d9370be::t_953c3fc9ddad17 1-2
+  s_b8c28d9d9370be::t_b366b11dc15652 3-23
+src/pages/reports/GeneralReportPage.vue
+  s_b8c28d9d9370be::t_2dfc18bab426fa 385-386,394,402
+  s_b8c28d9d9370be::t_7552f046056aa5 439-450,453-462,464
+  s_b8c28d9d9370be::t_d7aa9d6b9d5831 278-279
+  s_b8c28d9d9370be::t_5ba8b74598c3e6 6-13
+  s_b8c28d9d9370be::t_75abb62beb5624 49-54
+  s_b8c28d9d9370be::t_bdfaec3d40de22 559,562
+  s_b8c28d9d9370be::t_c72cff986c0222 304-305
+  s_b8c28d9d9370be::t_67f45d00bd7e4b 19
+  s_b8c28d9d9370be::t_98aa3eb9093ab0 293-297
+  s_b8c28d9d9370be::t_9ea07e1c804e42 263
+  s_b8c28d9d9370be::t_edafd15c5b036b 313-316
+src/pages/reports/WorkplaceAddressReportSummaryPage.vue
+  s_b8c28d9d9370be::t_471c1747a366ab 6-7,9-10,12
+  s_b8c28d9d9370be::t_807c1da43e44e7 103
+src/content/work-rules/en-US.md
+  s_b8c28d9d9370be::t_bf54080a6ec12f 1-2
+  s_b8c28d9d9370be::t_db1bc1c6173550 3-23
+src/pages/WorkRulesPage.vue
+  s_b8c28d9d9370be::t_173d868cb26058 4-6
+  s_b8c28d9d9370be::t_63f50d2aaacac5 1-3,7-70
+src/layouts/MainLayout.vue
+  s_b8c28d9d9370be::t_8db19063155586 219-233
+  s_b8c28d9d9370be::t_bbbb0aae4ca252 218
+src/components/SelectFilter.vue
+  s_b8c28d9d9370be::t_1083d39a1ca5b2 1-74
+package.json
+  s_b8c28d9d9370be::t_8513796fdea896 26,28,38
+src/content/work-rules/ru.md
+  s_b8c28d9d9370be::t_cccfd9c63f7a09 3-23
+  s_b8c28d9d9370be::t_90e1f0aa6cce79 1-2
+src/i18n/ru.ts
+  s_b8c28d9d9370be::t_10204492933fcd 286
+  s_b8c28d9d9370be::t_7d24f7526c8a51 139
+  s_08e1b3dcd68421::t_de29b8d79ce447 376-381
+  s_b8c28d9d9370be::t_90cef74c883447 329
+  s_b8c28d9d9370be::t_2be8475393af28 328
+  s_b8c28d9d9370be::t_964f411a6cdfc2 153
+src/pages/admin/WorkplaceAddressPage.vue
+  s_08e1b3dcd68421::t_1c74cd4f6b6d79 65-70
+  s_08e1b3dcd68421::t_e0c7a0635af3f6 450-459,461-477
+  s_08e1b3dcd68421::t_d3fff1280a4b25 460
+src/pages/reports/WorkplaceAddressReportPage.vue
+  s_b8c28d9d9370be::t_e5615feed754b2 6-7,9-10,12
+  s_b8c28d9d9370be::t_df127e1586cb1a 99
+src/content/work-rules/de.md
+  s_b8c28d9d9370be::t_2e73783de1260d 3-23
+  s_b8c28d9d9370be::t_6d8e5a0af3721c 1-2
+src/i18n/en-US.ts
+  s_b8c28d9d9370be::t_ce85c6ad89763f 286
+  s_b8c28d9d9370be::t_8ec90dd303ba4c 152
+  s_08e1b3dcd68421::t_e12a31f41dc82b 376-381
+  s_b8c28d9d9370be::t_b00edbb8443450 328
+  s_b8c28d9d9370be::t_9e0daa138f2159 138
+  s_b8c28d9d9370be::t_077e19f2a655df 329
+src/router/routes.ts
+  s_b8c28d9d9370be::t_9a6923ee76b266 62-65
+  s_b8c28d9d9370be::t_a9de80bdba9468 61
+src/i18n/uk.ts
+  s_b8c28d9d9370be::t_3f751c749f808f 284
+  s_b8c28d9d9370be::t_7df357caf187f9 151
+  s_b8c28d9d9370be::t_3951aa7f9b84af 137
+  s_b8c28d9d9370be::t_af1c007fdbfd3b 326
+  s_b8c28d9d9370be::t_9a7d72521cc11a 327
+  s_08e1b3dcd68421::t_71684350bb6703 374-379
+src/i18n/de.ts
+  s_b8c28d9d9370be::t_1b07bbc790df8e 153
+  s_b8c28d9d9370be::t_2cdbb9332cd480 332
+  s_b8c28d9d9370be::t_abf5292d163911 139
+  s_b8c28d9d9370be::t_efeb783060cb62 331
+  s_b8c28d9d9370be::t_2522274ccb3d32 289
+  s_08e1b3dcd68421::t_35e0d0fd06d653 379-384
+bun.lock
+  s_b8c28d9d9370be::t_a4e5a4da2294c6 11,13,23,266-267,284-285,478-479,742-743
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "5a10f7a4bca54f6992b6f8a7635f432b705069fb",
+  "prompts": {},
+  "sessions": {
+    "s_08e1b3dcd68421": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85d81f4b-9966-4688-95d1-4dd7561a0588",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    },
+    "s_b8c28d9d9370be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "79c9e8c6-8dee-4c9c-b3fc-fa9d93f8461d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

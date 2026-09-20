@@ -391,8 +391,10 @@ const uk = {
       columnEmail: 'Email',
       columnRole: 'Роль',
       columnRegistered: 'Дата реєстрації',
+      columnActive: 'Активний',
       noUsers: 'Немає користувачів',
       errorFallback: 'Не вдалося завантажити користувачів',
+      toggleActiveError: 'Не вдалося змінити статус користувача',
     },
   },
 

@@ -393,8 +393,10 @@ export default {
       columnEmail: 'Email',
       columnRole: 'Роль',
       columnRegistered: 'Дата регистрации',
+      columnActive: 'Активен',
       noUsers: 'Нет пользователей',
       errorFallback: 'Не удалось загрузить пользователей',
+      toggleActiveError: 'Не удалось изменить статус пользователя',
     },
   },
 

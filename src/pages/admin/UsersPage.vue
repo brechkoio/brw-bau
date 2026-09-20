@@ -39,7 +39,17 @@
         :no-data-label="t('admin.users.noUsers')"
         :rows-per-page-options="[25, 50, 100, 0]"
         :pagination="{ rowsPerPage: 25 }"
-      />
+      >
+        <template #body-cell-is_active="props">
+          <q-td :props="props">
+            <q-toggle
+              :model-value="props.value"
+              :disable="props.row.id === auth.user?.id"
+              @update:model-value="toggleActive(props.row)"
+            />
+          </q-td>
+        </template>
+      </q-table>
     </div>
   </q-page>
 </template>
@@ -49,6 +59,7 @@ import { ref, computed } from 'vue';
 import { useQuasar, type QTableColumn } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { supabase } from '@/boot/supabase';
+import { useAuthStore } from '@/stores/auth-store';
 import TableFiltersBar from '@/components/TableFiltersBar.vue';
 import TableFilter from '@/components/TableFilter.vue';
 import { exportTableToXlsx } from '@/utils/export-xlsx';
@@ -60,10 +71,12 @@ interface UserRow {
   email: string;
   role: 'admin' | 'user';
   created_at: string;
+  is_active: boolean;
 }
 
 const $q = useQuasar();
 const { t } = useI18n();
+const auth = useAuthStore();
 
 const users = ref<UserRow[]>([]);
 const search = ref('');
@@ -109,6 +122,12 @@ const columns = computed<QTableColumn<UserRow>[]>(() => [
     align: 'left',
     sortable: true,
   },
+  {
+    name: 'is_active',
+    label: t('admin.users.columnActive'),
+    field: 'is_active',
+    align: 'left',
+  },
 ]);
 
 async function onExport() {
@@ -126,7 +145,7 @@ async function loadUsers() {
   loading.value = true;
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, first_name, last_name, email, role, created_at')
+    .select('id, first_name, last_name, email, role, created_at, is_active')
     .is('deleted_at', null)
     .order('created_at', { ascending: false });
   loading.value = false;
@@ -140,7 +159,22 @@ async function loadUsers() {
     email: u.email,
     role: u.role,
     created_at: u.created_at,
+    is_active: u.is_active,
   }));
+}
+
+async function toggleActive(row: UserRow) {
+  const { error } = await supabase.functions.invoke('set-user-active', {
+    body: { userId: row.id, isActive: !row.is_active },
+  });
+  if (error) {
+    $q.notify({
+      type: 'negative',
+      message: error instanceof Error ? error.message : t('admin.users.toggleActiveError'),
+    });
+    return;
+  }
+  await loadUsers();
 }
 
 void loadUsers();

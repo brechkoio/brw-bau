@@ -396,8 +396,10 @@ export default {
       columnEmail: 'E-Mail',
       columnRole: 'Rolle',
       columnRegistered: 'Registriert am',
+      columnActive: 'Aktiv',
       noUsers: 'Keine Benutzer',
       errorFallback: 'Benutzer konnten nicht geladen werden',
+      toggleActiveError: 'Benutzerstatus konnte nicht geändert werden',
     },
   },
 

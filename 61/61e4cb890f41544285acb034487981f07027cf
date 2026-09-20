@@ -1,0 +1,34 @@
+src/i18n/en-US.ts
+  s_d6d04c0ed13fdd::t_9d04644f4ea7ee 395,398
+src/i18n/uk.ts
+  s_d6d04c0ed13fdd::t_9a56f5f60671c7 394,397
+supabase/functions/set-user-active/index.ts
+  s_d6d04c0ed13fdd::t_eb9b986e86b802 1-95
+src/i18n/de.ts
+  s_d6d04c0ed13fdd::t_1bcadeaf730cef 399,402
+supabase/migrations/20260920090000_add_profile_is_active.sql
+  s_d6d04c0ed13fdd::t_8ff858b9e872dc 1-9
+src/i18n/ru.ts
+  s_d6d04c0ed13fdd::t_41bf6264fec440 396,399
+src/pages/admin/UsersPage.vue
+  s_d6d04c0ed13fdd::t_1f972bfc21089c 125-130
+  s_d6d04c0ed13fdd::t_9de84276e57331 148,162,166-177
+  s_d6d04c0ed13fdd::t_596644dbaf663c 42-52,62,74,79
+  s_d6d04c0ed13fdd::t_805cdc6c1bd409 178-179
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6161e4cb890f41544285acb034487981f07027cf",
+  "prompts": {},
+  "sessions": {
+    "s_d6d04c0ed13fdd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "81cde6d5-dfc0-43b5-b0a4-2d295919326f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}

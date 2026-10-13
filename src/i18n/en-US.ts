@@ -67,6 +67,9 @@ export default {
       invalidEmail: 'Invalid email address',
       sessionExpired: 'Your session expired. Please sign in again',
       captchaFailed: 'Verification failed. Please try again',
+      offline: 'No internet connection. Check your connection and try again',
+      network: "Couldn't reach the server. Check your internet and try again",
+      serverUnavailable: 'The server is temporarily unavailable. Try again in a minute',
     },
     login: {
       title: 'Sign in',
@@ -78,6 +81,7 @@ export default {
       registerLink: 'Sign up',
       forgotPassword: 'Forgot password?',
       errorFallback: 'Sign-in failed',
+      openAppFailed: "You're signed in, but the app didn't open. Please reload the page",
     },
     register: {
       title: 'Create an account',
@@ -143,6 +147,7 @@ export default {
     navEmployeeRates: 'Employee rates',
     navWorkplaceAddress: 'Workplace addresses',
     navUsers: 'Users',
+    navLoginFailures: 'Failed sign-ins',
   },
 
   meta: {
@@ -157,6 +162,7 @@ export default {
       employeeRates: 'Employee rates',
       workplaceAddress: 'Workplace addresses',
       users: 'Users',
+      loginFailures: 'Failed sign-ins',
       fallback: 'BRW Bau',
     },
   },
@@ -396,6 +402,21 @@ export default {
       noUsers: 'No users',
       errorFallback: 'Could not load users',
       toggleActiveError: 'Could not change user status',
+    },
+    loginFailures: {
+      title: 'Failed sign-ins',
+      columnTime: 'Time',
+      columnEmail: 'Email',
+      columnName: 'User',
+      columnMethod: 'Method',
+      columnReason: 'Reason',
+      columnDevice: 'Device',
+      columnIp: 'IP',
+      methodPassword: 'Password',
+      methodGoogle: 'Google',
+      unknownUser: 'Unknown email',
+      noRows: 'No failed sign-ins',
+      errorFallback: "Couldn't load failed sign-ins",
     },
   },
 

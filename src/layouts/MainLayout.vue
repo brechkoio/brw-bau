@@ -335,6 +335,7 @@ const adminLinksBottom: NavLink[] = [
     labelKey: 'layout.navWorkplaceAddress',
   },
   { to: '/admin/users', icon: 'group', labelKey: 'layout.navUsers' },
+  { to: '/admin/login-failures', icon: 'gpp_maybe', labelKey: 'layout.navLoginFailures' },
 ];
 
 const $q = useQuasar();

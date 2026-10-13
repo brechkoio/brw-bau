@@ -98,6 +98,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/admin/UsersPage.vue'),
         meta: { requiresAdmin: true, title: 'meta.title.users' },
       },
+      {
+        path: 'admin/login-failures',
+        component: () => import('@/pages/admin/LoginFailuresPage.vue'),
+        meta: { requiresAdmin: true, title: 'meta.title.loginFailures' },
+      },
     ],
   },
 

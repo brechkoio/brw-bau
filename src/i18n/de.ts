@@ -67,6 +67,10 @@ export default {
       invalidEmail: 'Ungültige E-Mail-Adresse',
       sessionExpired: 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an',
       captchaFailed: 'Überprüfung fehlgeschlagen. Bitte versuchen Sie es erneut',
+      offline: 'Keine Internetverbindung. Bitte Verbindung prüfen und erneut versuchen',
+      network: 'Server nicht erreichbar. Bitte Internetverbindung prüfen und erneut versuchen',
+      serverUnavailable:
+        'Der Server ist vorübergehend nicht verfügbar. Bitte in einer Minute erneut versuchen',
     },
     login: {
       title: 'Anmelden',
@@ -78,6 +82,8 @@ export default {
       registerLink: 'Registrieren',
       forgotPassword: 'Passwort vergessen?',
       errorFallback: 'Anmeldung fehlgeschlagen',
+      openAppFailed:
+        'Sie sind angemeldet, aber die App wurde nicht geöffnet. Bitte Seite neu laden',
     },
     register: {
       title: 'Konto erstellen',
@@ -144,6 +150,7 @@ export default {
     navEmployeeRates: 'Mitarbeiterlöhne',
     navWorkplaceAddress: 'Objekte',
     navUsers: 'Benutzer',
+    navLoginFailures: 'Fehlgeschlagene Anmeldungen',
   },
 
   meta: {
@@ -158,6 +165,7 @@ export default {
       employeeRates: 'Mitarbeiterlöhne',
       workplaceAddress: 'Objekte',
       users: 'Benutzer',
+      loginFailures: 'Fehlgeschlagene Anmeldungen',
       fallback: 'BRW Bau',
     },
   },
@@ -400,6 +408,21 @@ export default {
       noUsers: 'Keine Benutzer',
       errorFallback: 'Benutzer konnten nicht geladen werden',
       toggleActiveError: 'Benutzerstatus konnte nicht geändert werden',
+    },
+    loginFailures: {
+      title: 'Fehlgeschlagene Anmeldungen',
+      columnTime: 'Zeit',
+      columnEmail: 'E-Mail',
+      columnName: 'Benutzer',
+      columnMethod: 'Methode',
+      columnReason: 'Grund',
+      columnDevice: 'Gerät',
+      columnIp: 'IP',
+      methodPassword: 'Passwort',
+      methodGoogle: 'Google',
+      unknownUser: 'Unbekannte E-Mail',
+      noRows: 'Keine fehlgeschlagenen Anmeldungen',
+      errorFallback: 'Fehlgeschlagene Anmeldungen konnten nicht geladen werden',
     },
   },
 

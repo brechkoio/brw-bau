@@ -65,6 +65,9 @@ const uk = {
       invalidEmail: 'Некоректна email-адреса',
       sessionExpired: 'Сесія закінчилась. Увійдіть ще раз',
       captchaFailed: 'Перевірка не пройшла. Спробуйте ще раз',
+      offline: "Немає інтернету. Перевірте з'єднання і спробуйте ще раз",
+      network: "Не вдалося з'єднатися з сервером. Перевірте інтернет і спробуйте ще раз",
+      serverUnavailable: 'Сервер тимчасово недоступний. Спробуйте за хвилину',
     },
     login: {
       title: 'Увійти',
@@ -76,6 +79,7 @@ const uk = {
       registerLink: 'Зареєструватися',
       forgotPassword: 'Забули пароль?',
       errorFallback: 'Не вдалося увійти',
+      openAppFailed: 'Вхід виконано, але додаток не відкрився. Оновіть сторінку',
     },
     register: {
       title: 'Створити акаунт',
@@ -142,6 +146,7 @@ const uk = {
     navEmployeeRates: 'Ставки співробітників',
     navWorkplaceAddress: "Об'єкти",
     navUsers: 'Користувачі',
+    navLoginFailures: 'Невдалі входи',
   },
 
   meta: {
@@ -156,6 +161,7 @@ const uk = {
       employeeRates: 'Ставки співробітників',
       workplaceAddress: "Об'єкти",
       users: 'Користувачі',
+      loginFailures: 'Невдалі входи',
       fallback: 'BRW Bau',
     },
   },
@@ -395,6 +401,21 @@ const uk = {
       noUsers: 'Немає користувачів',
       errorFallback: 'Не вдалося завантажити користувачів',
       toggleActiveError: 'Не вдалося змінити статус користувача',
+    },
+    loginFailures: {
+      title: 'Невдалі входи',
+      columnTime: 'Час',
+      columnEmail: 'Email',
+      columnName: 'Користувач',
+      columnMethod: 'Спосіб',
+      columnReason: 'Причина',
+      columnDevice: 'Пристрій',
+      columnIp: 'IP',
+      methodPassword: 'Пароль',
+      methodGoogle: 'Google',
+      unknownUser: 'Невідомий email',
+      noRows: 'Невдалих входів немає',
+      errorFallback: 'Не вдалося завантажити невдалі входи',
     },
   },
 

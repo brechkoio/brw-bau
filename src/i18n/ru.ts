@@ -67,6 +67,9 @@ export default {
       invalidEmail: 'Некорректный email',
       sessionExpired: 'Сессия истекла. Войдите ещё раз',
       captchaFailed: 'Проверка не пройдена. Попробуйте снова',
+      offline: 'Нет интернета. Проверьте соединение и попробуйте снова',
+      network: 'Не удалось соединиться с сервером. Проверьте интернет и попробуйте снова',
+      serverUnavailable: 'Сервер временно недоступен. Попробуйте через минуту',
     },
     login: {
       title: 'Войти',
@@ -78,6 +81,7 @@ export default {
       registerLink: 'Зарегистрироваться',
       forgotPassword: 'Забыли пароль?',
       errorFallback: 'Не удалось войти',
+      openAppFailed: 'Вход выполнен, но приложение не открылось. Обновите страницу',
     },
     register: {
       title: 'Создать аккаунт',
@@ -144,6 +148,7 @@ export default {
     navEmployeeRates: 'Ставки сотрудников',
     navWorkplaceAddress: 'Объекты',
     navUsers: 'Пользователи',
+    navLoginFailures: 'Неудачные входы',
   },
 
   meta: {
@@ -158,6 +163,7 @@ export default {
       employeeRates: 'Ставки сотрудников',
       workplaceAddress: 'Объекты',
       users: 'Пользователи',
+      loginFailures: 'Неудачные входы',
       fallback: 'BRW Bau',
     },
   },
@@ -397,6 +403,21 @@ export default {
       noUsers: 'Нет пользователей',
       errorFallback: 'Не удалось загрузить пользователей',
       toggleActiveError: 'Не удалось изменить статус пользователя',
+    },
+    loginFailures: {
+      title: 'Неудачные входы',
+      columnTime: 'Время',
+      columnEmail: 'Email',
+      columnName: 'Пользователь',
+      columnMethod: 'Способ',
+      columnReason: 'Причина',
+      columnDevice: 'Устройство',
+      columnIp: 'IP',
+      methodPassword: 'Пароль',
+      methodGoogle: 'Google',
+      unknownUser: 'Неизвестный email',
+      noRows: 'Неудачных входов нет',
+      errorFallback: 'Не удалось загрузить неудачные входы',
     },
   },
 

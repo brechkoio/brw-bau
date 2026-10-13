@@ -1,4 +1,4 @@
-import { AuthError } from '@supabase/supabase-js';
+import { AuthError, isAuthRetryableFetchError } from '@supabase/supabase-js';
 
 type TranslateFn = (key: string, params?: Record<string, unknown>) => string;
 
@@ -29,10 +29,41 @@ const CODE_KEYS: Partial<Record<string, string>> = {
   captcha_failed: 'auth.errors.captchaFailed',
 };
 
-export function authErrorMessage(err: unknown, t: TranslateFn, fallbackKey: string): string {
-  if (err instanceof AuthError && err.code) {
-    const key = CODE_KEYS[err.code];
-    if (key) return t(key);
+// Failures that never got a real answer from Supabase carry no `code`, so
+// without these they'd all collapse into the per-form "something went
+// wrong" text — which reads exactly like a rejected password. auth-js wraps
+// both a fetch that never reached the server (status 0) and a 5xx/Cloudflare
+// infrastructure response in AuthRetryableFetchError.
+const CONNECTIVITY_KEYS: Partial<Record<string, string>> = {
+  offline: 'auth.errors.offline',
+  network: 'auth.errors.network',
+  server_unavailable: 'auth.errors.serverUnavailable',
+};
+
+function connectivityReason(err: unknown): string | null {
+  if (typeof navigator !== 'undefined' && !navigator.onLine) return 'offline';
+  if (isAuthRetryableFetchError(err)) {
+    return err.status === 0 ? 'network' : 'server_unavailable';
   }
-  return t(fallbackKey);
+  if (err instanceof AuthError && err.status !== undefined && err.status >= 500) {
+    return 'server_unavailable';
+  }
+  return null;
+}
+
+// A stable, language-independent reason for a failure: Supabase's own
+// error code when it gave one we know, else a connectivity reason. Stored
+// with failed-login reports so the admin view can show it localized.
+export function authErrorReason(err: unknown): string | null {
+  if (err instanceof AuthError && err.code && CODE_KEYS[err.code]) return err.code;
+  return connectivityReason(err);
+}
+
+export function authReasonMessageKey(reason: string | null): string | null {
+  if (!reason) return null;
+  return CODE_KEYS[reason] ?? CONNECTIVITY_KEYS[reason] ?? null;
+}
+
+export function authErrorMessage(err: unknown, t: TranslateFn, fallbackKey: string): string {
+  return t(authReasonMessageKey(authErrorReason(err)) ?? fallbackKey);
 }

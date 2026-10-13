@@ -109,6 +109,7 @@ import { useI18n } from 'vue-i18n';
 import { useQuasar } from 'quasar';
 import { useAuthStore } from '@/stores/auth-store';
 import { authErrorMessage } from '@/utils/auth-errors';
+import { recordLoginFailure } from '@/utils/login-failures';
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -130,9 +131,19 @@ async function onSubmit() {
   error.value = '';
   try {
     await auth.signIn(email.value.trim(), password.value.trim());
-    await router.push('/');
   } catch (err) {
     error.value = authErrorMessage(err, t, 'auth.login.errorFallback');
+    recordLoginFailure({ email: email.value, method: 'password', error: err });
+    loading.value = false;
+    return;
+  }
+  // Kept out of the sign-in try: by now the session exists, so a failure
+  // here (e.g. the home page's chunk failing to load) must not be reported
+  // as a failed login.
+  try {
+    await router.push('/');
+  } catch {
+    error.value = t('auth.login.openAppFailed');
   } finally {
     loading.value = false;
   }
@@ -146,6 +157,7 @@ async function onGoogleSignIn() {
     await auth.signInWithGoogle();
   } catch (err) {
     error.value = authErrorMessage(err, t, 'auth.googleErrorFallback');
+    recordLoginFailure({ email: email.value, method: 'google', error: err });
     googleLoading.value = false;
   }
 }

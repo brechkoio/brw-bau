@@ -1,0 +1,65 @@
+src/utils/login-failures.ts
+  s_7b9f765e43c490::t_20d096f737384b 3
+  s_7b9f765e43c490::t_1390c86a8fb9a3 20
+  s_7b9f765e43c490::t_222ed5b2adbae0 1-2,4-19,21-76,78,81-87
+  s_7b9f765e43c490::t_ecb57ded99ae3b 77
+  s_7b9f765e43c490::t_707827361e2d53 79-80
+src/i18n/ru.ts
+  s_7b9f765e43c490::t_fdff234e9ec2be 70-72,84,151,166,407-420
+  s_7b9f765e43c490::t_d7a50d2ac93c46 421
+quasar.config.ts
+  s_7b9f765e43c490::t_a8e650c43bc31b 20
+src/layouts/MainLayout.vue
+  s_7b9f765e43c490::t_3475174916a42f 338
+src/pages/auth/LoginPage.vue
+  s_7b9f765e43c490::t_9dc5ecd7bf9c86 136-146
+  s_7b9f765e43c490::t_857aa5607e3cb9 160
+  s_7b9f765e43c490::t_641e1d149f7791 112
+supabase/migrations/20261013090000_add_login_failures.sql
+  s_7b9f765e43c490::t_55e05161bd7fd5 1-17,20-37
+  s_7b9f765e43c490::t_11a4e7d3a981de 18-19
+src/utils/auth-errors.spec.ts
+  s_7b9f765e43c490::t_707827361e2d53 51-55
+  s_7b9f765e43c490::t_661086a72ff787 1-50,56-74
+src/i18n/de.ts
+  s_7b9f765e43c490::t_707827361e2d53 72-73,85-86
+  s_7b9f765e43c490::t_fdff234e9ec2be 70-71,153,168,412-425
+  s_7b9f765e43c490::t_b7f34f8373a447 426
+src/i18n/en-US.ts
+  s_7b9f765e43c490::t_fdff234e9ec2be 70-72,84,150,165,406-419
+  s_7b9f765e43c490::t_3c9e44b54885a6 420
+src/router/routes.ts
+  s_7b9f765e43c490::t_38d6d12a16972b 101-105
+supabase/config.toml
+  s_7b9f765e43c490::t_9a2183a3149b06 400-404
+src/boot/login-failures.ts
+  s_7b9f765e43c490::t_c5ebe5eecaaf77 1-10
+src/i18n/uk.ts
+  s_7b9f765e43c490::t_fdff234e9ec2be 68-70,82,149,164,405-418
+  s_7b9f765e43c490::t_90fd815a601a30 419
+src/pages/admin/LoginFailuresPage.vue
+  s_7b9f765e43c490::t_2b9e171d96dc02 1-102,114-147,151-198,203-227
+  s_7b9f765e43c490::t_707827361e2d53 103-113,148-150,199-202
+src/utils/auth-errors.ts
+  s_7b9f765e43c490::t_1d1f6a5a6b0a22 1,32,36,45,48,50-51,60-61
+  s_7b9f765e43c490::t_caa0e33321dff7 33-35,37-44,46,49,52-59,62-68
+supabase/functions/log-login-failure/index.ts
+  s_7b9f765e43c490::t_2fcbc2430ed6b6 1-34,36-39,41-90
+  s_7b9f765e43c490::t_8964b9a6c6ca06 35,40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2ed2cae59057cc0b53d18c0332d005903a1ab71d",
+  "prompts": {},
+  "sessions": {
+    "s_7b9f765e43c490": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "847e6bce-950c-4f9a-b9cc-0d4e8c7a73b4",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Yurii <brechkoio@gmail.com>"
+    }
+  }
+}
